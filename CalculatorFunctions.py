@@ -2,12 +2,12 @@ import math
 import cmath
 from sympy import sympify, sqrt, log, sin, cos, tan, exp, I, SympifyError
 from datetime import date
-from Help_Functions import Help_Functions
+from HelpFunctions import HelpFunctions
 
 class CalculatorFunctions:
 
     def __init__(self):
-        self.help_func = Help_Functions()
+        self.help_func = HelpFunctions()
 
     def simple_calculation(self): # No.1
         variables = {}  # Dictionary to store variables
