@@ -123,7 +123,6 @@ class CalculatorFunctions:
                         break  # Continue the while loop for another calculation
                     elif end_choice == '2':
                         self.help_func.clear_screen()
-                        print("Exiting the calculator. Goodbye!")
                         return  # Exit the function entirely
                     else:
                         self.help_func.clear_screen()
