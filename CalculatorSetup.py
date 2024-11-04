@@ -1,6 +1,5 @@
 from HelpFunctions import HelpFunctions
 from CalculatorFunctions import CalculatorFunctions
-from colorama import Fore, Style
 
 class CalculatorSetup:
 
@@ -34,8 +33,9 @@ Welcome to the calculator!
     8. Exponential growth decay formula
     9. The law of cosines
     10. Riemann Zeta Function
-    11. Quit
-Enter your choice (1-11): """
+    11. Newton's Law of Universal Gravitation
+    12. Quit
+Enter your choice (1-12): """
 
         options = {
             '1': self.calc_funcs.simple_calculation,
@@ -48,13 +48,14 @@ Enter your choice (1-11): """
             '8': self.calc_funcs.exponential_growth_decay_formula,
             '9': self.calc_funcs.the_law_of_cosines,
             '10':self.calc_funcs.riemann_zeta_function,
-            '11': exit
+            '11':self.calc_funcs.newtons_law_of_universal_gravitation,
+            '12': exit
         }
 
         while True:
-            choice = input(Fore.GREEN + menu_text).strip()
+            choice = input(menu_text).strip()
             if choice in options:
-                if choice == '11':
+                if choice == '12':
                     self.help_func.clear_screen()
                     print("Thank you for using the calculator. Goodbye!")
                     exit()
@@ -62,7 +63,7 @@ Enter your choice (1-11): """
                 break
             else:
                 self.help_func.clear_screen()
-                print("Invalid choice. Please enter a number between 1 and 11.")
+                print("Invalid choice. Please enter a number between 1 and 12.")
 
     def ask_to_calc_again(self): 
         end_text = """
