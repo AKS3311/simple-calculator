@@ -1,6 +1,8 @@
 import math
 import cmath
 from sympy import sympify, sqrt, log, sin, cos, tan, exp, I, SympifyError
+from sympy import symbols, N
+from sympy.physics.units import kg, m, G
 from datetime import date
 from HelpFunctions import HelpFunctions
 
@@ -1102,3 +1104,44 @@ Enter your choice (1, 2 or 3): """
             zeta_sum += 1 / (i ** s)
 
         print(f"The Riemann Zeta for s = {s} with {n} terms is approximately {zeta_sum:.5f}.")
+
+    def newtons_law_of_universal_gravitation(self):  # No.11
+        text = """
+Newton's Law of Universal Gravitation states that every particle in the universe attracts every other particle with a force 
+that is directly proportional to the product of their masses and inversely proportional to the square of the distance between them.
+"""
+
+        self.help_func.text_helper(text)
+
+        m1 = self.help_func.get_float_input("Enter the mass of the first object (kg): ")
+        m2 = self.help_func.get_float_input("Enter the mass of the second object (kg): ")
+        while True:
+            r = self.help_func.get_float_input("Enter the distance between the two objects (m): ")
+            if r == 0:
+                self.help_func.clear_screen()
+                print("Distance cannot be zero.")
+            else:
+                break
+        self.help_func.clear_screen()
+
+        # Gravitational constant in m^3 kg^-1 s^-2
+        G = 6.67430e-11  
+
+        # Calculate the gravitational force using the formula F = G * (m1 * m2) / r^2
+        result = G * (m1 * m2) / (r ** 2)
+
+        # Formatting the result
+        if result >= 1e3:  # Greater than or equal to 1000 N
+            formatted_result = f"{result:.0f} N"  # No decimal places
+        elif result >= 1e1:  # Greater than or equal to 10 N
+            formatted_result = f"{result:.1f} N"  # 1 decimal place
+        elif result >= 1e-1:  # Greater than or equal to 0.1 N
+            formatted_result = f"{result:.2f} N"  # 2 decimal places
+        elif result >= 1e-3:  # Greater than or equal to 0.001 N
+            formatted_result = f"{result:.4f} N"  # 4 decimal places
+        else:  # Less than 0.001 N
+            formatted_result = f"{result:.1e} N"  # Scientific notation for very small values
+
+        print(f"The gravitational force between masses {m1:.1f} kg and {m2:.1f} kg separated by {r:.1f} m is approximately {formatted_result}.")
+
+
