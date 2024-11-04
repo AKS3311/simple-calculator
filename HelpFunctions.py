@@ -14,6 +14,19 @@ class HelpFunctions:
             return f"{num:.2e}"  # Format in scientific notation
         return num
 
+    def formatted_result101(self, result):
+        if result >= 1e3:  # Greater than or equal to 1000
+            formatted_result = f"{result:.2f}"  # 2 decimal places
+        elif result >= 1e1:  # Greater than or equal to 10
+            formatted_result = f"{result:.2f}"  # 2 decimal places
+        elif result >= 1e-1:  # Greater than or equal to 0.1
+            formatted_result = f"{result:.2f}"  # 2 decimal places
+        elif result >= 1e-3:  # Greater than or equal to 0.001
+            formatted_result = f"{result:.4f}"  # 4 decimal places
+        else:  # Less than 0.001
+            formatted_result = f"{result:.2e}"  # Scientific notation for very small values
+        return formatted_result
+
     def get_float_input(self, prompt):
         while True:
             user_input = input(prompt).strip()  # Capture user input as a string
