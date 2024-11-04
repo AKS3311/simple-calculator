@@ -105,6 +105,7 @@ class CalculatorFunctions:
                     print("Error: The result is too large to display.")
                 else:
                     self.help_func.clear_screen()
+                    self.help_func.clear_screen()
                     print(f"The result of {expression} is {result}")
                     history.append(f"{expression} = {result}")  # Add to history
                     self.help_func.pause()
