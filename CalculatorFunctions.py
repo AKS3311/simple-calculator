@@ -1,7 +1,6 @@
 import math
 import cmath
-from sympy import sympify, sqrt, log, sin, cos, tan, exp, I, SympifyError
-from sympy import symbols, N
+from sympy import sympify, sqrt, log, sin, cos, tan, exp, I, Number, SympifyError
 from sympy.physics.units import kg, m, G
 from datetime import date
 from HelpFunctions import HelpFunctions
@@ -11,7 +10,7 @@ class CalculatorFunctions:
     def __init__(self):
         self.help_func = HelpFunctions()
 
-    def simple_calculation(self): # No.1
+    def simple_calculation(self):  # No.1
         variables = {}  # Dictionary to store variables
         history = []  # List to store history of calculations
 
@@ -23,43 +22,43 @@ class CalculatorFunctions:
                 if expression.lower() == "help":
                     self.help_func.clear_screen()
                     help_text = """
-Calculator Instructions:
-                    
-1. Basic Operations:
-Use +, -, *, /, and ^ for addition, subtraction, multiplication, division, and exponentiation.
-                    
-2. Square Root:
-Use 'sqrt(x)' to calculate the square root of x.
-Example: sqrt(16)
-                    
-3. Logarithmic Functions:
-Use 'log(x)' for natural logarithm and 'log10(x)' for base-10 logarithm.
-Example: log(10), log10(100)
-                    
-4. Trigonometric Functions:
-Use 'sin(x)', 'cos(x)', and 'tan(x)' for sine, cosine, and tangent calculations.
-Example: sin(45)
-                    
-5. Exponential Function:
-Use 'exp(x)' to calculate e^x.
-Example: exp(2)
-                    
-6. Variable Assignment:
-Assign values to variables using '='. Example: x = 5, then use 'x' in calculations.
-                    
-7. Complex Numbers:
-The calculator supports complex numbers. Example: sqrt(-1) results in 'I'.
-                    
-8. View History:
-Type 'history' to view your past calculations.
-                    
-9. Back to menu:
-Type 'back' to simple calculation function in the calculator.
-"""
+    Calculator Instructions:
+                        
+    1. Basic Operations:
+    Use +, -, *, /, and ^ for addition, subtraction, multiplication, division, and exponentiation.
+                        
+    2. Square Root:
+    Use 'sqrt(x)' to calculate the square root of x.
+    Example: sqrt(16)
+                        
+    3. Logarithmic Functions:
+    Use 'log(x)' for natural logarithm and 'log10(x)' for base-10 logarithm.
+    Example: log(10), log10(100)
+                        
+    4. Trigonometric Functions:
+    Use 'sin(x)', 'cos(x)', and 'tan(x)' for sine, cosine, and tangent calculations.
+    Example: sin(45)
+                        
+    5. Exponential Function:
+    Use 'exp(x)' to calculate e^x.
+    Example: exp(2)
+                        
+    6. Variable Assignment:
+    Assign values to variables using '='. Example: x = 5, then use 'x' in calculations.
+                        
+    7. Complex Numbers:
+    The calculator supports complex numbers. Example: sqrt(-1) results in 'I'.
+                        
+    8. View History:
+    Type 'history' to view your past calculations.
+                        
+    9. Back to menu:
+    Type 'back' to simple calculation function in the calculator.
+    """
                     self.help_func.text_helper(help_text)
 
                 # Check for history command
-                if expression.lower() == "history":
+                elif expression.lower() == "history":
                     self.help_func.clear_screen()
                     if history:
                         print("Calculation History:")
@@ -72,7 +71,7 @@ Type 'back' to simple calculation function in the calculator.
                     continue
 
                 # Check for quit command
-                if expression.lower() == "back":
+                elif expression.lower() == "back":
                     print("Exiting the calculator. Goodbye!")
                     break
 
@@ -102,28 +101,31 @@ Type 'back' to simple calculation function in the calculator.
                 result = sympify(expression, locals=variables)  # Safely parse the expression with variables
 
                 # Check for very large results
-                if result.is_Number and (result >= 10**100 or result <= -10**100):
+                if isinstance(result, Number) and (result >= 10**100 or result <= -10**100):
                     print("Error: The result is too large to display.")
                 else:
                     self.help_func.clear_screen()
                     print(f"The result of {expression} is {result}")
                     history.append(f"{expression} = {result}")  # Add to history
-
+                    self.help_func.pause()
+                    self.help_func.clear_screen()
                 # End menu prompt
-                self.help_func.clear_screen()
                 while True:
-                    text ="""
-Do you want to perform another calculation?
-    1. Yes
-    2. No
-    Enter your choice (1 or 2):"""
+                    text = """
+    Do you want to perform another calculation?
+        1. Yes
+        2. No
+        Enter your choice (1 or 2): """
                     end_choice = input(text).strip()
                     if end_choice == '1':
                         self.help_func.clear_screen()
                         break  # Continue the while loop for another calculation
                     elif end_choice == '2':
-                        break  # Exit the function entirely
+                        self.help_func.clear_screen()
+                        print("Exiting the calculator. Goodbye!")
+                        return  # Exit the function entirely
                     else:
+                        self.help_func.clear_screen()
                         print("Please enter 1 or 2.")
 
             except SympifyError:
@@ -251,14 +253,14 @@ Enter your choice (1, 2 or 3): """
                         d2 = self.help_func.get_float_input("Enter the length of the second diagonal (d2): ")
                         self.help_func.clear_screen()
                         area = 0.5 * d1 * d2
-                        print(f"The area of the kite with diagonals {d1} and {d2} is: {area:.2f} units².")
+                        print(f"The area of the kite with diagonals {d1} and {d2} is {area:.2f} units².")
                         break
                     elif kite_choice == '2':
                         a = self.help_func.get_float_input("Enter the length of one pair of equal sides (a): ")
                         b = self.help_func.get_float_input("Enter the length of the other pair of equal sides (b): ")
                         self.help_func.clear_screen()
                         perimeter = 2 * (a + b)
-                        print(f"The perimeter of the kite with sides {a} and {b} is: {perimeter:.2f} units.")
+                        print(f"The perimeter of the kite with sides {a} and {b} is {perimeter:.2f} units.")
                         break
                     elif kite_choice == '3':
                         d1 = self.help_func.get_float_input("Enter the length of the first diagonal (d1): ")
@@ -269,8 +271,8 @@ Enter your choice (1, 2 or 3): """
                         self.help_func.clear_screen()
                         area = 0.5 * d1 * d2
                         perimeter = 2 * (a + b)
-                        print(f"The area of the kite with diagonals {d1} and {d2} is: {area:.2f} units².")
-                        print(f"The perimeter of the kite with sides {a} and {b} is: {perimeter:.2f} units.")
+                        print(f"The area of the kite with diagonals {d1} and {d2} is {area:.2f} units².")
+                        print(f"The perimeter of the kite with sides {a} and {b} is {perimeter:.2f} units.")
                         break
                     else:
                         self.help_func.clear_screen()
@@ -360,7 +362,7 @@ Enter your choice (1-5): """
                         self.help_func.clear_screen()
 
                         # Calculate all properties
-                        c = 2 * math.pi * r  # Circumference of the cylinder base
+                        c = 2 * math.pi * r # Circumference of the cylinder base
                         p = (2 * math.pi * r) + (2 * h)  # Total perimeter
                         a = 2 * math.pi * r * (r + h)  # Surface area
                         volume = math.pi * r ** 2 * h  # Volume
@@ -1024,7 +1026,7 @@ Law of Cosines for Triangle Calculation
     1. Finding Unknown Sides
     2. Finding Unknown Angles
     3. back
-Enter your choice (1, 2 or 3): """
+Enter your choice (1-3): """
 
         while True:
             choice = input(choice_text).strip()
@@ -1069,7 +1071,7 @@ Enter your choice (1, 2 or 3): """
                 break
             else:
                 self.help_func.clear_screen()
-                print("Invalid choice for triangle calculation. Please enter 1 or 2.")
+                print("Invalid choice for triangle calculation. Please enter (1-3).")
 
     def riemann_zeta_function(self):  # No.10
         text = """
@@ -1106,42 +1108,84 @@ Enter your choice (1, 2 or 3): """
         print(f"The Riemann Zeta for s = {s} with {n} terms is approximately {zeta_sum:.5f}.")
 
     def newtons_law_of_universal_gravitation(self):  # No.11
+        G = 6.67430e-11  # Gravitational constant in m^3 kg^-1 s^-2 
+
         text = """
-Newton's Law of Universal Gravitation states that every particle in the universe attracts every other particle with a force 
-that is directly proportional to the product of their masses and inversely proportional to the square of the distance between them.
-"""
+    Newton's Law of Universal Gravitation states that every particle in the universe attracts every other particle with a force 
+    that is directly proportional to the product of their masses and inversely proportional to the square of the distance between them.
+
+    There are two ways to calculate this formula:
+
+    First way:
+        Calculate the gravitational force using the formula:
+            F = G * (m1 * m2) / r^2
+        What you need to input:
+            - mass for the first object
+            - mass for the second object
+            - the distance between the two objects
+
+    Second way:
+        Calculate the gravitational force using the formula:
+            unknown_m = (F * r^2) / (G * known_m^2)
+        What you need to input:
+            - the result of the calculation
+            - second or first mass of the objects
+            - the distance between the two objects
+    """
 
         self.help_func.text_helper(text)
 
-        m1 = self.help_func.get_float_input("Enter the mass of the first object (kg): ")
-        m2 = self.help_func.get_float_input("Enter the mass of the second object (kg): ")
+        choice_text = """
+    Newton's Law of Universal Gravitation.
+        1. First way
+        2. Second way
+        3. Back
+    Enter your choice (1, 2, or 3): """
+
         while True:
-            r = self.help_func.get_float_input("Enter the distance between the two objects (m): ")
-            if r == 0:
+            choice = input(choice_text).strip()
+            self.help_func.clear_screen()
+
+            if choice == '1':
+                
+                m1 = self.help_func.get_float_input("Enter the mass of the first object (kg): ")
+                m2 = self.help_func.get_float_input("Enter the mass of the second object (kg): ")
+                while True:
+                    r = self.help_func.get_float_input("Enter the distance between the two objects (m): ")
+                    if r <= 0:  # Check for less than or equal to zero
+                        self.help_func.clear_screen()
+                        print("Distance must be greater than zero.")
+                    else:
+                        break
                 self.help_func.clear_screen()
-                print("Distance cannot be zero.")
-            else:
+
+                # Calculate the gravitational force using the formula F = G * (m1 * m2) / r^2
+                result = self.help_func.formatted_result101(G * (m1 * m2) / (r ** 2))
+
+                print(f"The gravitational force between masses {m1:.1f} kg and {m2:.1f} kg separated by {r:.1f} m is approximately {result}.")
                 break
-        self.help_func.clear_screen()
 
-        # Gravitational constant in m^3 kg^-1 s^-2
-        G = 6.67430e-11  
+            elif choice == '2':
 
-        # Calculate the gravitational force using the formula F = G * (m1 * m2) / r^2
-        result = G * (m1 * m2) / (r ** 2)
+                F = self.help_func.get_float_input("Enter the gravitational force (F) in Newtons (N): ")
+                known_m = self.help_func.get_float_input("Enter the mass of the known object (kg): ")
+                while True:
+                    r = self.help_func.get_float_input("Enter the distance between the two objects (m): ")
+                    if r <= 0:  # Check for less than or equal to zero
+                        self.help_func.clear_screen()
+                        print("Distance must be greater than zero.")
+                    else:
+                        break
+                self.help_func.clear_screen()
 
-        # Formatting the result
-        if result >= 1e3:  # Greater than or equal to 1000 N
-            formatted_result = f"{result:.0f} N"  # No decimal places
-        elif result >= 1e1:  # Greater than or equal to 10 N
-            formatted_result = f"{result:.1f} N"  # 1 decimal place
-        elif result >= 1e-1:  # Greater than or equal to 0.1 N
-            formatted_result = f"{result:.2f} N"  # 2 decimal places
-        elif result >= 1e-3:  # Greater than or equal to 0.001 N
-            formatted_result = f"{result:.4f} N"  # 4 decimal places
-        else:  # Less than 0.001 N
-            formatted_result = f"{result:.1e} N"  # Scientific notation for very small values
+                result = (F * r ** 2) / (G * known_m)
 
-        print(f"The gravitational force between masses {m1:.1f} kg and {m2:.1f} kg separated by {r:.1f} m is approximately {formatted_result}.")
+                print(f"The unknown mass between known mass of {known_m:.1f} kg and gravitational force of {F:.1f} N at a distance of {r:.1f} m is approximately {result:.2e} kg.")
+                break
 
+            elif choice == '3':
+                break
 
+            else:
+                self.help_func.clear_screen()
+                print("Invalid choice. Please enter (1-3).")
