@@ -22,40 +22,42 @@ class CalculatorSetup:
 
     def main_menu(self):
         menu_text = """
-Welcome to the calculator!
-    1. Simple calculation
-    2. Shape calculation
-    3. Percentage calculation
-    4. Quadratic calculation
-    5. Age calculation
-    6. Pythagorean formula
-    7. Distance formula
-    8. Exponential growth decay formula
-    9. The law of cosines
-    10. Riemann Zeta Function
-    11. Newton's Law of Universal Gravitation
-    12. Quit
+Welcome to the Calculator!
+    1. Simple Calculation
+    2. Shape Calculation
+    3. Percentage Calculation
+    4. Quadratic Calculation
+    5. Financial Calculations
+    6. Age Calculation
+    7. Pythagorean Formula
+    8. Distance Formula
+    9. Exponential Growth Decay Formula
+    10. The Law of Cosines
+    11. Riemann Zeta Function
+    12. Newton's Law of Universal Gravitation
+    13. Quit
 Enter your choice (1-12): """
 
         options = {
             '1': self.calc_funcs.simple_calculation,
-            '2': self.calc_funcs.shape_calculation,
+            '2': self.calc_funcs.shape_calculations,
             '3': self.calc_funcs.percentage_calculation,
-            '4': self.calc_funcs.quadratic_calculation,
-            '5': self.calc_funcs.age_calculation,
-            '6': self.calc_funcs.pythagorean_formula,
-            '7': self.calc_funcs.distance_formula,
-            '8': self.calc_funcs.exponential_growth_decay_formula,
-            '9': self.calc_funcs.the_law_of_cosines,
-            '10':self.calc_funcs.riemann_zeta_function,
-            '11':self.calc_funcs.newtons_law_of_universal_gravitation,
-            '12': exit
+            '4': self.calc_funcs.quadratic_calculations,
+            '5': self.calc_funcs.financial_calculations,
+            '6': self.calc_funcs.age_calculation,
+            '7': self.calc_funcs.pythagorean_formula,
+            '8': self.calc_funcs.distance_formula,
+            '9': self.calc_funcs.exponential_growth_decay_formula,
+            '10': self.calc_funcs.the_law_of_cosines,
+            '11':self.calc_funcs.riemann_zeta_function,
+            '12':self.calc_funcs.newtons_law_of_universal_gravitation,
+            '13': exit
         }
 
         while True:
             choice = input(menu_text).strip()
             if choice in options:
-                if choice == '12':
+                if choice == '13':
                     self.help_func.clear_screen()
                     print("Thank you for using the calculator. Goodbye!")
                     exit()
@@ -63,7 +65,7 @@ Enter your choice (1-12): """
                 break
             else:
                 self.help_func.clear_screen()
-                print("Invalid choice. Please enter a number between 1 and 12.")
+                print("Invalid choice. Please enter a number between 1 and 13.")
 
     def ask_to_calc_again(self): 
         end_text = """
