@@ -11,6 +11,5 @@ Files:
 -HelpFunctions.py: Utility functions like getting float numbers and clearing the screen.
 
 -Main.py: Runs the program.
-
 NOTE:
 -Install sympy for the calculator to work
