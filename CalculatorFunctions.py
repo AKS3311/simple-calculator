@@ -1,7 +1,8 @@
 import math
 import cmath
-from sympy import sympify, sqrt, log, sin, cos, tan, exp, I, Number, SympifyError
+from sympy import sympify, sqrt, log, sin, cos, tan, exp, I, Number, SympifyError # need to intsall first
 from sympy.physics.units import kg, m, G
+import numpy_financial as npf
 from datetime import date
 from HelpFunctions import HelpFunctions
 
@@ -135,10 +136,10 @@ class CalculatorFunctions:
                 self.help_func.clear_screen()
                 print("Error: Invalid input. Please enter a numerical expression.")
 
-    def shape_calculation(self): # No.2
+    def shape_calculations(self): # No.2
 
         text = """
-Shape Calculation.
+Shape Calculations.
 You can calculate the area and perimeter/circumference of a shape by selecting an option.
     1. Square Calculation
     2. Rectangle Calculation
@@ -150,7 +151,7 @@ You can calculate the area and perimeter/circumference of a shape by selecting a
     8. Hexagon Calculation
     9. Polygon Calculation
     10. Lune Calculation
-    11. Back
+    11. Go Back
 Enter your choice (1-11): """
 
         while True:
@@ -635,7 +636,7 @@ and the central angles of the circular segments for each circle.
                 break
             
             else: # wrong input
-                print("Invalid choice for shape calculation. Please enter (1-11).")
+                print("Invalid choice for shape calculations. Please enter (1-11).")
 
     def percentage_calculation(self): # No.3
 
@@ -646,14 +647,14 @@ and the central angles of the circular segments for each circle.
         self.help_func.clear_screen()
         print(f"The percentage of {num1} from {num2} is {result:.2f}%.")
 
-    def quadratic_calculation(self):  # No.4
+    def quadratic_calculations(self):  # No.4
         text = """
 Quadratic Calculation.
 You can calculate the quadratic equation, quadratic function or cubic functions
     1. Quadratic Function
     2. Quadratic Equation
     3. Cubic Function
-    4. Back
+    4. Go Back
 Enter your choice (1-4): """
         while True:
             choice = input(text).strip()
@@ -1025,7 +1026,7 @@ This law is applicable in various fields such as geometry, physics, engineering,
 Law of Cosines for Triangle Calculation
     1. Finding Unknown Sides
     2. Finding Unknown Angles
-    3. back
+    3. Go Back
 Enter your choice (1-3): """
 
         while True:
@@ -1067,11 +1068,10 @@ Enter your choice (1-3): """
                 print(f"The unknown angle for the first side with {a}, second side with {b}, and third side with {c} is approximately {result:.2f}°")
                 break
             elif choice == '3': # back
-                self.help_func.clear_screen()
                 break
             else:
                 self.help_func.clear_screen()
-                print("Invalid choice for triangle calculation. Please enter (1-3).")
+                print("Invalid choice for Law of Cosines for Triangle Calculation. Please enter (1-3).")
 
     def riemann_zeta_function(self):  # No.10
         text = """
@@ -1139,7 +1139,7 @@ Enter your choice (1-3): """
     Newton's Law of Universal Gravitation.
         1. First way
         2. Second way
-        3. Back
+        3. Go Back
     Enter your choice (1, 2, or 3): """
 
         while True:
@@ -1188,4 +1188,475 @@ Enter your choice (1-3): """
 
             else:
                 self.help_func.clear_screen()
-                print("Invalid choice. Please enter (1-3).")
+                print("Invalid choice for  Newton's Law of Universal Gravitation. Please enter (1-3).")
+
+    def financial_calculations(self): # No.12
+        text = """
+Financial Calculations.
+Please select a calculation option:
+    1. Compound Interest
+    2. Simple Interest
+    3. Loan Amortization
+    4. Future/Present Value of an Investment
+    5. Net Present Value
+    6. Internal Rate of Return (IRR)
+    7. Return on Investment (ROI)
+    8. Go Back
+Enter your choice (1-8): """
+
+        while True:
+            choice = input(text).strip()
+            self.help_func.clear_screen()
+            
+            if choice == '1': # Compound Interest Formula
+                ci_text = """
+Compound Interest Formula.
+This formula is useful for savings accounts,
+investments, or any scenario where money grows over time due to compounded interest.
+You'll need to provide the principal amount, the interest rate, the compounding frequency, and the time in years.
+"""
+                self.help_func.text_helper(ci_text)
+
+                while True: # P
+                    P = self.help_func.get_float_input("Enter the Principal (initial amount of money): ")
+                    if P <= 0:
+                        self.help_func.clear_screen()
+                        print("Principal must be a positive number.")
+                    else:
+                        break
+
+                while True: # r
+                    annual_rate = self.help_func.get_float_input("Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ")
+                    if annual_rate <= 0:
+                        self.help_func.clear_screen()
+                        print("Interest rate cannot be negative.")
+                    else:
+                        r = annual_rate / 100  # Convert percentage to decimal
+                        break
+
+                while True: # n
+                    n = self.help_func.get_float_input("Enter the Number of times that interest is compounded per year: ")
+                    if n <= 0:
+                        self.help_func.clear_screen()
+                        print("Compounding frequency must be a positive number.")
+                    else:
+                        break
+
+                while True: # t
+                    t = self.help_func.get_float_input("Enter the Number of years money is invested or borrowed for: ")
+                    if t <= 0:
+                        self.help_func.clear_screen()
+                        print("Time in years must be a positive number.")
+                    else:
+                        break
+                self.help_func.clear_screen()
+
+                result = P * (1 + (r / n)) ** (n * t)
+
+                print(f"Starting with a principal of ${P:.2f} at an annual interest rate of {r * 100}%,")
+                print(f"compounded {n} times per year, the final amount after {t} years is: ${result:.2f}")
+                break
+
+            elif choice == '2': # Simple Interest
+                si_text ="""
+Simple Interest.
+Simple interest is calculated on the initial principal only, and is useful for short-term loans or investments.
+"""
+                self.help_func.text_helper(si_text)
+
+                while True: # P
+                    P = self.help_func.get_float_input("Enter the Principal (initial amount of money): ")
+                    if P <= 0:
+                        self.help_func.clear_screen()
+                        print("Principal must be a positive number.")
+                    else:
+                        break
+
+                while True: # r
+                    annual_rate = self.help_func.get_float_input("Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ")
+                    if annual_rate == 0:
+                        self.help_func.clear_screen()
+                        print("Interest rate cannot be negative.")
+                    else:
+                        r = annual_rate / 100  # Convert percentage to decimal
+                        break
+
+                while True: # t
+                    t = self.help_func.get_float_input("Enter the Number of years money is invested or borrowed for: ")
+                    if t <= 0:
+                        self.help_func.clear_screen()
+                        print("Time in years must be positive number.")
+                    else:
+                        break
+                self.help_func.clear_screen()
+                result = P * (1 + r * t)
+
+                print(f"Initial investment: {P:.2f}, Annual interest rate: {r*100:.2f}%, for {t} years.")
+                print(f"Total amount after {t} years will be: {result:.2f}.")
+                break
+            
+            elif choice == '3': # Loan Amortization
+                la_text = """
+Loan Amortization.
+This tool helps calculate regular loan payments for mortgages, car loans, or other installment-based loans.
+"""
+                self.help_func.text_helper(la_text)
+
+                # Get principal amount
+                while True:
+                    P = self.help_func.get_float_input("Enter the Principal (initial amount of money): ")
+                    if P <= 0:
+                        self.help_func.clear_screen()
+                        print("Error: The principal amount must be a positive number greater than zero.")
+                    else:
+                        break
+
+                while True:
+                    annual_rate = self.help_func.get_float_input("Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ")
+                    r = annual_rate / 100  # Convert percentage to decimal
+                    if r <= 0:
+                        self.help_func.clear_screen()
+                        print("Error: The interest rate must be a positive number greater than zero.")
+                    else:
+                        break
+
+                while True:
+                    n = self.help_func.get_float_input("Enter the Number of times that interest is compounded per year (e.g., 12 for monthly): ")
+                    if n <= 0:
+                        self.help_func.clear_screen()
+                        print("Error: The compounding frequency must be a positive integer greater than zero.")
+                    else:
+                        break
+
+                while True:
+                    t = self.help_func.get_float_input("Enter the Loan term (in years): ")
+                    if t <= 0:
+                        self.help_func.clear_screen()
+                        print("Error: The loan term must be a positive number greater than zero.")
+                    else:
+                        break
+
+                self.help_func.clear_screen()
+
+                # Calculate the monthly payment
+                monthly_rate = r / n
+                total_payments = n * t
+                result = P * (monthly_rate * (1 + monthly_rate) ** total_payments) / ((1 + monthly_rate) ** total_payments - 1)
+
+                # Print the results in two simple statements
+                print(f"Monthly payment details:\nPrincipal: ${P:.2f}\nAnnual Rate: {annual_rate:.2f}%\nCompounding: {n} times/year\nLoan Term: {t:.1f} years")
+                print(f"Your monthly payment will be: ${result:.2f}.")
+                break
+
+            elif choice == '4':  # Future/past Value of an Investment
+                text ="""
+Future Value:
+This is the amount an investment will grow to over a specified period, given a certain interest rate.
+It's useful for estimating the worth of savings or investments in the future.
+
+Present Value:
+This is the current value of an amount of money that you will receive or invest in the future, discounted at a specific interest rate.
+It helps in assessing how much a future amount is worth today."""
+                self.help_func.text_helper(text)
+
+                choice_text ="""
+Please select the type of Value of an Investment:
+    1. Future Value
+    2. Present Value
+Enter your choice (1 or 2): """
+
+                while True:
+                    choice = input(choice_text).strip()
+                    self.help_func.clear_screen()
+                    if choice == '1': # Future Value
+                        
+                        fva_text = """
+Future Value of an Investment (Annuities).
+This calculation determines how much a series of regular, equal payments (or deposits) will grow
+over time given a specified interest rate, making it useful for planning savings or understanding
+investment growth through compound interest.
+
+The formula depends on whether the payments are made at the beginning or end of each period:
+                        
+1. Ordinary Annuity (End of Period Payments): 
+    P * ((1 + r) ** n - 1) / r
+
+2. Annuity Due (Beginning of Period Payments): 
+    P * ((1 + r) ** n - 1) / r * (1 + r)
+                    
+"""
+                        self.help_func.text_helper(fva_text)
+
+                        choice_fva = """
+Please select the type of annuity:
+    1. Ordinary Annuity (End of Period Payments)
+    2. Annuity Due (Beginning of Period Payments)
+Enter your choice (1 or 2): """
+
+                        while True:
+                            annuity_type = input(choice_fva).strip()
+                            self.help_func.clear_screen()
+
+                            if annuity_type not in ['1', '2']:
+                                print("Invalid choice for Future Value of an Investment (Annuities). Please enter 1 or 2.")
+                                continue
+
+                            # Get payment amount per period (P)
+                            while True:
+                                P = self.help_func.get_float_input("Enter the payment amount per period: ")
+                                if P <= 0:
+                                    self.help_func.clear_screen()
+                                    print("Error: The payment amount per period must be a positive number.")
+                                else:
+                                    break
+
+                            # Get interest rate per period (r)
+                            while True:
+                                annual_rate = self.help_func.get_float_input("Enter the interest rate per period (as a percentage, e.g., 5 for 5%): ")
+                                if annual_rate <= 0:
+                                    self.help_func.clear_screen()
+                                    print("Error: The interest rate per period must be a positive number.")
+                                else:
+                                    r = annual_rate / 100  # Convert percentage to decimal
+                                    break
+
+                            # Get total number of periods (n)
+                            while True:
+                                n = self.help_func.get_float_input("Enter the total number of periods: ")
+                                if n <= 0:
+                                    self.help_func.clear_screen()
+                                    print("Error: The total number of periods must be a positive number.")
+                                else:
+                                    break
+
+                            self.help_func.clear_screen()
+
+                            # Perform the calculation based on annuity type
+                            if annuity_type == '1':  # Ordinary Annuity
+                                result = P * ((1 + r) ** n - 1) / r
+                                annuity_name = "Ordinary Annuity"
+                            else:  # Annuity Due
+                                result = P * ((1 + r) ** n - 1) / r * (1 + r)
+                                annuity_name = "Annuity Due"
+
+                            # Display the result
+                            print(f"The Ordinary Annuity with a payment amount of ${P:.2f},")
+                            print(f"an interest rate of {annual_rate:.2f}%, over {n:.0f} periods, is ${result:.2f}.")
+                            break
+                        break
+                    
+                    elif choice == '2': # Present Value
+                        PV_text ="""
+Present Value (PV) calculation.
+represents the current worth of a future sum of money, discounted at a specific interest rate. 
+It helps determine how much a future amount is worth today, taking into account the time value of money.
+"""
+                        self.help_func.text_helper(PV_text)
+                        # Get Future Value (the amount of money in the future) (FV)
+                        while True:
+                            FV = self.help_func.get_float_input("Enter future value (the amount of money in the future): ")
+                            if FV <= 0:
+                                self.help_func.clear_screen()
+                                print("Error: Future value (the amount of money in the future) must be a positive number.")
+                            else:
+                                break
+
+                        # Get interest rate per period (r)
+                        while True:
+                            annual_rate = self.help_func.get_float_input("Enter the discount rate (or interest rate per period) (as a percentage, e.g., 5 for 5%): ")
+                            if annual_rate <= 0:
+                                self.help_func.clear_screen()
+                                print("Error: The interest rate per period must be a positive number.")
+                            else:
+                                r = annual_rate / 100  # Convert percentage to decimal
+                                break
+
+                        # Get total number of periods (t)
+                        while True:
+                            t = self.help_func.get_float_input("Enter Number of periods (years, months, etc.): ")
+                            if t <= 0:
+                                self.help_func.clear_screen()
+                                print("Error: The total number of periods must be a positive number.")
+                            else:
+                                break   
+                        self.help_func.clear_screen()
+
+                        result = FV / (1 + r) ** t
+
+                        print(f"To achieve a future value of ${FV:.2f} in {t} (years, months, etc.) with a discount rate of {r * 100:.2f}%")
+                        print(f"the present value needed today is: ${result:.2f}")
+                        break
+                    
+                     
+                    else: # wrong input
+                        self.help_func.clear_screen()
+                        print("Invalid choice for the type of Value of an Investment. Please enter (1 or 2).")
+                break
+            
+            elif choice == '5':  # Net Present Value (NPV)
+                npv_text = """
+Net Present Value calculation.
+Calculate the present value of a series of future cash flows, considering a specific discount rate.
+You need to gather all the expected cash flows for each time period, the discount rate, and how many periods you're analyzing.
+""" 
+                self.help_func.text_helper(npv_text)
+
+                # Get total number of periods (n)
+                while True:
+                    n = self.help_func.get_float_input("Enter the total number of periods: ")
+                    if n <= 0:
+                        self.help_func.clear_screen()
+                        print("Error: The total number of periods must be a positive number.")
+                    else:
+                        break
+
+                # Get Cash Flows (CF)
+                cash_flows = []  # Initialize an empty list to store cash flows
+                for i in range(n + 1):  # Including Year 0
+                    while True:
+                        cash_flow = self.help_func.get_float_input(f"Enter the cash inflow (or outflow) for Year {i}: ")
+                        cash_flows.append(cash_flow)
+                        break
+
+                # Get Discount Rate (r)
+                while True:
+                    annual_rate = self.help_func.get_float_input("Enter the discount rate (as a percentage, e.g., 5 for 5%): ")
+                    if annual_rate <= 0:
+                        self.help_func.clear_screen()
+                        print("Error: The discount rate must be a positive number.")
+                    else:
+                        r = annual_rate / 100  # Convert percentage to decimal
+                        break
+
+                self.help_func.clear_screen()
+
+                # Calculate NPV
+                npv_sum = 0
+                for i in range(n + 1):  # For each year, from 0 to n
+                    CF = cash_flows[i]  # Get the cash flow for year i
+                    npv_sum += CF / (1 + r) ** i  # Apply the NPV formula
+
+                # Output the results
+                self.help_func.clear_screen()
+                print(f"Discount Rate (r): {r * 100}%")
+                print(f"Number of Periods (n): {n}")
+                print("Cash Flows (CF):")
+                for i in range(n + 1):
+                    print(f"  Year {i}: {cash_flows[i]}")
+                print(f"\nNet Present Value (NPV): ${npv_sum:.2f}")
+                break
+
+            elif choice == '6': # Internal Rate of Return (IRR)
+                irr_text = """
+Internal Rate of Return (IRR) calculation.
+This method calculates the rate of return at which the net present value (NPV) of all cash flows equals zero.
+You will need to gather the initial investment and all expected future cash flows for each period.
+        """
+                self.help_func.text_helper(irr_text)
+
+                # Get total number of periods (n)
+                while True:
+                    n = int(self.help_func.get_float_input("Enter the total number of periods: "))
+                    if n <= 0:
+                        self.help_func.clear_screen()
+                        print("Error: The total number of periods must be a positive number.")
+                    else:
+                        break
+
+                # Get Cash Flows (CF)
+                cash_flows = []  # Initialize an empty list to store cash flows
+                for i in range(n + 1):  # Including Year 0 (initial investment)
+                    while True:
+                        cash_flow = self.help_func.get_float_input(f"Enter the cash inflow (or outflow) for Year {i}: ")
+                        cash_flows.append(cash_flow)
+                        break
+                self.help_func.clear_screen()
+                
+                # Calculate IRR using numpy_financial's irr function
+                irr = npf.irr(cash_flows)
+
+                # Output the results
+                self.help_func.clear_screen()
+                print(f"Cash Flows (CF):")
+                for i in range(n + 1):
+                    print(f"  Year {i}: {cash_flows[i]}")
+                
+                if irr is None:
+                    print("\nError: Could not calculate IRR. Check if the cash flows are correct.")
+                    break
+                else:
+                    print(f"\nInternal Rate of Return (IRR): {irr * 100:.2f}%")
+                    break
+
+            elif choice == '7': # Return on Investment (ROI)
+                roi_text ="""
+Return on Investment (ROI) Calculation.
+Assess the profitability of an investment by comparing the final value to the initial investment.
+Input the amount you invested initially and the value of the investment after a certain period to calculate the return percentage.
+"""
+                self.help_func.text_helper(roi_text)
+
+                choice_text ="""
+choose the way you wanna calc baby:
+    1. Single-period ROI
+    2. Annualized ROI
+nter your choice (1 or 2): """
+
+                while True:
+                    choice = input(choice_text).strip()
+                    self.help_func.clear_screen()
+                    
+                    if choice == '1':  # Basic ROI Calculation
+                        GFI = self.help_func.get_float_input("Enter the total amount you gained or earned from the investment: ")
+                        II = self.help_func.get_float_input("Enter the original amount you invested: ")
+                        self.help_func.clear_screen()
+                        
+                        # Calculate ROI
+                        result = ((GFI - II) / II) * 100
+                        
+                        # Display result
+                        print(f"Basic ROI Calculation:")
+                        print(f"  Gain from Investment: {GFI}")
+                        print(f"  Initial Investment: {II}")
+                        print(f"  ROI: {result:.2f}%")
+                        break
+
+                    elif choice == '2':  # Annualized ROI Calculation
+                        FV = self.help_func.get_float_input("Enter the ending or current value of the investment: ")
+                        II = self.help_func.get_float_input("Enter the original amount you invested: ")
+                        
+                        while True:
+                            n = self.help_func.get_float_input("Enter the time period, in years, over which the investment was held: ")
+                            if n <= 0:
+                                self.help_func.clear_screen()
+                                print("Error: The time period, in years, must be a positive number.")
+                            else:
+                                break
+                        
+                        self.help_func.clear_screen()
+                        
+                        # Calculate Annualized ROI
+                        result = ((FV / II) ** (1 / n) - 1) * 100
+                        
+                        # Display result
+                        print(f"Annualized ROI Calculation:")
+                        print(f"  Final Value: {FV}")
+                        print(f"  Initial Investment: {II}")
+                        print(f"  Investment Period: {n} years")
+                        print(f"  Annualized ROI: {result:.2f}%")
+                        break
+
+                    else: 
+                        print("Invalid choice for Return on Investment (ROI) Calculation. Please enter 1 or 2.")
+                break
+            
+            elif choice == '8': # back
+                break
+
+            else: # wrong input
+                self.help_func.clear_screen()
+                print("Invalid choice for Financial Calculations. Please enter (1-9).")
+            
+            # NOTE: please add more of financial calculations
+    
+    # add more functions here
