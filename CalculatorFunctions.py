@@ -1201,8 +1201,9 @@ Please select a calculation option:
     5. Net Present Value
     6. Internal Rate of Return (IRR)
     7. Return on Investment (ROI)
-    8. Go Back
-Enter your choice (1-8): """
+    8. Enhanced Compound Interest Calculator with Monthly Contributions and Inflation Adjustment
+    9. Go Back
+Enter your choice (1-9): """
 
         while True:
             choice = input(text).strip()
@@ -1221,7 +1222,7 @@ You'll need to provide the principal amount, the interest rate, the compounding 
                     P = self.help_func.get_float_input("Enter the Principal (initial amount of money): ")
                     if P <= 0:
                         self.help_func.clear_screen()
-                        print("Principal must be a positive number.")
+                        print("ERROR: The principal must be a positive number.")
                     else:
                         break
 
@@ -1229,7 +1230,7 @@ You'll need to provide the principal amount, the interest rate, the compounding 
                     annual_rate = self.help_func.get_float_input("Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ")
                     if annual_rate <= 0:
                         self.help_func.clear_screen()
-                        print("Interest rate cannot be negative.")
+                        print("ERROR: The interest rate cannot be negative.")
                     else:
                         r = annual_rate / 100  # Convert percentage to decimal
                         break
@@ -1238,7 +1239,7 @@ You'll need to provide the principal amount, the interest rate, the compounding 
                     n = self.help_func.get_float_input("Enter the Number of times that interest is compounded per year: ")
                     if n <= 0:
                         self.help_func.clear_screen()
-                        print("Compounding frequency must be a positive number.")
+                        print("ERROR: The compounding frequency must be a positive number.")
                     else:
                         break
 
@@ -1246,7 +1247,7 @@ You'll need to provide the principal amount, the interest rate, the compounding 
                     t = self.help_func.get_float_input("Enter the Number of years money is invested or borrowed for: ")
                     if t <= 0:
                         self.help_func.clear_screen()
-                        print("Time in years must be a positive number.")
+                        print("ERROR: The time in years must be a positive number.")
                     else:
                         break
                 self.help_func.clear_screen()
@@ -1268,7 +1269,7 @@ Simple interest is calculated on the initial principal only, and is useful for s
                     P = self.help_func.get_float_input("Enter the Principal (initial amount of money): ")
                     if P <= 0:
                         self.help_func.clear_screen()
-                        print("Principal must be a positive number.")
+                        print("ERROR: The principal must be a positive number.")
                     else:
                         break
 
@@ -1276,7 +1277,7 @@ Simple interest is calculated on the initial principal only, and is useful for s
                     annual_rate = self.help_func.get_float_input("Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ")
                     if annual_rate == 0:
                         self.help_func.clear_screen()
-                        print("Interest rate cannot be negative.")
+                        print("ERROR: The interest rate cannot be negative.")
                     else:
                         r = annual_rate / 100  # Convert percentage to decimal
                         break
@@ -1285,7 +1286,7 @@ Simple interest is calculated on the initial principal only, and is useful for s
                     t = self.help_func.get_float_input("Enter the Number of years money is invested or borrowed for: ")
                     if t <= 0:
                         self.help_func.clear_screen()
-                        print("Time in years must be positive number.")
+                        print("ERROR: The time in years must be positive number.")
                     else:
                         break
                 self.help_func.clear_screen()
@@ -1597,10 +1598,13 @@ Input the amount you invested initially and the value of the investment after a 
                 self.help_func.text_helper(roi_text)
 
                 choice_text ="""
-choose the way you wanna calc baby:
-    1. Single-period ROI
-    2. Annualized ROI
-nter your choice (1 or 2): """
+Return on Investment (ROI) Calculator
+Evaluate the profitability of your investment by comparing its initial value to its final value over a chosen period. 
+
+Choose your calculation type:
+    1. Single-period ROI Calculate the return for a single investment period.
+    2. Annualized ROI Calculate the annualized return, useful for comparing investments of varying durations.
+Enter your choice (1 or 2): """
 
                 while True:
                     choice = input(choice_text).strip()
@@ -1646,17 +1650,225 @@ nter your choice (1 or 2): """
                         print(f"  Annualized ROI: {result:.2f}%")
                         break
 
-                    else: 
+                    else:
+                        self.help_func.clear_screen() 
                         print("Invalid choice for Return on Investment (ROI) Calculation. Please enter 1 or 2.")
                 break
             
-            elif choice == '8': # back
+            elif choice == '8': # Advanced Compound Interest with Monthly Contributions with or without inflation
+                text_choice ="""
+Advanced Compound Interest Calculator
+This program helps you calculate the future value of an investment, factoring in compound interest, monthly contributions, and the option to consider inflation.
+
+Choose your calculation mode:
+    1. With Inflation Calculate with inflation-adjusted values for a realistic future estimate.
+    2. Without Inflation Calculate based solely on compound interest for a straightforward projection.
+Enter your choice (1 or 2):"""
+                
+                while True:
+                    choise = input(text_choice).strip
+                    self.help_func.clear_screen()
+                    if choise == '1':
+
+                        text = """
+This program calculates the future value of an investment considering both compound interest and monthly contributions.
+
+The user will be prompted to enter the following information:
+1. The initial amount of money invested (Principal).
+2. The annual interest rate (as a percentage).
+3. The annual inflation rate (as a percentage), to adjust the effective interest rate.
+4. The number of times the interest is compounded per year (e.g., monthly, quarterly).
+5. The duration of the investment (in years).
+6. The amount of money added to the investment each month (Monthly Contribution).
+
+The formula used for this calculation is:
+Future Value (A) = P * (1 + (r - i)/n)^(n * t) + PMT * ((1 + (r - i)/n)^(n * t) - 1) / ((r - i)/n)
+
+Where:
+    P = Principal (initial amount of money)
+    r = Annual interest rate (decimal form)
+    i = Annual inflation rate (decimal form)
+    n = Number of times interest is compounded per year
+    t = Time in years
+    PMT = Monthly contribution
+
+The program will take into account both the compound interest and the effect of inflation on the real return on investment. By adjusting the interest rate for inflation, this model gives a more accurate reflection of how your money grows over time. Monthly contributions further add to the growth of the investment.
+
+After gathering all the inputs, the program calculates the future value of the investment based on the compounded interest and inflation-adjusted interest rate.
+"""
+                        self.help_func.text_helper(text)
+
+                        while True:  # P
+                            P = self.help_func.get_float_input("Enter the Principal (initial amount of money): ")
+                            if P <= 0:
+                                self.help_func.clear_screen()
+                                print("ERROR: The principal must be a positive number.")
+                            else:
+                                break
+
+                        while True:  # r
+                            annual_rate = self.help_func.get_float_input("Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ")
+                            if annual_rate <= 0:
+                                self.help_func.clear_screen()
+                                print("ERROR: The interest rate cannot be negative.")
+                            else:
+                                r = annual_rate / 100  # Convert percentage to decimal
+                                break
+
+                        while True:  # n
+                            n = self.help_func.get_float_input("Enter the number of times interest is compounded per year: ")
+                            if n <= 0:
+                                self.help_func.clear_screen()
+                                print("ERROR: The number of times interest is compounded per year must be greater than 0.")
+                            elif n > 365:
+                                self.help_func.clear_screen()
+                                print("ERROR: The number of times interest is compounded per year cannot be greater than 365.")
+                            else:
+                                break
+
+                        while True:  # t
+                            t = self.help_func.get_float_input("Enter how long the money is invested (in years): ")
+                            if t <= 0:
+                                self.help_func.clear_screen()
+                                print("ERROR: The time investment must be a positive number.")
+                            else:
+                                break
+
+                        while True:  # PMT
+                            PMT = self.help_func.get_float_input("Enter the amount you add each month: ")
+                            if PMT <= 0:
+                                self.help_func.clear_screen()
+                                print("ERROR: The amount you add each month must be a positive number.")
+                            else:
+                                break
+                        self.help_func.clear_screen()
+
+                        A_principal = P * (1 + r/n)**(n * t)
+                        A_contributions = PMT * ((1 + r/n)**(n * t) - 1) / (r/n)
+
+                        # Adding them together without rounding prematurely
+                        result = A_principal + A_contributions
+
+                        # Print inputs and result with exact formatting at the end
+                        print(f"Inputs:")
+                        print(f"  Initial Principal (P): ${P:.2f}")
+                        print(f"  Annual Interest Rate (r): {r*100:.2f}%")
+                        print(f"  Compounding Frequency (n): {n} times per year")
+                        print(f"  Time (t): {t} year{'s' if t > 1 else ''}")
+                        print(f"  Monthly Contribution (PMT): ${PMT:.2f}")
+                        print(f"\nThe total amount after {t} year{'s' if t > 1 else ''} is: ${result:.2f}")
+                        break
+
+                    elif choise == '2':
+                        text = """
+This program calculates the future value of an investment considering both interest and inflation.
+The user is prompted to input the following:
+
+1. The initial amount of money invested (Principal).
+2. The annual interest rate (as a percentage).
+3. The annual inflation rate (as a percentage).
+4. The number of times the interest is compounded per year (e.g., monthly, quarterly).
+5. The duration of the investment (in years).
+6. The amount of money added to the investment each month (Monthly Contribution).
+
+The formula used to calculate the future value is as follows:
+Future Value (A) = P * (1 + (r - i)/n)^(n * t) + PMT * ((1 + (r - i)/n)^(n * t) - 1) / ((r - i)/n)
+
+Where:
+    P = Principal (initial amount of money)
+    r = Annual interest rate (decimal form)
+    i = Annual inflation rate (decimal form)
+    n = Number of times interest is compounded per year
+    t = Time in years
+    PMT = Monthly contribution
+
+After gathering all the inputs, the program will calculate the total future value by considering the compounded interest and inflation.
+"""
+                        self.help_func.text_helper(text)
+
+                        while True:  # P
+                            P = self.help_func.get_float_input("Enter the Principal (initial amount of money): ")
+                            if P <= 0:
+                                self.help_func.clear_screen()
+                                print("ERROR: The principal must be a positive number.")
+                            else:
+                                break
+
+                        while True:  # r
+                            annual_rate = self.help_func.get_float_input("Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ")
+                            if annual_rate <= 0:
+                                self.help_func.clear_screen()
+                                print("ERROR: The interest rate cannot be negative.")
+                            else:
+                                r = annual_rate / 100  # Convert percentage to decimal
+                                break
+
+                        while True:  # i
+                            inflation_rate = self.help_func.get_float_input("Enter the annual inflation rate (as a percentage, e.g., 5 for 5%): ")
+                            if inflation_rate <= 0:
+                                self.help_func.clear_screen()
+                                print("ERROR: The annual inflation rate cannot be negative.")
+                            else:
+                                i = inflation_rate / 100  # Convert percentage to decimal
+                                break
+
+                        while True:  # n
+                            n = self.help_func.get_float_input("Enter the number of times interest is compounded per year: ")
+                            if n <= 0:
+                                self.help_func.clear_screen()
+                                print("ERROR: The number of times interest is compounded per year must be greater than 0.")
+                            elif n > 365:
+                                self.help_func.clear_screen()
+                                print("ERROR: The number of times interest is compounded per year cannot be greater than 365.")
+                            else:
+                                break
+
+                        while True:  # t
+                            t = self.help_func.get_float_input("Enter how long the money is invested (in years): ")
+                            if t <= 0:
+                                self.help_func.clear_screen()
+                                print("ERROR: The time investment must be a positive number.")
+                            else:
+                                break
+
+                        while True:  # PMT
+                            PMT = self.help_func.get_float_input("Enter the amount you add each month: ")
+                            if PMT <= 0:
+                                self.help_func.clear_screen()
+                                print("ERROR: The amount you add each month must be a positive number.")
+                            else:
+                                break
+                        self.help_func.clear_screen() 
+
+                        A_principal = P * (1 + (r - i)/n)**(n * t)
+                        A_contributions = PMT * ((1 + (r - i)/n)**(n * t) - 1) / ((r - i)/n)
+
+                        result = A_principal + A_contributions
+
+                        # After collecting all inputs and result
+                        print(f"Inputs:")
+                        print(f"  Initial Principal (P): ${P:.2f}")
+                        print(f"  Annual Interest Rate (r): {annual_rate:.2f}%")
+                        print(f"  Annual Inflation Rate (i): {inflation_rate:.2f}%")
+                        print(f"  Compounding Frequency (n): {n} times per year")
+                        print(f"  Time (t): {t} year{'s' if t > 1 else ''}")
+                        print(f"  Monthly Contribution (PMT): ${PMT:.2f}")
+                        print(f"\nThe total amount after {t} year{'s' if t > 1 else ''} is: ${result:.2f}")
+                        break
+                    
+                    else:
+                        self.help_func.clear_screen() 
+                        print("Invalid choice Advanced Compound Interest caculation. Please enter 1 or 2.")
+                break
+
+            elif choice == '9': # back
                 break
 
             else: # wrong input
                 self.help_func.clear_screen()
-                print("Invalid choice for Financial Calculations. Please enter (1-9).")
+                print("Invalid choice for Financial Calculations. Please enter (1-11).")
             
             # NOTE: please add more of financial calculations
-    
+            # NOTE: CONVERT ALL FORMULAS TO GRAPHS FOR GOD SAKE
+
     # add more functions here
