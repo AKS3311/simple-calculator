@@ -850,347 +850,7 @@ Formula:
                 print("Invalid choice. Please enter (1-4).")
             break
 
-    def age_calculation(self): # No.5
-        text = """
-Welcome to the Age Calculator!
-
-To use this function:
-- Please enter your birthdate in the format YYYY-MM-DD (e.g., 2000-05-15).
-- Ensure the date is valid and follows the correct format to avoid errors.
-- Once entered, the program will calculate and display:
-  - Your age in years, months, and days.
-  - Days remaining until your next birthday.
-  - A special message if today is your birthday.
-
-Note: Invalid formats will prompt you to re-enter the date.
-"""
-        self.help_func.text_helper(text)
-
-        while True:
-            try:         
-                # Input birthdate from the user
-                birthdate_str = input("Enter your birthdate (YYYY-MM-DD): ")
-                year, month, day = map(int, birthdate_str.split('-'))
-                birthdate = date(year, month, day)
-                today = date.today()
-                self.help_func.clear_screen()
-                # Calculate age in years
-                age_years = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
-
-                # Calculate age in months
-                if today.month < birthdate.month or (today.month == birthdate.month and today.day < birthdate.day):
-                    age_months = (12 - birthdate.month) + today.month - 1
-                else:
-                    age_months = today.month - birthdate.month
-
-                # Calculate age in days
-                if today.day < birthdate.day:
-                    month_ago = (today.month - 1) if today.month > 1 else 12
-                    days_in_month = (date(today.year, today.month, 1) - date(today.year, month_ago, 1)).days
-                    age_days = days_in_month - (birthdate.day - today.day)
-                else:
-                    age_days = today.day - birthdate.day
-
-                # Output the age
-                print(f"You are {age_years} years, {age_months} months, and {age_days} days old.")
-
-                if today.month == birthdate.month and today.day == birthdate.day:
-                    print("Congratulations! Happy Birthday!")
-
-                # Calculate the next birthday
-                next_birthday_year = today.year if (today.month, today.day) < (birthdate.month, birthdate.day) else today.year + 1
-                next_birthday = date(next_birthday_year, birthdate.month, birthdate.day)
-                days_until_birthday = (next_birthday - today).days
-
-                print(f"Your next birthday is in {days_until_birthday} days on {next_birthday}.")
-                break
-
-            except ValueError:
-                self.help_func.clear_screen()
-                print("Invalid date format. Please enter your birthdate in YYYY-MM-DD format.")
-            except Exception as e:
-                self.help_func.clear_screen()
-                print(f"An error occurred: {e}. Please try again.")
-
-    def pythagorean_formula(self): # No.6
-        text = """
-Pythagorean Equation.
-Here we can find c is the length of the hypotenuse (the side opposite the right angle)
-Or the a and b are the lengths of the two legs of the right triangle
-    1. Find c
-    2. Find a and b
-    3. Back
-Enter your choice (1, 2 or 3): """
-        while True:
-            choice = input(text).strip()
-            if choice == '1':
-                self.help_func.clear_screen()  # Ensure this function is defined
-                a = self.help_func.get_float_input("Enter the first leg of the triangle: ")
-                b = self.help_func.get_float_input("Enter the second leg of the triangle: ")
-                c = cmath.sqrt((a ** 2) + (b ** 2))
-                result = self.help_func.handle_large_numbers(c)
-                self.help_func.clear_screen()
-                print(f"The length of the hypotenuse with the first leg of {a} and the second leg of {b} is {result}")
-                break
-
-            elif choice == '2':
-                self.help_func.clear_screen()
-                leg = self.help_func.get_float_input("Enter the known leg of the triangle: ")
-                c = self.help_func.get_float_input("Enter the hypotenuse of the triangle: ")
-                missing_leg = cmath.sqrt((c ** 2) - (leg ** 2))
-                result = self.help_func.handle_large_numbers(missing_leg)
-                self.help_func.clear_screen()
-                print(f"The length of the missing leg with the known leg of {leg} and the hypotenuse of {c} is {result}")
-                break
-            elif choice == '3':
-                self.help_func.clear_screen()
-                break
-                
-            else:
-                self.help_func.clear_screen()
-                print("Invalid choice. Please enter 1, 2 or 3")
-
-    def distance_formula(self): # No.7
-        text ="""
-Distance Formula.
-This formula calculates the distance between two points (x'1,y'1) and (x'2,y'2) on a 2D plane.
-
-input "back" to come back to the main menu.
-"""
-# Menus Class
-        self.help_func.text_helper(text)
-
-
-        x_1 = self.help_func.get_float_input("Enter x from the first point: ")
-        y_1 = self.help_func.get_float_input("Enter y from the first point: ")
-        self.help_func.clear_screen()
-        x_2 = self.help_func.get_float_input("Enter x from the second point: ")
-        y_2 = self.help_func.get_float_input("Enter y from the second point: ")
-        self.help_func.clear_screen()
-        equation_d = cmath.sqrt((x_2 - x_1) ** 2 + (y_2 - y_1) ** 2)
-        reslut = self.help_func.handle_large_numbers(equation_d)
-
-        print(f"The distance between ({x_1}, {y_1}) and ({x_2}, {y_2}) is {reslut}")
-
-    def exponential_growth_decay_formula(self): # No.8
-        text = """
-Exponential Growth/Decay Formula
-
-The formula is: N = N0 * e^(kt)
-
-Example:
-- You invest $500 in an account with a continuous growth rate of 3% per year. 
-How much will the investment be worth after 10 years?
-
-Given Values:
-- Initial amount (N0) = $500
-- Growth rate (k) = 0.03 (3% per year, converted to decimal)
-- Time (t) = 10 years
-
-Result:
-After 10 years, an investment of $500 at a 3% percentage growth rate will be worth approximately $674.95.
-"""
-
-        self.help_func.text_helper(text)
-
-        N0 = self.help_func.get_float_input("Enter the initial amount (N0): ")
-        k = self.help_func.get_float_input("Enter the growth/decay rate (k): ")
-        t = self.help_func.get_float_input("Enter the time (t): ")
-        self.help_func.clear_screen()
-
-        N = N0 * math.exp(k * t)
-        print(f"For an initial amount of {N0} with a growth rate of {k * 100:.2f} percent over {t} *any time curency*, the final amount is approximately {N:.2f}.")
-
-    def the_law_of_cosines(self): # No.9
-        text ="""
-Law of Cosines for Triangle Calculation
-
-The Law of Cosines is a fundamental formula in geometry that relates the lengths of the sides of a triangle to the cosine of one of its angles.
-This formula is especially useful for calculating unknown side lengths or angles when certain information about the triangle is known.
-
-Formula:
-For a triangle with sides a, b, and c, and angles A, B, and C opposite those sides, the Law of Cosines states:
-    
-c^2 = a^2 + b^2 - 2ab * cos(C)
-
-Applications:
-1. **Finding Unknown Sides**: If two sides and the included angle are known, you can calculate the third side using the formula.
-2. **Finding Unknown Angles**: If all three sides are known, the formula can be rearranged to find any angle:
-    cos(C) = (a^2 + b^2 - c^2) / (2ab)
-
-This law is applicable in various fields such as geometry, physics, engineering, and computer graphics, making it a vital tool for shape calculations, especially in triangular configurations.
-"""
-        self.help_func.text_helper(text)
-
-        choice_text ="""
-Law of Cosines for Triangle Calculation
-    1. Finding Unknown Sides
-    2. Finding Unknown Angles
-    3. Go Back
-Enter your choice (1-3): """
-
-        while True:
-            choice = input(choice_text).strip()
-            self.help_func.clear_screen()
-            if choice == '1': # Finding Unknown Sides
-                a = self.help_func.get_float_input("Enter the length of one known side: ")
-                b = self.help_func.get_float_input("Enter the length of second known side: ")
-                c = self.help_func.get_float_input("Enter the angle between sides a and b: ")
-                self.help_func.clear_screen()
-
-                # Convert angle from degrees to radians for the calculation
-                c_rad = math.radians(c)
-                c2 = (a ** 2) + (b ** 2) - (2 * a * b) * math.cos(c_rad)
-
-                # Only take the square root of c2 if it's non-negative
-                if c2 < 0:
-                    print("The calculation resulted in a negative value, indicating an error in the input values.")
-                    break
-
-                result = math.sqrt(c2)
-                print(f"The unknown side for side one with {a} and side two with {b} and angle with {c}° is approximately {result:.2f}")
-                break
-            elif choice == '2': # Finding Unknown Angles
-                a = self.help_func.get_float_input("Enter the length of one known side: ")
-                b = self.help_func.get_float_input("Enter the length of second known side: ")
-                c = self.help_func.get_float_input("Enter the length of third known side: ")
-                self.help_func.clear_screen()
-
-                cosc = ((a ** 2) + (b ** 2) - (c ** 2)) / (2 * a * b)
-
-                # Check if cosc is within the valid range
-                if cosc < -1 or cosc > 1:
-                    print("Invalid input values: The cosine value is out of range.")
-                    break
-                
-                angle_rad = math.acos(cosc)  # Calculate the angle in radians
-                result = math.degrees(angle_rad)  # Convert radians to degrees
-                print(f"The unknown angle for the first side with {a}, second side with {b}, and third side with {c} is approximately {result:.2f}°")
-                break
-            elif choice == '3': # back
-                break
-            else:
-                self.help_func.clear_screen()
-                print("Invalid choice for Law of Cosines for Triangle Calculation. Please enter (1-3).")
-
-    def riemann_zeta_function(self):  # No.10
-        text = """
-        Riemann Zeta Function.
-        To calculate the Riemann Zeta Function, you will need to input s (must be > 1) and n (number of terms).
-        """
-        self.help_func.text_helper(text)
-
-        # Loop to get a valid value for s
-        while True:
-            s = self.help_func.get_float_input("Enter a value for s where s > 1: ")
-            if s > 1:
-                break
-            self.help_func.clear_screen()
-            print("Error: s must be more than 1. Please try again.")
-
-            self.help_func.clear_screen()
-
-        # Loop to get a valid positive integer for n
-        while True:
-            n = self.help_func.get_int_input("Enter the number of terms (positive integer): ")
-            if n > 0:
-                break 
-            self.help_func.clear_screen()
-            print("Error: The number of terms must be a positive integer. Please try again.")
-
-        self.help_func.clear_screen()
-
-        # Calculate the Riemann Zeta sum
-        zeta_sum = 0
-        for i in range(1, n + 1):
-            zeta_sum += 1 / (i ** s)
-
-        print(f"The Riemann Zeta for s = {s} with {n} terms is approximately {zeta_sum:.5f}.")
-
-    def newtons_law_of_universal_gravitation(self):  # No.11
-        G = 6.67430e-11  # Gravitational constant in m^3 kg^-1 s^-2 
-
-        text = """
-    Newton's Law of Universal Gravitation states that every particle in the universe attracts every other particle with a force 
-    that is directly proportional to the product of their masses and inversely proportional to the square of the distance between them.
-
-    There are two ways to calculate this formula:
-
-    First way:
-        Calculate the gravitational force using the formula:
-            F = G * (m1 * m2) / r^2
-        What you need to input:
-            - mass for the first object
-            - mass for the second object
-            - the distance between the two objects
-
-    Second way:
-        Calculate the gravitational force using the formula:
-            unknown_m = (F * r^2) / (G * known_m^2)
-        What you need to input:
-            - the result of the calculation
-            - second or first mass of the objects
-            - the distance between the two objects
-    """
-
-        self.help_func.text_helper(text)
-
-        choice_text = """
-    Newton's Law of Universal Gravitation.
-        1. First way
-        2. Second way
-        3. Go Back
-    Enter your choice (1, 2, or 3): """
-
-        while True:
-            choice = input(choice_text).strip()
-            self.help_func.clear_screen()
-
-            if choice == '1':
-                
-                m1 = self.help_func.get_float_input("Enter the mass of the first object (kg): ")
-                m2 = self.help_func.get_float_input("Enter the mass of the second object (kg): ")
-                while True:
-                    r = self.help_func.get_float_input("Enter the distance between the two objects (m): ")
-                    if r <= 0:  # Check for less than or equal to zero
-                        self.help_func.clear_screen()
-                        print("Distance must be greater than zero.")
-                    else:
-                        break
-                self.help_func.clear_screen()
-
-                # Calculate the gravitational force using the formula F = G * (m1 * m2) / r^2
-                result = self.help_func.formatted_result101(G * (m1 * m2) / (r ** 2))
-
-                print(f"The gravitational force between masses {m1:.1f} kg and {m2:.1f} kg separated by {r:.1f} m is approximately {result}.")
-                break
-
-            elif choice == '2':
-
-                F = self.help_func.get_float_input("Enter the gravitational force (F) in Newtons (N): ")
-                known_m = self.help_func.get_float_input("Enter the mass of the known object (kg): ")
-                while True:
-                    r = self.help_func.get_float_input("Enter the distance between the two objects (m): ")
-                    if r <= 0:  # Check for less than or equal to zero
-                        self.help_func.clear_screen()
-                        print("Distance must be greater than zero.")
-                    else:
-                        break
-                self.help_func.clear_screen()
-
-                result = (F * r ** 2) / (G * known_m)
-
-                print(f"The unknown mass between known mass of {known_m:.1f} kg and gravitational force of {F:.1f} N at a distance of {r:.1f} m is approximately {result:.2e} kg.")
-                break
-
-            elif choice == '3':
-                break
-
-            else:
-                self.help_func.clear_screen()
-                print("Invalid choice for  Newton's Law of Universal Gravitation. Please enter (1-3).")
-
-    def financial_calculations(self): # No.12
+    def financial_calculations(self): # No.5
         text = """
 Financial Calculations.
 Please select a calculation option:
@@ -1871,4 +1531,344 @@ After gathering all the inputs, the program will calculate the total future valu
             # NOTE: please add more of financial calculations
             # NOTE: CONVERT ALL FORMULAS TO GRAPHS FOR GOD SAKE
 
+    def age_calculation(self): # No.6
+        text = """
+Welcome to the Age Calculator!
+
+To use this function:
+- Please enter your birthdate in the format YYYY-MM-DD (e.g., 2000-05-15).
+- Ensure the date is valid and follows the correct format to avoid errors.
+- Once entered, the program will calculate and display:
+  - Your age in years, months, and days.
+  - Days remaining until your next birthday.
+  - A special message if today is your birthday.
+
+Note: Invalid formats will prompt you to re-enter the date.
+"""
+        self.help_func.text_helper(text)
+
+        while True:
+            try:         
+                # Input birthdate from the user
+                birthdate_str = input("Enter your birthdate (YYYY-MM-DD): ")
+                year, month, day = map(int, birthdate_str.split('-'))
+                birthdate = date(year, month, day)
+                today = date.today()
+                self.help_func.clear_screen()
+                # Calculate age in years
+                age_years = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+
+                # Calculate age in months
+                if today.month < birthdate.month or (today.month == birthdate.month and today.day < birthdate.day):
+                    age_months = (12 - birthdate.month) + today.month - 1
+                else:
+                    age_months = today.month - birthdate.month
+
+                # Calculate age in days
+                if today.day < birthdate.day:
+                    month_ago = (today.month - 1) if today.month > 1 else 12
+                    days_in_month = (date(today.year, today.month, 1) - date(today.year, month_ago, 1)).days
+                    age_days = days_in_month - (birthdate.day - today.day)
+                else:
+                    age_days = today.day - birthdate.day
+
+                # Output the age
+                print(f"You are {age_years} years, {age_months} months, and {age_days} days old.")
+
+                if today.month == birthdate.month and today.day == birthdate.day:
+                    print("Congratulations! Happy Birthday!")
+
+                # Calculate the next birthday
+                next_birthday_year = today.year if (today.month, today.day) < (birthdate.month, birthdate.day) else today.year + 1
+                next_birthday = date(next_birthday_year, birthdate.month, birthdate.day)
+                days_until_birthday = (next_birthday - today).days
+
+                print(f"Your next birthday is in {days_until_birthday} days on {next_birthday}.")
+                break
+
+            except ValueError:
+                self.help_func.clear_screen()
+                print("Invalid date format. Please enter your birthdate in YYYY-MM-DD format.")
+            except Exception as e:
+                self.help_func.clear_screen()
+                print(f"An error occurred: {e}. Please try again.")
+
+    def pythagorean_formula(self): # No.7
+        text = """
+Pythagorean Equation.
+Here we can find c is the length of the hypotenuse (the side opposite the right angle)
+Or the a and b are the lengths of the two legs of the right triangle
+    1. Find c
+    2. Find a and b
+    3. Back
+Enter your choice (1, 2 or 3): """
+        while True:
+            choice = input(text).strip()
+            if choice == '1':
+                self.help_func.clear_screen()  # Ensure this function is defined
+                a = self.help_func.get_float_input("Enter the first leg of the triangle: ")
+                b = self.help_func.get_float_input("Enter the second leg of the triangle: ")
+                c = cmath.sqrt((a ** 2) + (b ** 2))
+                result = self.help_func.handle_large_numbers(c)
+                self.help_func.clear_screen()
+                print(f"The length of the hypotenuse with the first leg of {a} and the second leg of {b} is {result}")
+                break
+
+            elif choice == '2':
+                self.help_func.clear_screen()
+                leg = self.help_func.get_float_input("Enter the known leg of the triangle: ")
+                c = self.help_func.get_float_input("Enter the hypotenuse of the triangle: ")
+                missing_leg = cmath.sqrt((c ** 2) - (leg ** 2))
+                result = self.help_func.handle_large_numbers(missing_leg)
+                self.help_func.clear_screen()
+                print(f"The length of the missing leg with the known leg of {leg} and the hypotenuse of {c} is {result}")
+                break
+            elif choice == '3':
+                self.help_func.clear_screen()
+                break
+                
+            else:
+                self.help_func.clear_screen()
+                print("Invalid choice. Please enter 1, 2 or 3")
+
+    def distance_formula(self): # No.8
+        text ="""
+Distance Formula.
+This formula calculates the distance between two points (x'1,y'1) and (x'2,y'2) on a 2D plane.
+
+input "back" to come back to the main menu.
+"""
+# Menus Class
+        self.help_func.text_helper(text)
+
+
+        x_1 = self.help_func.get_float_input("Enter x from the first point: ")
+        y_1 = self.help_func.get_float_input("Enter y from the first point: ")
+        self.help_func.clear_screen()
+        x_2 = self.help_func.get_float_input("Enter x from the second point: ")
+        y_2 = self.help_func.get_float_input("Enter y from the second point: ")
+        self.help_func.clear_screen()
+        equation_d = cmath.sqrt((x_2 - x_1) ** 2 + (y_2 - y_1) ** 2)
+        reslut = self.help_func.handle_large_numbers(equation_d)
+
+        print(f"The distance between ({x_1}, {y_1}) and ({x_2}, {y_2}) is {reslut}")
+
+    def exponential_growth_decay_formula(self): # No.9
+        text = """
+Exponential Growth/Decay Formula
+
+The formula is: N = N0 * e^(kt)
+
+Example:
+- You invest $500 in an account with a continuous growth rate of 3% per year. 
+How much will the investment be worth after 10 years?
+
+Given Values:
+- Initial amount (N0) = $500
+- Growth rate (k) = 0.03 (3% per year, converted to decimal)
+- Time (t) = 10 years
+
+Result:
+After 10 years, an investment of $500 at a 3% percentage growth rate will be worth approximately $674.95.
+"""
+
+        self.help_func.text_helper(text)
+
+        N0 = self.help_func.get_float_input("Enter the initial amount (N0): ")
+        k = self.help_func.get_float_input("Enter the growth/decay rate (k): ")
+        t = self.help_func.get_float_input("Enter the time (t): ")
+        self.help_func.clear_screen()
+
+        N = N0 * math.exp(k * t)
+        print(f"For an initial amount of {N0} with a growth rate of {k * 100:.2f} percent over {t} *any time curency*, the final amount is approximately {N:.2f}.")
+
+    def the_law_of_cosines(self): # No.10
+        text ="""
+Law of Cosines for Triangle Calculation
+
+The Law of Cosines is a fundamental formula in geometry that relates the lengths of the sides of a triangle to the cosine of one of its angles.
+This formula is especially useful for calculating unknown side lengths or angles when certain information about the triangle is known.
+
+Formula:
+For a triangle with sides a, b, and c, and angles A, B, and C opposite those sides, the Law of Cosines states:
+    
+c^2 = a^2 + b^2 - 2ab * cos(C)
+
+Applications:
+1. **Finding Unknown Sides**: If two sides and the included angle are known, you can calculate the third side using the formula.
+2. **Finding Unknown Angles**: If all three sides are known, the formula can be rearranged to find any angle:
+    cos(C) = (a^2 + b^2 - c^2) / (2ab)
+
+This law is applicable in various fields such as geometry, physics, engineering, and computer graphics, making it a vital tool for shape calculations, especially in triangular configurations.
+"""
+        self.help_func.text_helper(text)
+
+        choice_text ="""
+Law of Cosines for Triangle Calculation
+    1. Finding Unknown Sides
+    2. Finding Unknown Angles
+    3. Go Back
+Enter your choice (1-3): """
+
+        while True:
+            choice = input(choice_text).strip()
+            self.help_func.clear_screen()
+            if choice == '1': # Finding Unknown Sides
+                a = self.help_func.get_float_input("Enter the length of one known side: ")
+                b = self.help_func.get_float_input("Enter the length of second known side: ")
+                c = self.help_func.get_float_input("Enter the angle between sides a and b: ")
+                self.help_func.clear_screen()
+
+                # Convert angle from degrees to radians for the calculation
+                c_rad = math.radians(c)
+                c2 = (a ** 2) + (b ** 2) - (2 * a * b) * math.cos(c_rad)
+
+                # Only take the square root of c2 if it's non-negative
+                if c2 < 0:
+                    print("The calculation resulted in a negative value, indicating an error in the input values.")
+                    break
+
+                result = math.sqrt(c2)
+                print(f"The unknown side for side one with {a} and side two with {b} and angle with {c}° is approximately {result:.2f}")
+                break
+            elif choice == '2': # Finding Unknown Angles
+                a = self.help_func.get_float_input("Enter the length of one known side: ")
+                b = self.help_func.get_float_input("Enter the length of second known side: ")
+                c = self.help_func.get_float_input("Enter the length of third known side: ")
+                self.help_func.clear_screen()
+
+                cosc = ((a ** 2) + (b ** 2) - (c ** 2)) / (2 * a * b)
+
+                # Check if cosc is within the valid range
+                if cosc < -1 or cosc > 1:
+                    print("Invalid input values: The cosine value is out of range.")
+                    break
+                
+                angle_rad = math.acos(cosc)  # Calculate the angle in radians
+                result = math.degrees(angle_rad)  # Convert radians to degrees
+                print(f"The unknown angle for the first side with {a}, second side with {b}, and third side with {c} is approximately {result:.2f}°")
+                break
+            elif choice == '3': # back
+                break
+            else:
+                self.help_func.clear_screen()
+                print("Invalid choice for Law of Cosines for Triangle Calculation. Please enter (1-3).")
+
+    def riemann_zeta_function(self):  # No.11
+        text = """
+        Riemann Zeta Function.
+        To calculate the Riemann Zeta Function, you will need to input s (must be > 1) and n (number of terms).
+        """
+        self.help_func.text_helper(text)
+
+        # Loop to get a valid value for s
+        while True:
+            s = self.help_func.get_float_input("Enter a value for s where s > 1: ")
+            if s > 1:
+                break
+            self.help_func.clear_screen()
+            print("Error: s must be more than 1. Please try again.")
+
+            self.help_func.clear_screen()
+
+        # Loop to get a valid positive integer for n
+        while True:
+            n = self.help_func.get_int_input("Enter the number of terms (positive integer): ")
+            if n > 0:
+                break 
+            self.help_func.clear_screen()
+            print("Error: The number of terms must be a positive integer. Please try again.")
+
+        self.help_func.clear_screen()
+
+        # Calculate the Riemann Zeta sum
+        zeta_sum = 0
+        for i in range(1, n + 1):
+            zeta_sum += 1 / (i ** s)
+
+        print(f"The Riemann Zeta for s = {s} with {n} terms is approximately {zeta_sum:.5f}.")
+
+    def newtons_law_of_universal_gravitation(self):  # No.12
+        G = 6.67430e-11  # Gravitational constant in m^3 kg^-1 s^-2 
+
+        text = """
+    Newton's Law of Universal Gravitation states that every particle in the universe attracts every other particle with a force 
+    that is directly proportional to the product of their masses and inversely proportional to the square of the distance between them.
+
+    There are two ways to calculate this formula:
+
+    First way:
+        Calculate the gravitational force using the formula:
+            F = G * (m1 * m2) / r^2
+        What you need to input:
+            - mass for the first object
+            - mass for the second object
+            - the distance between the two objects
+
+    Second way:
+        Calculate the gravitational force using the formula:
+            unknown_m = (F * r^2) / (G * known_m^2)
+        What you need to input:
+            - the result of the calculation
+            - second or first mass of the objects
+            - the distance between the two objects
+    """
+
+        self.help_func.text_helper(text)
+
+        choice_text = """
+    Newton's Law of Universal Gravitation.
+        1. First way
+        2. Second way
+        3. Go Back
+    Enter your choice (1, 2, or 3): """
+
+        while True:
+            choice = input(choice_text).strip()
+            self.help_func.clear_screen()
+
+            if choice == '1':
+                
+                m1 = self.help_func.get_float_input("Enter the mass of the first object (kg): ")
+                m2 = self.help_func.get_float_input("Enter the mass of the second object (kg): ")
+                while True:
+                    r = self.help_func.get_float_input("Enter the distance between the two objects (m): ")
+                    if r <= 0:  # Check for less than or equal to zero
+                        self.help_func.clear_screen()
+                        print("Distance must be greater than zero.")
+                    else:
+                        break
+                self.help_func.clear_screen()
+
+                # Calculate the gravitational force using the formula F = G * (m1 * m2) / r^2
+                result = self.help_func.formatted_result101(G * (m1 * m2) / (r ** 2))
+
+                print(f"The gravitational force between masses {m1:.1f} kg and {m2:.1f} kg separated by {r:.1f} m is approximately {result}.")
+                break
+
+            elif choice == '2':
+
+                F = self.help_func.get_float_input("Enter the gravitational force (F) in Newtons (N): ")
+                known_m = self.help_func.get_float_input("Enter the mass of the known object (kg): ")
+                while True:
+                    r = self.help_func.get_float_input("Enter the distance between the two objects (m): ")
+                    if r <= 0:  # Check for less than or equal to zero
+                        self.help_func.clear_screen()
+                        print("Distance must be greater than zero.")
+                    else:
+                        break
+                self.help_func.clear_screen()
+
+                result = (F * r ** 2) / (G * known_m)
+
+                print(f"The unknown mass between known mass of {known_m:.1f} kg and gravitational force of {F:.1f} N at a distance of {r:.1f} m is approximately {result:.2e} kg.")
+                break
+
+            elif choice == '3':
+                break
+
+            else:
+                self.help_func.clear_screen()
+                print("Invalid choice for  Newton's Law of Universal Gravitation. Please enter (1-3).")
+                
     # add more functions here
