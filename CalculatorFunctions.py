@@ -2,7 +2,9 @@ import math
 import cmath
 from sympy import sympify, sqrt, log, sin, cos, tan, exp, I, Number, SympifyError # need to intsall first
 from sympy.physics.units import kg, m, G
+import numpy as np
 import numpy_financial as npf
+import matplotlib.pyplot as plt
 from datetime import date
 from HelpFunctions import HelpFunctions
 
@@ -862,8 +864,10 @@ Please select a calculation option:
     6. Internal Rate of Return (IRR)
     7. Return on Investment (ROI)
     8. Enhanced Compound Interest Calculator with Monthly Contributions and Inflation Adjustment
-    9. Go Back
-Enter your choice (1-9): """
+    9. Savings Goal Calculator
+    10. Effective Annual Rate (EAR)
+    11. Go Back
+Enter your choice (1-11): """
 
         while True:
             choice = input(text).strip()
@@ -896,7 +900,7 @@ You'll need to provide the principal amount, the interest rate, the compounding 
                         break
 
                 while True: # n
-                    n = self.help_func.get_float_input("Enter the Number of times that interest is compounded per year: ")
+                    n = self.help_func.get_int_input("Enter the Number of times that interest is compounded per year: ")
                     if n <= 0:
                         self.help_func.clear_screen()
                         print("ERROR: The compounding frequency must be a positive number.")
@@ -912,10 +916,23 @@ You'll need to provide the principal amount, the interest rate, the compounding 
                         break
                 self.help_func.clear_screen()
 
+                # Calculate compound interest over time
+                years = list(range(1, int(t) + 1))
+                amounts = [P * (1 + (r / n)) ** (n * year) for year in years]
+
                 result = P * (1 + (r / n)) ** (n * t)
 
                 print(f"Starting with a principal of ${P:.2f} at an annual interest rate of {r * 100}%,")
                 print(f"compounded {n} times per year, the final amount after {t} years is: ${result:.2f}")
+
+                # Plot using Matplotlib
+                plt.figure(figsize=(10, 6))
+                plt.plot(years, amounts, marker='o', color='b', linestyle='-', linewidth=2, markersize=6)
+                plt.title('Compound Interest Growth Over Time')
+                plt.xlabel('Years')
+                plt.ylabel('Amount ($)')
+                plt.grid(True)
+                plt.show()
                 break
 
             elif choice == '2': # Simple Interest
@@ -950,10 +967,24 @@ Simple interest is calculated on the initial principal only, and is useful for s
                     else:
                         break
                 self.help_func.clear_screen()
+
+                # Calculate simple interest over time
+                years = list(range(1, int(t) + 1))
+                amounts = [P * (1 + r * year) for year in years]
+
                 result = P * (1 + r * t)
 
                 print(f"Initial investment: {P:.2f}, Annual interest rate: {r*100:.2f}%, for {t} years.")
                 print(f"Total amount after {t} years will be: {result:.2f}.")
+
+                # Plot using Matplotlib
+                plt.figure(figsize=(10, 6))
+                plt.plot(years, amounts, marker='o', color='g', linestyle='-', linewidth=2, markersize=6)
+                plt.title('Simple Interest Growth Over Time')
+                plt.xlabel('Years')
+                plt.ylabel('Amount ($)')
+                plt.grid(True)
+                plt.show()
                 break
             
             elif choice == '3': # Loan Amortization
@@ -972,7 +1003,7 @@ This tool helps calculate regular loan payments for mortgages, car loans, or oth
                     else:
                         break
 
-                while True:
+                while True: # r
                     annual_rate = self.help_func.get_float_input("Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ")
                     r = annual_rate / 100  # Convert percentage to decimal
                     if r <= 0:
@@ -981,15 +1012,15 @@ This tool helps calculate regular loan payments for mortgages, car loans, or oth
                     else:
                         break
 
-                while True:
-                    n = self.help_func.get_float_input("Enter the Number of times that interest is compounded per year (e.g., 12 for monthly): ")
+                while True: # n
+                    n = self.help_func.get_int_input("Enter the Number of times that interest is compounded per year (e.g., 12 for monthly): ")
                     if n <= 0:
                         self.help_func.clear_screen()
                         print("Error: The compounding frequency must be a positive integer greater than zero.")
                     else:
                         break
 
-                while True:
+                while True: # t
                     t = self.help_func.get_float_input("Enter the Loan term (in years): ")
                     if t <= 0:
                         self.help_func.clear_screen()
@@ -1001,12 +1032,30 @@ This tool helps calculate regular loan payments for mortgages, car loans, or oth
 
                 # Calculate the monthly payment
                 monthly_rate = r / n
-                total_payments = n * t
-                result = P * (monthly_rate * (1 + monthly_rate) ** total_payments) / ((1 + monthly_rate) ** total_payments - 1)
+                total_payments = int(n * t)
+                monthly_payment = P * (monthly_rate * (1 + monthly_rate) ** total_payments) / ((1 + monthly_rate) ** total_payments - 1)
 
-                # Print the results in two simple statements
+                # Print the results
                 print(f"Monthly payment details:\nPrincipal: ${P:.2f}\nAnnual Rate: {annual_rate:.2f}%\nCompounding: {n} times/year\nLoan Term: {t:.1f} years")
-                print(f"Your monthly payment will be: ${result:.2f}.")
+                print(f"Your monthly payment will be: ${monthly_payment:.2f}.")
+
+                # Generate loan balance over time for visualization
+                balance = P
+                balances = []
+                for month in range(1, total_payments + 1):
+                    interest = balance * monthly_rate
+                    principal_payment = monthly_payment - interest
+                    balance -= principal_payment
+                    balances.append(balance)
+
+                # Plot the loan balance over time
+                plt.figure(figsize=(10, 6))
+                plt.plot(range(1, total_payments + 1), balances, marker='o', color='b', linestyle='-', linewidth=2, markersize=3)
+                plt.title('Loan Balance Over Time')
+                plt.xlabel('Month')
+                plt.ylabel('Remaining Balance ($)')
+                plt.grid(True)
+                plt.show()
                 break
 
             elif choice == '4':  # Future/past Value of an Investment
@@ -1083,7 +1132,7 @@ Enter your choice (1 or 2): """
 
                             # Get total number of periods (n)
                             while True:
-                                n = self.help_func.get_float_input("Enter the total number of periods: ")
+                                n = self.help_func.get_int_input("Enter the total number of periods: ")
                                 if n <= 0:
                                     self.help_func.clear_screen()
                                     print("Error: The total number of periods must be a positive number.")
@@ -1092,17 +1141,28 @@ Enter your choice (1 or 2): """
 
                             self.help_func.clear_screen()
 
-                            # Perform the calculation based on annuity type
                             if annuity_type == '1':  # Ordinary Annuity
-                                result = P * ((1 + r) ** n - 1) / r
+                                result = npf.fv(r, n, -P, 0)  # Future Value of Ordinary Annuity
                                 annuity_name = "Ordinary Annuity"
                             else:  # Annuity Due
-                                result = P * ((1 + r) ** n - 1) / r * (1 + r)
+                                result = npf.fv(r, n, -P, 0) * (1 + r)  # Future Value of Annuity Due
                                 annuity_name = "Annuity Due"
 
                             # Display the result
-                            print(f"The Ordinary Annuity with a payment amount of ${P:.2f},")
+                            print(f"The {annuity_name} with a payment amount of ${P:.2f},")
                             print(f"an interest rate of {annual_rate:.2f}%, over {n:.0f} periods, is ${result:.2f}.")
+
+                            # Graph the Future Value over periods (Optional Visualization)
+                            periods = list(range(1, n + 1))
+                            future_values = [npf.fv(r, period, -P, 0) if annuity_type == '1' else npf.fv(r, period, -P, 0) * (1 + r) for period in periods]
+                            
+                            plt.plot(periods, future_values, label='Future Value')
+                            plt.title(f'{annuity_name} over Time')
+                            plt.xlabel('Periods')
+                            plt.ylabel('Future Value ($)')
+                            plt.legend()
+                            plt.grid(True)
+                            plt.show()
                             break
                         break
                     
@@ -1142,10 +1202,29 @@ It helps determine how much a future amount is worth today, taking into account 
                                 break   
                         self.help_func.clear_screen()
 
-                        result = FV / (1 + r) ** t
-
-                        print(f"To achieve a future value of ${FV:.2f} in {t} (years, months, etc.) with a discount rate of {r * 100:.2f}%")
+                        # Calculate Present Value using numpy_financial
+                        result = npf.pv(r, t, 0, FV)  # PV = FV / (1 + r)^t
+                        
+                        print(f"To achieve a future value of ${FV:.2f} in {t} periods, with an interest rate of {annual_rate:.2f}%")
                         print(f"the present value needed today is: ${result:.2f}")
+
+                        # Create a graph to visualize the present value for varying interest rates or periods
+
+                        # Create a range of interest rates (for graphing)
+                        interest_rates = np.linspace(0, 0.2, 100)  # Interest rates from 0% to 20%
+                        
+                        # Calculate present value for each interest rate
+                        pv_values = npf.pv(interest_rates, t, 0, FV)
+
+                        # Plotting the graph
+                        plt.figure(figsize=(8, 6))
+                        plt.plot(interest_rates * 100, pv_values, label=f"Future Value = ${FV:.2f}", color='b', linestyle='-', marker='o')
+                        plt.title('Present Value vs Interest Rate')
+                        plt.xlabel('Interest Rate (%)')
+                        plt.ylabel('Present Value ($)')
+                        plt.grid(True)
+                        plt.legend()
+                        plt.show()
                         break
                     
                      
@@ -1164,7 +1243,7 @@ You need to gather all the expected cash flows for each time period, the discoun
 
                 # Get total number of periods (n)
                 while True:
-                    n = self.help_func.get_float_input("Enter the total number of periods: ")
+                    n = self.help_func.get_int_input("Enter the total number of periods: ")
                     if n <= 0:
                         self.help_func.clear_screen()
                         print("Error: The total number of periods must be a positive number.")
@@ -1191,11 +1270,15 @@ You need to gather all the expected cash flows for each time period, the discoun
 
                 self.help_func.clear_screen()
 
-                # Calculate NPV
+                # Calculate NPV and prepare the graph data
                 npv_sum = 0
+                npv_values = []  # To store cumulative NPV values for each year
+                years = list(range(n + 1))  # X-axis: years (should have n + 1 elements)
+
                 for i in range(n + 1):  # For each year, from 0 to n
                     CF = cash_flows[i]  # Get the cash flow for year i
                     npv_sum += CF / (1 + r) ** i  # Apply the NPV formula
+                    npv_values.append(npv_sum)  # Append the cumulative NPV value
 
                 # Output the results
                 self.help_func.clear_screen()
@@ -1205,6 +1288,14 @@ You need to gather all the expected cash flows for each time period, the discoun
                 for i in range(n + 1):
                     print(f"  Year {i}: {cash_flows[i]}")
                 print(f"\nNet Present Value (NPV): ${npv_sum:.2f}")
+
+                # Plot the graph
+                plt.plot(years, npv_values, color='green', marker='o')
+                plt.title("NPV vs. Year")
+                plt.xlabel("Year")
+                plt.ylabel("Cumulative NPV ($)")
+                plt.grid(True)
+                plt.show()
                 break
 
             elif choice == '6': # Internal Rate of Return (IRR)
@@ -1215,9 +1306,9 @@ You will need to gather the initial investment and all expected future cash flow
         """
                 self.help_func.text_helper(irr_text)
 
-                # Get total number of periods (n)
+                # Get the total number of periods (n)
                 while True:
-                    n = int(self.help_func.get_float_input("Enter the total number of periods: "))
+                    n = int(self.help_func.get_int_input("Enter the total number of periods: "))
                     if n <= 0:
                         self.help_func.clear_screen()
                         print("Error: The total number of periods must be a positive number.")
@@ -1229,10 +1320,19 @@ You will need to gather the initial investment and all expected future cash flow
                 for i in range(n + 1):  # Including Year 0 (initial investment)
                     while True:
                         cash_flow = self.help_func.get_float_input(f"Enter the cash inflow (or outflow) for Year {i}: ")
-                        cash_flows.append(cash_flow)
-                        break
+                        # For Year 0, check if it's negative (initial investment)
+                        if i == 0 and cash_flow >= 0:
+                            self.help_func.clear_screen()
+                            print("ERROR: The initial investment (Year 0) should be negative.")
+                        # For future years, check if it's positive (cash inflows)
+                        elif i > 0 and cash_flow < 0:
+                            self.help_func.clear_screen()
+                            print("ERROR: Future years should have positive cash inflows.")
+                        else:
+                            cash_flows.append(cash_flow)
+                            break  # Exit the loop and proceed to the next year
                 self.help_func.clear_screen()
-                
+
                 # Calculate IRR using numpy_financial's irr function
                 irr = npf.irr(cash_flows)
 
@@ -1241,14 +1341,31 @@ You will need to gather the initial investment and all expected future cash flow
                 print(f"Cash Flows (CF):")
                 for i in range(n + 1):
                     print(f"  Year {i}: {cash_flows[i]}")
-                
-                if irr is None:
+
+                if irr is None or irr != irr:  # Check if IRR is NaN
                     print("\nError: Could not calculate IRR. Check if the cash flows are correct.")
-                    break
                 else:
                     print(f"\nInternal Rate of Return (IRR): {irr * 100:.2f}%")
-                    break
+                    
+                    # Plot the graph of cumulative cash flows over the years
+                    cumulative_cash_flows = [sum(cash_flows[:i+1]) for i in range(len(cash_flows))]  # Cumulative cash flows
 
+                    # Plot the cumulative cash flows
+                    plt.plot(range(n + 1), cumulative_cash_flows, color='blue', marker='o', label='Cumulative Cash Flow')
+
+                    # Highlight the IRR point where the cumulative cash flow is closest to zero
+                    plt.axhline(0, color='red', linestyle='--', label="IRR (0 crossing)")
+                    plt.scatter([n], [cumulative_cash_flows[-1]], color='green', label=f"IRR = {irr * 100:.2f}%")
+
+                    # Adding titles and labels
+                    plt.title("Cumulative Cash Flow and IRR")
+                    plt.xlabel("Year")
+                    plt.ylabel("Cumulative Cash Flow ($)")
+                    plt.legend()
+                    plt.grid(True)
+                    plt.show()
+                    break
+                
             elif choice == '7': # Return on Investment (ROI)
                 roi_text ="""
 Return on Investment (ROI) Calculation.
@@ -1261,7 +1378,7 @@ Input the amount you invested initially and the value of the investment after a 
 Return on Investment (ROI) Calculator
 Evaluate the profitability of your investment by comparing its initial value to its final value over a chosen period. 
 
-Choose your calculation type:
+Choose your Return on Investment (ROI) type:
     1. Single-period ROI Calculate the return for a single investment period.
     2. Annualized ROI Calculate the annualized return, useful for comparing investments of varying durations.
 Enter your choice (1 or 2): """
@@ -1269,49 +1386,79 @@ Enter your choice (1 or 2): """
                 while True:
                     choice = input(choice_text).strip()
                     self.help_func.clear_screen()
-                    
-                    if choice == '1':  # Basic ROI Calculation
-                        GFI = self.help_func.get_float_input("Enter the total amount you gained or earned from the investment: ")
-                        II = self.help_func.get_float_input("Enter the original amount you invested: ")
-                        self.help_func.clear_screen()
-                        
-                        # Calculate ROI
-                        result = ((GFI - II) / II) * 100
-                        
-                        # Display result
-                        print(f"Basic ROI Calculation:")
-                        print(f"  Gain from Investment: {GFI}")
-                        print(f"  Initial Investment: {II}")
-                        print(f"  ROI: {result:.2f}%")
-                        break
 
-                    elif choice == '2':  # Annualized ROI Calculation
-                        FV = self.help_func.get_float_input("Enter the ending or current value of the investment: ")
-                        II = self.help_func.get_float_input("Enter the original amount you invested: ")
-                        
+                    if choice in ['1', '2']:
+
+                        # Get Gain from Investment (GFI)
                         while True:
-                            n = self.help_func.get_float_input("Enter the time period, in years, over which the investment was held: ")
-                            if n <= 0:
+                            GFI = self.help_func.get_float_input("Enter the total amount you gained or earned from the investment: ")
+                            if GFI <= 0:
                                 self.help_func.clear_screen()
-                                print("Error: The time period, in years, must be a positive number.")
+                                print("Error: The total amount you gained or earned must be a positive number.")
                             else:
                                 break
-                        
-                        self.help_func.clear_screen()
-                        
-                        # Calculate Annualized ROI
-                        result = ((FV / II) ** (1 / n) - 1) * 100
-                        
-                        # Display result
-                        print(f"Annualized ROI Calculation:")
-                        print(f"  Final Value: {FV}")
-                        print(f"  Initial Investment: {II}")
-                        print(f"  Investment Period: {n} years")
-                        print(f"  Annualized ROI: {result:.2f}%")
-                        break
+
+                        # Get Initial Investment (II)
+                        while True:
+                            II = self.help_func.get_float_input("Enter the original amount you invested: ")
+                            if II <= 0:
+                                self.help_func.clear_screen()
+                                print("Error: The original amount you invested must be a positive number.")
+                            else:
+                                break
+
+                        if choice == '1':  # Basic ROI Calculation
+                            result = ((GFI - II) / II) * 100
+                            self.help_func.clear_screen()
+                            print(f"Basic ROI Calculation:")
+                            print(f"  Gain from Investment: {GFI}")
+                            print(f"  Initial Investment: {II}")
+                            print(f"  ROI: {result:.2f}%")
+
+                            # Plot the Basic ROI Calculation as a bar chart
+                            plt.figure(figsize=(6, 4))
+                            categories = ['Initial Investment', 'Gain from Investment']
+                            values = [II, GFI]
+                            plt.bar(categories, values, color=['blue', 'green'])
+                            plt.title('Basic ROI Calculation')
+                            plt.ylabel('Amount')
+                            plt.show()
+                            break
+                        elif choice == '2':  # Compounded ROI Calculation
+                            while True:
+                                n = self.help_func.get_int_input("Enter the time period, in years, over which the investment was held: ")
+                                if n <= 0:
+                                    self.help_func.clear_screen()
+                                    print("Error: The time period, in years, must be a positive number.")
+                                else:
+                                    break
+
+                            compounded_roi = (((GFI / II) ** (1 / n)) - 1) * 100
+                            self.help_func.clear_screen()
+                            print(f"Compounded ROI Calculation:")
+                            print(f"  Gain from Investment: {GFI}")
+                            print(f"  Initial Investment: {II}")
+                            print(f"  Time Period: {n} years")
+                            print(f"  Compounded ROI: {compounded_roi:.2f}%")
+
+                            # Plot the Compounded ROI Calculation over time
+                            years = list(range(1, n + 1))
+                            roi_values = [(((GFI / II) ** (1 / year)) - 1) * 100 for year in years]
+
+                            plt.figure(figsize=(6, 4))
+                            plt.plot(years, roi_values, marker='o', color='purple')
+                            plt.title('Compounded ROI Over Time')
+                            plt.xlabel('Years')
+                            plt.ylabel('Compounded ROI (%)')
+                            plt.grid(True)
+                            plt.show()
+                            break
+                        else:
+                            self.help_func.clear_screen()
+                            print("Invalid choice for Return on Investment (ROI) type. Please enter 1 or 2.")
 
                     else:
-                        self.help_func.clear_screen() 
+                        self.help_func.clear_screen()
                         print("Invalid choice for Return on Investment (ROI) Calculation. Please enter 1 or 2.")
                 break
             
@@ -1323,38 +1470,15 @@ This program helps you calculate the future value of an investment, factoring in
 Choose your calculation mode:
     1. With Inflation Calculate with inflation-adjusted values for a realistic future estimate.
     2. Without Inflation Calculate based solely on compound interest for a straightforward projection.
-Enter your choice (1 or 2):"""
+Enter your choice (1 or 2): """
                 
                 while True:
-                    choise = input(text_choice).strip
+                    choise = input(text_choice).strip()
                     self.help_func.clear_screen()
-                    if choise == '1':
 
+                    if choise == '1':
                         text = """
 This program calculates the future value of an investment considering both compound interest and monthly contributions.
-
-The user will be prompted to enter the following information:
-1. The initial amount of money invested (Principal).
-2. The annual interest rate (as a percentage).
-3. The annual inflation rate (as a percentage), to adjust the effective interest rate.
-4. The number of times the interest is compounded per year (e.g., monthly, quarterly).
-5. The duration of the investment (in years).
-6. The amount of money added to the investment each month (Monthly Contribution).
-
-The formula used for this calculation is:
-Future Value (A) = P * (1 + (r - i)/n)^(n * t) + PMT * ((1 + (r - i)/n)^(n * t) - 1) / ((r - i)/n)
-
-Where:
-    P = Principal (initial amount of money)
-    r = Annual interest rate (decimal form)
-    i = Annual inflation rate (decimal form)
-    n = Number of times interest is compounded per year
-    t = Time in years
-    PMT = Monthly contribution
-
-The program will take into account both the compound interest and the effect of inflation on the real return on investment. By adjusting the interest rate for inflation, this model gives a more accurate reflection of how your money grows over time. Monthly contributions further add to the growth of the investment.
-
-After gathering all the inputs, the program calculates the future value of the investment based on the compounded interest and inflation-adjusted interest rate.
 """
                         self.help_func.text_helper(text)
 
@@ -1376,7 +1500,7 @@ After gathering all the inputs, the program calculates the future value of the i
                                 break
 
                         while True:  # n
-                            n = self.help_func.get_float_input("Enter the number of times interest is compounded per year: ")
+                            n = self.help_func.get_int_input("Enter the number of times interest is compounded per year: ")
                             if n <= 0:
                                 self.help_func.clear_screen()
                                 print("ERROR: The number of times interest is compounded per year must be greater than 0.")
@@ -1387,7 +1511,7 @@ After gathering all the inputs, the program calculates the future value of the i
                                 break
 
                         while True:  # t
-                            t = self.help_func.get_float_input("Enter how long the money is invested (in years): ")
+                            t = self.help_func.get_int_input("Enter how long the money is invested (in years): ")
                             if t <= 0:
                                 self.help_func.clear_screen()
                                 print("ERROR: The time investment must be a positive number.")
@@ -1406,10 +1530,9 @@ After gathering all the inputs, the program calculates the future value of the i
                         A_principal = P * (1 + r/n)**(n * t)
                         A_contributions = PMT * ((1 + r/n)**(n * t) - 1) / (r/n)
 
-                        # Adding them together without rounding prematurely
                         result = A_principal + A_contributions
 
-                        # Print inputs and result with exact formatting at the end
+                        # After collecting all inputs and result
                         print(f"Inputs:")
                         print(f"  Initial Principal (P): ${P:.2f}")
                         print(f"  Annual Interest Rate (r): {r*100:.2f}%")
@@ -1417,32 +1540,29 @@ After gathering all the inputs, the program calculates the future value of the i
                         print(f"  Time (t): {t} year{'s' if t > 1 else ''}")
                         print(f"  Monthly Contribution (PMT): ${PMT:.2f}")
                         print(f"\nThe total amount after {t} year{'s' if t > 1 else ''} is: ${result:.2f}")
+
+                        # Create graph
+                        years = [i for i in range(1, t + 1)]
+                        future_values = []
+
+                        for year in years:
+                            A_principal = P * (1 + r/n)**(n * year)
+                            A_contributions = PMT * ((1 + r/n)**(n * year) - 1) / (r/n)
+                            future_values.append(A_principal + A_contributions)
+
+                        # Plot the graph
+                        plt.plot(years, future_values, label="Future Value", color='blue')
+                        plt.xlabel("Years")
+                        plt.ylabel("Future Value ($)")
+                        plt.title("Investment Growth Over Time")
+                        plt.grid(True)
+                        plt.legend()
+                        plt.show()
                         break
 
                     elif choise == '2':
                         text = """
 This program calculates the future value of an investment considering both interest and inflation.
-The user is prompted to input the following:
-
-1. The initial amount of money invested (Principal).
-2. The annual interest rate (as a percentage).
-3. The annual inflation rate (as a percentage).
-4. The number of times the interest is compounded per year (e.g., monthly, quarterly).
-5. The duration of the investment (in years).
-6. The amount of money added to the investment each month (Monthly Contribution).
-
-The formula used to calculate the future value is as follows:
-Future Value (A) = P * (1 + (r - i)/n)^(n * t) + PMT * ((1 + (r - i)/n)^(n * t) - 1) / ((r - i)/n)
-
-Where:
-    P = Principal (initial amount of money)
-    r = Annual interest rate (decimal form)
-    i = Annual inflation rate (decimal form)
-    n = Number of times interest is compounded per year
-    t = Time in years
-    PMT = Monthly contribution
-
-After gathering all the inputs, the program will calculate the total future value by considering the compounded interest and inflation.
 """
                         self.help_func.text_helper(text)
 
@@ -1473,7 +1593,7 @@ After gathering all the inputs, the program will calculate the total future valu
                                 break
 
                         while True:  # n
-                            n = self.help_func.get_float_input("Enter the number of times interest is compounded per year: ")
+                            n = self.help_func.get_int_input("Enter the number of times interest is compounded per year: ")
                             if n <= 0:
                                 self.help_func.clear_screen()
                                 print("ERROR: The number of times interest is compounded per year must be greater than 0.")
@@ -1514,84 +1634,322 @@ After gathering all the inputs, the program will calculate the total future valu
                         print(f"  Time (t): {t} year{'s' if t > 1 else ''}")
                         print(f"  Monthly Contribution (PMT): ${PMT:.2f}")
                         print(f"\nThe total amount after {t} year{'s' if t > 1 else ''} is: ${result:.2f}")
+
+                        # Create graph
+                        years = [i for i in range(1, int(t) + 1)]
+                        future_values = []
+
+                        for year in years:
+                            A_principal = P * (1 + (r - i)/n)**(n * year)
+                            A_contributions = PMT * ((1 + (r - i)/n)**(n * year) - 1) / ((r - i)/n)
+                            future_values.append(A_principal + A_contributions)
+
+                        # Plot the graph
+                        plt.plot(years, future_values, label="Future Value (Inflation Adjusted)", color='green')
+                        plt.xlabel("Years")
+                        plt.ylabel("Future Value ($)")
+                        plt.title("Investment Growth Over Time (With Inflation Adjustment)")
+                        plt.grid(True)
+                        plt.legend()
+                        plt.show()
                         break
-                    
+
                     else:
                         self.help_func.clear_screen() 
-                        print("Invalid choice Advanced Compound Interest caculation. Please enter 1 or 2.")
+                        print("Invalid choice Advanced Compound Interest calculation. Please enter 1 or 2.")
                 break
 
-            elif choice == '9': # back
+            elif choice == '9': # Savings Goal Calculator
+                text ="""
+Saving Goal Calculation.
+Calculates the time (in years) needed to reach a savings goal (FV) with regular monthly contributions (PMT),
+an annual interest rate, and a compounding frequency.
+"""
+                self.help_func.text_helper(text)
+
+                while True:  # FV (Future Value)
+                    FV = self.help_func.get_float_input("Enter your future savings goal: ")
+                    if FV <= 0:
+                        self.help_func.clear_screen()
+                        print("ERROR: The future savings goal must be a positive number.")
+                    else:
+                        break
+
+                while True:  # PMT (Monthly Contribution)
+                    PMT = self.help_func.get_float_input("Enter the amount you will contribute each month: ")
+                    if PMT <= 0:
+                        self.help_func.clear_screen()
+                        print("ERROR: The monthly contribution amount must be a positive number.")
+                    else:
+                        break
+
+                while True:  # r (Interest Rate per Period)
+                    annual_rate = self.help_func.get_float_input("Enter the interest rate per period (as a percentage, e.g., enter 5 for 5%): ")
+                    if annual_rate <= 0:
+                        self.help_func.clear_screen()
+                        print("ERROR: The interest rate must be a positive number.")
+                    else:
+                        r = annual_rate / 100  # Convert percentage to a decimal
+                        break
+
+                while True:  # n (Compounding Frequency per Year)
+                    n = self.help_func.get_int_input("Enter the number of times interest is compounded per year: ")
+                    if n <= 0:
+                        self.help_func.clear_screen()
+                        print("ERROR: The compounding frequency must be a positive number.")
+                    elif n > 365:
+                        self.help_func.clear_screen()
+                        print("ERROR: The compounding frequency cannot be greater than 365.")
+                    else:
+                        break
+
+                # Get the time period for the graph
+                while True:
+                    t= self.help_func.get_float_input("Enter the maximum time period (in years) for the graph: ")
+                    if t <= 0:
+                        self.help_func.clear_screen()
+                        print("ERROR: The time period must be a positive number.")
+                    else:
+                        break
+                    
+                self.help_func.clear_screen()
+
+                # Calculate the time required to reach the future savings goal
+                part_one = (FV * r) / (PMT * (1 + r))
+                finish_one = math.log(part_one)
+                part_two = n * math.log(1 + r)
+                result = finish_one / part_two
+
+                # Print the results first
+                print("Calculation Result:")
+                print(f"  Future Savings Goal (FV): {FV}")
+                print(f"  Monthly Contribution (PMT): {PMT}")
+                print(f"  Interest Rate per Period (r): {annual_rate}%")
+                print(f"  Compounding Frequency (n): {n} times per year")
+                print(f"  Time required to reach the savings goal: {result:.2f} years")
+                break
+
+            elif choice == '10': # Effective Annual Rate (EAR)
+                text = """
+Effective Annual Rate (EAR) Calculation
+The Effective Annual Rate (EAR) accounts for compounding periods within the year, providing an accurate
+measure of annual return or cost. This helps in comparing financial products with different compounding intervals.
+"""
+                self.help_func.text_helper(text)
+
+                while True: # r
+                    annual_rate = self.help_func.get_float_input("Enter the Nominal Annual Interest Rate (as a percentage, e.g., 5 for 5%): ")
+                    if annual_rate == 0:
+                        self.help_func.clear_screen()
+                        print("ERROR: The Nominal Annual Interest Rate must be negative.")
+                    else:
+                        r = annual_rate / 100  # Convert percentage to decimal
+                        break
+
+                while True: # n
+                    n = self.help_func.get_int_input("Enter the Number of Compounding Periods per Year: ")
+                    if n <= 0:
+                        self.help_func.clear_screen()
+                        print("Error: The Number of Compounding Periods must be a positive integer greater than zero.")
+                    else:
+                        break
+                    
+                while True:  # Maximum years for graph
+                    max_years = self.help_func.get_int_input("Enter the number of years to display on the graph: ")
+                    if max_years <= 0:
+                        self.help_func.clear_screen()
+                        print("ERROR: The number of years must be a positive integer.")
+                    else:
+                        break
+
+                self.help_func.clear_screen()
+
+                # Calculate EAR over the user-specified number of years
+                years = list(range(1, max_years + 1))
+                EAR_values = []
+
+                for year in years:                        
+                    result = (1 + (r / n)) ** (n * year) - 1  # EAR formula considering compounding over each year
+                    EAR_values.append(result)
+
+                print("Inputs:")
+                print(f"- Nominal Annual Interest Rate (r): {annual_rate:.2f}%")
+                print(f"- Compounding Periods per Year (n): {n}")
+                print(f"- Displayed Years: {max_years}")
+                print("\nResult:")
+                print(f"- Effective Annual Rate (EAR) at year {max_years}: {result:.4%}")
+
+                # Plot the graph
+                plt.plot(years, EAR_values, label="Effective Annual Rate (EAR)", color='blue')
+                plt.xlabel("Years")
+                plt.ylabel("Annual Rate")
+                plt.title("Effective Annual Rate Over Time")
+                plt.grid(True)
+                plt.legend()
+                plt.show()
+                break
+
+            elif choice == '11': # back
                 break
 
             else: # wrong input
                 self.help_func.clear_screen()
-                print("Invalid choice for Financial Calculations. Please enter (1-11).")
+                print("Invalid choice for Financial Calculations. Please enter (1-10).")
             
             # NOTE: please add more of financial calculations
-            # NOTE: CONVERT ALL FORMULAS TO GRAPHS FOR GOD SAKE
+            # NOTE: graph at formula number 9 is not working
 
     def age_calculation(self): # No.6
-        text = """
+        choice_text ="""
 Welcome to the Age Calculator!
+    1. birthdate Calculation
+    2. Age Comparison
+    3. Go back
+Enter your choice (1-3): """
+
+        while True:
+            choice = input(choice_text).strip()
+            self.help_func.clear_screen()
+            if choice == '1': # birthdate Calculation
+        
+                text = """
+birthdate Calculation.
 
 To use this function:
 - Please enter your birthdate in the format YYYY-MM-DD (e.g., 2000-05-15).
 - Ensure the date is valid and follows the correct format to avoid errors.
 - Once entered, the program will calculate and display:
-  - Your age in years, months, and days.
-  - Days remaining until your next birthday.
-  - A special message if today is your birthday.
+- Your age in years, months, and days.
+- Days remaining until your next birthday.
+- A special message if today is your birthday.
 
 Note: Invalid formats will prompt you to re-enter the date.
 """
-        self.help_func.text_helper(text)
+                self.help_func.text_helper(text)
 
-        while True:
-            try:         
-                # Input birthdate from the user
-                birthdate_str = input("Enter your birthdate (YYYY-MM-DD): ")
-                year, month, day = map(int, birthdate_str.split('-'))
-                birthdate = date(year, month, day)
-                today = date.today()
-                self.help_func.clear_screen()
-                # Calculate age in years
-                age_years = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+                while True:
+                    try:         
+                        # Input birthdate from the user
+                        birthdate_str = input("Enter your birthdate (YYYY-MM-DD): ")
+                        year, month, day = map(int, birthdate_str.split('-'))
+                        birthdate = date(year, month, day)
+                        today = date.today()
+                        self.help_func.clear_screen()
 
-                # Calculate age in months
-                if today.month < birthdate.month or (today.month == birthdate.month and today.day < birthdate.day):
-                    age_months = (12 - birthdate.month) + today.month - 1
-                else:
-                    age_months = today.month - birthdate.month
+                        # Calculate age in years
+                        age_years = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
 
-                # Calculate age in days
-                if today.day < birthdate.day:
-                    month_ago = (today.month - 1) if today.month > 1 else 12
-                    days_in_month = (date(today.year, today.month, 1) - date(today.year, month_ago, 1)).days
-                    age_days = days_in_month - (birthdate.day - today.day)
-                else:
-                    age_days = today.day - birthdate.day
+                        # Calculate age in months
+                        if today.month < birthdate.month or (today.month == birthdate.month and today.day < birthdate.day):
+                            age_months = (12 - birthdate.month) + today.month - 1
+                        else:
+                            age_months = today.month - birthdate.month
 
-                # Output the age
-                print(f"You are {age_years} years, {age_months} months, and {age_days} days old.")
+                        # Calculate age in days
+                        if today.day < birthdate.day:
+                            month_ago = (today.month - 1) if today.month > 1 else 12
+                            days_in_month = (date(today.year, today.month, 1) - date(today.year, month_ago, 1)).days
+                            age_days = days_in_month - (birthdate.day - today.day)
+                        else:
+                            age_days = today.day - birthdate.day
 
-                if today.month == birthdate.month and today.day == birthdate.day:
-                    print("Congratulations! Happy Birthday!")
+                        # Output the age
+                        print(f"You are {age_years} years, {age_months} months, and {age_days} days old.")
 
-                # Calculate the next birthday
-                next_birthday_year = today.year if (today.month, today.day) < (birthdate.month, birthdate.day) else today.year + 1
-                next_birthday = date(next_birthday_year, birthdate.month, birthdate.day)
-                days_until_birthday = (next_birthday - today).days
+                        if today.month == birthdate.month and today.day == birthdate.day:
+                            print("Congratulations! Happy Birthday!")
 
-                print(f"Your next birthday is in {days_until_birthday} days on {next_birthday}.")
+                        # Calculate the next birthday
+                        next_birthday_year = today.year if (today.month, today.day) < (birthdate.month, birthdate.day) else today.year + 1
+                        next_birthday = date(next_birthday_year, birthdate.month, birthdate.day)
+                        days_until_birthday = (next_birthday - today).days
+
+                        print(f"Your next birthday is in {days_until_birthday} days on {next_birthday}.")
+                        break
+
+                    except ValueError:
+                        print("Invalid date format. Please enter your birthdate in YYYY-MM-DD format.")
+                    except Exception as e:
+                        print(f"An error occurred: {e}. Please try again.")
                 break
 
-            except ValueError:
+            elif choice == '2': # Age Comparison
+                text ="""
+Age Comparison calculation.
+
+Please enter two birthdates in the format YYYY-MM-DD.
+- The first birthdate is the one you want to compare.
+- The second birthdate is the one you want to compare it with.
+
+For example, if you enter:
+    - First birthdate: 2000-05-20
+    - Second birthdate: 1998-12-15
+
+The program will tell you who is older and by how many years, months, and days.
+"""
+                self.help_func.text_helper(text)
+                
+                while True:
+                    try:
+                        # Input and validate the first birthdate
+                        while True: 
+                            birthdate_str1 = input("Enter the first birthdate (YYYY-MM-DD): ")
+                            try: 
+                                year1, month1, day1 = map(int, birthdate_str1.split('-'))
+                                birthdate1 = date(year1, month1, day1)
+                                self.help_func.clear_screen()
+                                break  # Exit the loop if the date is valid
+                            except ValueError:
+                                self.help_func.clear_screen()
+                                print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
+
+                        # Input and validate the second birthdate
+                        while True: 
+                            birthdate_str2 = input("Enter the second birthdate (YYYY-MM-DD): ")
+                            try:
+                                year2, month2, day2 = map(int, birthdate_str2.split('-'))
+                                birthdate2 = date(year2, month2, day2)
+                                self.help_func.clear_screen()
+                                break  # Exit the loop if the date is valid
+                            except ValueError:
+                                self.help_func.clear_screen()
+                                print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
+
+                    except Exception as e:
+                        print(f"An error occurred: {e}. Please try again.")
+                        continue
+
+                    # Determine which date is older
+                    if birthdate1 > birthdate2:
+                        birthdate1, birthdate2 = birthdate2, birthdate1
+                        older = "younger"
+                    else:
+                        older = "older"
+
+                    # Calculate the difference in years, months, and days
+                    delta_years = birthdate2.year - birthdate1.year
+                    delta_months = birthdate2.month - birthdate1.month
+                    delta_days = birthdate2.day - birthdate1.day
+
+                    if delta_days < 0:
+                        delta_days += (date(birthdate2.year, birthdate2.month, 1) - date(birthdate2.year, birthdate2.month - 1, 1)).days
+                        delta_months -= 1
+
+                    if delta_months < 0:
+                        delta_months += 12
+                        delta_years -= 1
+
+                    # Display the result with the comparison
+                    print(f"The first birthdate is {older} than the second birthdate by {delta_years} years, {delta_months} months, and {delta_days} days.")
+                    break
+                break
+
+            elif choice == '3': # go back
+                break
+
+            else: # wrong input
                 self.help_func.clear_screen()
-                print("Invalid date format. Please enter your birthdate in YYYY-MM-DD format.")
-            except Exception as e:
-                self.help_func.clear_screen()
-                print(f"An error occurred: {e}. Please try again.")
+                print("Invalid choice. Please enter (1-3)")
 
     def pythagorean_formula(self): # No.7
         text = """
@@ -1624,12 +1982,11 @@ Enter your choice (1, 2 or 3): """
                 print(f"The length of the missing leg with the known leg of {leg} and the hypotenuse of {c} is {result}")
                 break
             elif choice == '3':
-                self.help_func.clear_screen()
                 break
                 
             else:
                 self.help_func.clear_screen()
-                print("Invalid choice. Please enter 1, 2 or 3")
+                print("Invalid choice. Please enter (1-3)")
 
     def distance_formula(self): # No.8
         text ="""
@@ -1754,7 +2111,7 @@ Enter your choice (1-3): """
                 self.help_func.clear_screen()
                 print("Invalid choice for Law of Cosines for Triangle Calculation. Please enter (1-3).")
 
-    def riemann_zeta_function(self):  # No.11
+    def riemann_zeta_function(self): # No.11
         text = """
         Riemann Zeta Function.
         To calculate the Riemann Zeta Function, you will need to input s (must be > 1) and n (number of terms).
@@ -1788,7 +2145,7 @@ Enter your choice (1-3): """
 
         print(f"The Riemann Zeta for s = {s} with {n} terms is approximately {zeta_sum:.5f}.")
 
-    def newtons_law_of_universal_gravitation(self):  # No.12
+    def newtons_law_of_universal_gravitation(self): # No.12
         G = 6.67430e-11  # Gravitational constant in m^3 kg^-1 s^-2 
 
         text = """
@@ -1870,5 +2227,5 @@ Enter your choice (1-3): """
             else:
                 self.help_func.clear_screen()
                 print("Invalid choice for  Newton's Law of Universal Gravitation. Please enter (1-3).")
-                
+    
     # add more functions here
