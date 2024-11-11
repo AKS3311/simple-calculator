@@ -12,4 +12,4 @@ Files:
   
 -Main.py: Runs the program.
 
-NOTE:- Install sympy for the calculator to work
+NOTE:- Install sympy, numpy_financial and matplotlib  for the calculator to work
