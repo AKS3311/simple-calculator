@@ -142,7 +142,6 @@ class CalculatorFunctions:
 
         text = """
 Shape Calculations.
-You can calculate the area and perimeter/circumference of a shape by selecting an option.
     1. Square Calculation
     2. Rectangle Calculation
     3. Kite Calculation
@@ -152,13 +151,18 @@ You can calculate the area and perimeter/circumference of a shape by selecting a
     7. Pentagon Calculation
     8. Hexagon Calculation
     9. Polygon Calculation
-    10. Lune Calculation
-    11. Go Back
-Enter your choice (1-11): """
+   10. Lune Calculation
+   11. Ellipsoid Calculation
+   12. Go Back
+Enter your choice (1-12): """
 
         while True:
             choice = input(text).strip()
             self.help_func.clear_screen()
+            if choice not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']:
+                print("Invalid choice for shape calculations. Please enter (1-12)")
+                continue
+
             if choice == '1':  # Square
                 while True:
                     squar_text = """
@@ -200,45 +204,35 @@ Enter your choice (1, 2 or 3):  """
 
             elif choice == '2':  # Rectangle
                 while True:
-                    rectangle_text = """
+                    text = """
 Rectangle Calculation.
 You can enter any rectangle calculation:
     1. Rectangle Area (units²)
     2. Rectangle Perimeter (units)
     3. Calculate Both Area and Perimeter
-Enter your choice (1, 2 or 3): """
-                    rectangle_choice = input(rectangle_text).strip()
+Enter your choice (1-3): """
+                    choice = input(text).strip()
                     self.help_func.clear_screen()
-                    if rectangle_choice == '1':
-                        self.help_func.clear_screen()
+                    if choice in ["1", "2", "3"]:
                         length = self.help_func.get_float_input("Enter the length of the rectangle: ")
                         width = self.help_func.get_float_input("Enter the width of the rectangle: ")
-                        area = length * width
                         self.help_func.clear_screen()
-                        print(f"The area of the rectangle with length {length} and width {width} is {area} units²")
-                        break
-                    elif rectangle_choice == '2':
-                        self.help_func.clear_screen()
-                        length = self.help_func.get_float_input("Enter the length of the rectangle: ")
-                        width = self.help_func.get_float_input("Enter the width of the rectangle: ")
-                        perimeter = 2 * (length + width)
-                        self.help_func.clear_screen()
-                        print(f"The perimeter of the rectangle with length {length} and width {width} is {perimeter} units")
-                        break
-                    elif rectangle_choice == '3':
-                        self.help_func.clear_screen()
-                        length = self.help_func.get_float_input("Enter the length of the rectangle: ")
-                        width = self.help_func.get_float_input("Enter the width of the rectangle: ")
+
                         area = length * width
                         perimeter = 2 * (length + width)
-                        self.help_func.clear_screen()
-                        print(f"The area of the rectangle with length {length} and width {width} is {area} units²")
-                        print(f"The perimeter of the rectangle with length {length} and width {width} is {perimeter} units")
-                        break
+
+                        if choice == "1":
+                            print(f"The area of the rectangle with length {length} and width {width} is {area} units²")
+                            break
+                        elif choice == "2":
+                            print(f"The perimeter of the rectangle with length {length} and width {width} is {perimeter} units")
+                            break
+                        elif choice == "3":
+                            print(f"The area of the rectangle with length {length} and width {width} is {area} units²")
+                            print(f"The perimeter of the rectangle with length {length} and width {width} is {perimeter} units")
+                            break
                     else:
-                        self.help_func.clear_screen()
-                        print("Invalid choice for rectangle calculation. Please enter 1, 2 or 3.")
-                break  # Break after the rectangle calculation
+                        print("Invalid choice for rectangle calculation. Please enter (1-3)")      
 
             elif choice == '3': # Kite
                 while True:
@@ -251,36 +245,28 @@ You can enter any kite calculation:
 Enter your choice (1, 2 or 3): """
                     kite_choice = input(kite_text).strip()
                     self.help_func.clear_screen()
-                    if kite_choice == '1':
+                    if kite_choice not in ['1', '2', '3']:
+                        print("Invalid choice for kite calculation. Please enter (1-3)")
+                        continue
+
+                    if kite_choice in ['1', '3']:
                         d1 = self.help_func.get_float_input("Enter the length of the first diagonal (d1): ")
                         d2 = self.help_func.get_float_input("Enter the length of the second diagonal (d2): ")
-                        self.help_func.clear_screen()
-                        area = 0.5 * d1 * d2
-                        print(f"The area of the kite with diagonals {d1} and {d2} is {area:.2f} units².")
-                        break
-                    elif kite_choice == '2':
+
+                    if kite_choice in ['2', '3']:
                         a = self.help_func.get_float_input("Enter the length of one pair of equal sides (a): ")
                         b = self.help_func.get_float_input("Enter the length of the other pair of equal sides (b): ")
-                        self.help_func.clear_screen()
-                        perimeter = 2 * (a + b)
-                        print(f"The perimeter of the kite with sides {a} and {b} is {perimeter:.2f} units.")
-                        break
-                    elif kite_choice == '3':
-                        d1 = self.help_func.get_float_input("Enter the length of the first diagonal (d1): ")
-                        d2 = self.help_func.get_float_input("Enter the length of the second diagonal (d2): ")
-                        self.help_func.clear_screen()
-                        a = self.help_func.get_float_input("Enter the length of one pair of equal sides (a): ")
-                        b = self.help_func.get_float_input("Enter the length of the other pair of equal sides (b): ")
-                        self.help_func.clear_screen()
-                        area = 0.5 * d1 * d2
-                        perimeter = 2 * (a + b)
+
+                    self.help_func.clear_screen()
+                    area = 0.5 * d1 * d2
+                    perimeter = 2 * (a + b)
+
+                    if kite_choice in ['1', '3']:
                         print(f"The area of the kite with diagonals {d1} and {d2} is {area:.2f} units².")
+                    
+                    if kite_choice in ['2', '3']:
                         print(f"The perimeter of the kite with sides {a} and {b} is {perimeter:.2f} units.")
-                        break
-                    else:
-                        self.help_func.clear_screen()
-                        print("Invalid choice for kite calculation. Please enter 1, 2 or 3.")
-                break # Break after the kite calculation
+                    break
 
             elif choice == '4':  # Circle
                 while True:
@@ -294,30 +280,22 @@ Enter your choice (1, 2 or 3): """
 
                     circle_choice = input(circle_text).strip()
                     self.help_func.clear_screen()
-                    if circle_choice == '1':
-                        radius = self.help_func.get_float_input("Enter the radius of the circle: ")
-                        circumference = 2 * math.pi * radius
-                        self.help_func.clear_screen()
-                        print(f"The circumference of the circle with the radius of {radius} is {circumference} units")
-                        break
-                    elif circle_choice == '2':
-                        radius = self.help_func.get_float_input("Enter the radius of the circle: ")
-                        area = math.pi * radius ** 2
-                        self.help_func.clear_screen()
-                        print(f"The area of the circle with the radius of {radius} is {area} units²")
-                        break
-                    elif circle_choice == '3':
-                        radius = self.help_func.get_float_input("Enter the radius of the circle: ")
-                        circumference = 2 * math.pi * radius
-                        area = math.pi * radius ** 2
-                        self.help_func.clear_screen()
-                        print(f"The circumference of the circle with the radius of {radius} is {circumference} units")
-                        print(f"The area of the circle with the radius of {radius} is {area} units²")
-                        break
-                    else:
-                        self.help_func.clear_screen()
-                        print("Invalid choice for circle calculation. Please enter 1, 2 or 3.")
-                break  # Break after the circle calculation
+                    if circle_choice not in ['1', '2', '3']:
+                        print("Invalid choice for circle calculation. Please enter (1-3)")
+                        continue
+                    
+                    radius = self.help_func.get_float_input("Enter the radius of the circle: ")
+                    self.help_func.clear_screen()
+
+                    circumference = 2 * math.pi * radius
+                    area = math.pi * (radius ** 2)
+
+                    if circle_choice in ['1', '3']:
+                        print(f"The circumference of the circle with the radius of {radius} is {circumference:.2f} units")
+
+                    if circle_choice in ['2', '3']:
+                        print(f"The area of the circle with the radius of {radius} is {area:.2f} units²")
+                    break
 
             elif choice == '5':  # Cylinder
                 while True:
@@ -327,197 +305,149 @@ You can enter any cylinder calculation:
     1. Circumference of The Cylinder Base (units)
     2. Total Perimeter (Unfolded) (units)
     3. Cylinder Surface Area (units²)
-    4. Cylinder volume (units³)
-    5. Option 1, 2, 3 and 4
+    4. Cylinder Volume (units³)
+    5. All Calculations
 Enter your choice (1-5): """
                     cylinder_choice = input(cylinder_text).strip()
                     self.help_func.clear_screen()
-                    if cylinder_choice == '1':  # Circumference of the cylinder base
-                        r = self.help_func.get_float_input("Enter the radius of the cylinder: ")
-                        c = 2 * math.pi * r
-                        self.help_func.clear_screen()
-                        print(f"The circumference of the circular base of the cylinder with the radius of {r} is {c} units")
-                        break
-                    elif cylinder_choice == '2':  # Total perimeter
-                        r = self.help_func.get_float_input("Enter the radius of the cylinder: ")
-                        h = self.help_func.get_float_input("Enter the height of the cylinder: ")
-                        p = (2 * math.pi * r) + (2 * h)
-                        self.help_func.clear_screen()
-                        print(f"The total perimeter for the cylinder with the radius of {r} and height of {h} when unfolded into a rectangle is {p} units.")
-                        break
-                    elif cylinder_choice == '3':  # Surface area
-                        r = self.help_func.get_float_input("Enter the radius of the cylinder: ")
-                        h = self.help_func.get_float_input("Enter the height of the cylinder: ")
-                        a = 2 * math.pi * r * (r + h)
-                        self.help_func.clear_screen()
-                        print(f"The total area covering the outside of the cylinder with the radius of {r} and height of {h} is {a} units².")
-                        break
-                    elif cylinder_choice == '4':  # Volume calculation
-                        r = self.help_func.get_float_input("Enter the radius of the cylinder: ")
-                        h = self.help_func.get_float_input("Enter the height of the cylinder: ")
-                        volume = math.pi * r ** 2 * h
-                        self.help_func.clear_screen()
-                        print(f"The volume of the cylinder with the radius of {r} and height of {h} is {volume} units³.")
-                        break
-                    elif cylinder_choice == '5':  # all in one
-                        r = self.help_func.get_float_input("Enter the radius of the cylinder: ")
-                        h = self.help_func.get_float_input("Enter the height of the cylinder: ")
-                        self.help_func.clear_screen()
 
-                        # Calculate all properties
-                        c = 2 * math.pi * r # Circumference of the cylinder base
-                        p = (2 * math.pi * r) + (2 * h)  # Total perimeter
-                        a = 2 * math.pi * r * (r + h)  # Surface area
-                        volume = math.pi * r ** 2 * h  # Volume
+                    if cylinder_choice in ['1', '2', '3', '4', '5']:
+                        # Get the common inputs for radius and height
+                        r = self.help_func.get_float_input('Enter the radius of the cylinder: ')
+                        h = self.help_func.get_float_input('Enter the height of the cylinder: ') if cylinder_choice in ['2', '3', '4', '5'] else None
 
-                        # Display results
-                        print(f"The circumference of the circular base of the cylinder with the radius of {r} is {c} units.")
-                        print(f"The total perimeter for the cylinder with the radius of {r} and height of {h} when unfolded into a rectangle is {p} units.")
-                        print(f"The total area covering the outside of the cylinder with the radius of {r} and height of {h} is {a} units².")
-                        print(f"The volume of the cylinder with the radius of {r} and height of {h} is {volume} units³.")
-                        break
+                        # Calculation functions
+                        calculations = {
+                            '1': lambda: f"Circumference: {2 * math.pi * r:.2f} units",
+                            '2': lambda: f"Perimeter: {(2 * math.pi * r) + (2 * h):.2f} units",
+                            '3': lambda: f"Surface Area: {2 * math.pi * r * (r + h):.2f} units²",
+                            '4': lambda: f"Volume: {math.pi * r ** 2 * h:.2f} units³",
+                            '5': lambda: (
+                                f"Circumference: {2 * math.pi * r:.2f} units\n"
+                                f"Perimeter: {(2 * math.pi * r) + (2 * h):.2f} units\n"
+                                f"Surface Area: {2 * math.pi * r * (r + h):.2f} units²\n"
+                                f"Volume: {math.pi * r ** 2 * h:.2f} units³"
+                            )
+                        }
+
+                        # Handle choice
+                        if cylinder_choice in calculations:
+                            self.help_func.clear_screen()
+                            print(calculations[cylinder_choice]())
+                            break
                     else:
                         self.help_func.clear_screen()
                         print("Invalid choice for cylinder calculation. Please enter (1-5).")
-                break  # Break after the cylinder calculation
 
             elif choice == '6':  # Triangle
                 while True:
-                    which_triangle = """
+                    triangle_text = """
 which shape of triangle you want to calculate:
     1. Normal Triangle
     2. Equilateral Triangle
 Enter your choice (1 or 2): """
-                    which_triangle_choice = input(which_triangle).strip()
-                    if which_triangle_choice == '1':
-                        self.help_func.clear_screen()
-                        while True:
-                            triangle_text = """
+                    triangle_choice = input(triangle_text).strip()
+                    self.help_func.clear_screen()
+                    if triangle_choice not in ['1', '2']:
+                        print("Invalid choice for triangle calculation. Please enter (1-2)")   
+                        continue
+                    
+                    if triangle_choice == '1': # Normal Triangle
+                        triangle_text = """
 Normal Triangle Calculation.
 You can enter any triangle calculation:
     1. Triangle Area (units²)
     2. Triangle Perimeter (units)
     3. Calculate Both Area and Perimeter
 Enter your choice (1, 2 or 3): """
+                        
+                        while True:
                             triangle_choice = input(triangle_text).strip()
                             self.help_func.clear_screen()
-                            if triangle_choice == '1':
+                            if triangle_choice not in ['1', '2', '3']:
+                                print("Invalid choice for triangle calculation. Please enter (1-3)")
+                                continue
+
+                            area = 0.5 * base * height
+                            perimeter = side1 + side2 + side3
+                        
+                            if triangle_choice in ['1', '3']:
                                 base = self.help_func.get_float_input("Enter the base of the triangle: ")
                                 height = self.help_func.get_float_input("Enter the height of the triangle: ")
-                                area = 0.5 * base * height
-                                self.help_func.clear_screen()
+
+                            if triangle_choice in ['2', '3']:
+                                side1 = self.help_func.get_float_input("Enter the length of the first side of the triangle: ")
+                                side2 = self.help_func.get_float_input("Enter the length of the second side of the triangle: ")
+                                side3 = self.help_func.get_float_input("Enter the length of the third side of the triangle: ")
+
+                            self.help_func.clear_screen()
+
+                            if triangle_choice in ['1','3']:
                                 print(f"The area of the triangle with base {base} and height {height} is {area:.2f} units².")
-                                break
-                            elif triangle_choice == '2':
-                                side1 = self.help_func.get_float_input("Enter the length of the first side of the triangle: ")
-                                side2 = self.help_func.get_float_input("Enter the length of the second side of the triangle: ")
-                                side3 = self.help_func.get_float_input("Enter the length of the third side of the triangle: ")
-                                perimeter = side1 + side2 + side3
-                                self.help_func.clear_screen()
+                                
+                            if triangle_choice in ['2', '3']:
                                 print(f"The perimeter of the triangle with sides {side1}, {side2}, and {side3} is {perimeter:.2f} units.")
-                                break
-                            elif triangle_choice == '3':
-                                base = self.help_func.get_float_input("Enter the base of the triangle: ")
-                                height = self.help_func.get_float_input("Enter the height of the triangle: ")
-                                side1 = self.help_func.get_float_input("Enter the length of the first side of the triangle: ")
-                                side2 = self.help_func.get_float_input("Enter the length of the second side of the triangle: ")
-                                side3 = self.help_func.get_float_input("Enter the length of the third side of the triangle: ")
-                                area = 0.5 * base * height
-                                perimeter = side1 + side2 + side3
-                                self.help_func.clear_screen()
-                                print(f"The area of the triangle with base {base} and height {height} is {area:.2f} units.²")
-                                print(f"The perimeter of the triangle with sides {side1}, {side2}, and {side3} is {perimeter:.2f} units.")
-                                break
-                            else:
-                                self.help_func.clear_screen()
-                                print("Invalid choice for triangle calculation. Please enter 1, 2 or 3.")
+                            break
                         break
-                    elif which_triangle_choice == '2':
-                        self.help_func.clear_screen()
-                        while True:
-                            Eq_triangle_text = """
+                    
+                    elif triangle_choice == '2': # Equilateral Triangle
+                        Eq_triangle_text = """
 Equilateral Triangle Calculation.
 You can enter any equilateral triangle calculation:
     1. Equilateral Triangle Area (units²)
     2. Equilateral Triangle Perimeter (units)
     3. Calculate Both Area and Perimeter
-Enter your choice (1, 2 or 3):  """
+Enter your choice (1-3):  """
 
+                        while True:
                             Eq_triangle_choice = input(Eq_triangle_text).strip()
                             self.help_func.clear_screen()
-                            if Eq_triangle_choice == '1':
-                                s = self.help_func.get_float_input("Enter any side: ")
-                                self.help_func.clear_screen()
-                                a = (cmath.sqrt(3) / 4) * (s ** 2)
-                                area = self.help_func.handle_large_numbers(a)
+                            if Eq_triangle_choice not in ['1', '2', '3']:
+                                print("Invalid choice for equilateral triangle calculation. Please enter (1-3)")
+                                continue
+
+                            s = self.help_func.get_float_input("Enter any side: ")
+                            self.help_func.clear_screen()
+
+                            area = (math.sqrt(3) / 4) * (s ** 2)
+                            perimeter = 3 * s
+
+                            if Eq_triangle_choice in ['1', '3']:
                                 print(f"The area for the equilateral triangle with the sides of {s} is {area:.2f} units².")
-                                break
-                            elif Eq_triangle_choice == '2':
-                                s = self.help_func.get_float_input("Enter any side: ")
-                                self.help_func.clear_screen()
-                                perimeter = 3 * s
+                        
+                            if Eq_triangle_choice in ['2', '3']:
                                 print(f"The perimeter for the equilateral triangle with the sides of {s} is {perimeter:.2f} units.")
-                                break
-                            elif Eq_triangle_choice == '3':
-                                s = self.help_func.get_float_input("Enter any side: ")
-                                self.help_func.clear_screen()
-                                a = (cmath.sqrt(3) / 4) * (s ** 2)
-                                perimeter = 3 * s
-                                area = self.help_func.handle_large_numbers(a)
-                                print(f"The area for the equilateral triangle with the sides of {s} is {area:.2f} units².")
-                                print(f"The perimeter for the equilateral triangle with the sides of {s} is {perimeter:.2f} units.")
-                                break
-                            else:
-                                self.help_func.clear_screen()
-                                print("Invalid choice for equilateral triangle calculation. Please enter 1, 2, or 3.")
-                        break
-                    else:
-                        self.help_func.clear_screen()
-                        print("Invalid choice for which riangle calculation. Please enter 1 or 2.")             
-                break  # Break after the triangle calculation
+                            break
+                        break     
 
             elif choice == '7': # Pentagon
                 while True:
-                    pentagon_text = """
+                    pentagon_text ="""
 Pentagon Calculation.
 You can enter any pentagon calculation:
     1. Pentagon Area (units²)
     2. Pentagon Perimeter (units)
     3. Calculate Both Area and Perimeter
-Enter your choice (1, 2 or 3): """
-
+Enter your choice (1-3): """   
                     pentagon_choice = input(pentagon_text).strip()
                     self.help_func.clear_screen()
-                    if pentagon_choice == '1':
-                        s = self.help_func.get_float_input("Enter the length of a side: ")
-                        self.help_func.clear_screen()
+                    if choice not in ['1', '2', '3']:
+                        print("Invalid choice for pentagon calculation. Please enter (1-3)")
+                        continue
 
-                        discriminant =  5 * (5 + 2 * math.sqrt(5))
-                        area = (1/4) * math.sqrt(discriminant) * s**2
+                    s = self.help_func.get_float_input("Enter the length of a side: ")
+                    self.help_func.clear_screen()
 
+                    discriminant =  5 * (5 + 2 * math.sqrt(5))
+                    area = (1/4) * math.sqrt(discriminant) * s**2
+                    perimeter = 5 * s
+
+                    if pentagon_choice in ['1', '3']:
                         print(f"The area for the pentagon with the length of a side of {s} is {area:.2f} units².")
-                        break
-                    elif pentagon_choice == '2':
-                        s = self.help_func.get_float_input("Enter the length of a side: ")
-                        self.help_func.clear_screen()
-                        perimeter = 5 * s
-                        print(f"The perimeter for the pentagon with the length of a side of {s} is {perimeter:.2f} units.")
-                        break     
-                    elif pentagon_choice == '3':
-                        s = self.help_func.get_float_input("Enter the length of a side: ")
-                        self.help_func.clear_screen()  
 
-                        discriminant =  5 * (5 + 2 * math.sqrt(5))
-                        area = (1/4) * math.sqrt(discriminant) * s**2   
-                        perimeter = 5 * s
-
-                        print(f"The area for the pentagon with the length of a side of {s} is {area:.2f} units².")
+                    if pentagon_choice in ['2', '3']:
                         print(f"The perimeter for the pentagon with the length of a side of {s} is {perimeter:.2f} units.")
-                        break  
-                    else:
-                        self.help_func.clear_screen()
-                        print("Invalid choice for pentagon calculation. Please enter 1, 2 or 3.")
-                break # Break after the pentagon calculation
+                    break  
 
             elif choice == '8': # Hexagon
                 while True:
@@ -531,38 +461,23 @@ Enter your choice (1, 2 or 3): """
 
                     hexagon_choice = input(hexagon_text).strip
                     self.help_func.clear_screen()
-                    if hexagon_choice == '1':
-                        s = self.help_func.get_float_input("Enter the length of a side: ")
-                        self.help_func.clear_screen()
+                    if hexagon_choice not in ['1', '2', '3']:
+                        print("Invalid choice for hexagon calculation. Please enter (1-3)")
+                        continue
 
-                        discriminant = 2 / (3 * cmath.sqrt(3))
-                        area = discriminant * s ** 2
+                    s = self.help_func.get_float_input("Enter the length of a side: ")
+                    self.help_func.clear_screen()
 
+                    discriminant = 2 / (3 * cmath.sqrt(3))
+                    area = discriminant * s ** 2
+                    perimeter = 6 * s
+                    
+                    if hexagon_choice in ['1', '3']:
                         print(f"The area for the hexagon with the length of a side of {s} is {area:.2f} units².")
-                        break
-                    elif hexagon_choice == '2':
-                        s = self.help_func.get_float_input("Enter the length of a side: ")
-                        self.help_func.clear_screen()
 
-                        perimeter = 6 * s
-
+                    elif hexagon_choice in ['2', '3']:
                         print(f"The perimeter the for the hexagon with the length of a side of {s} is {perimeter:.2f} units.")
-                        break   
-                    elif hexagon_choice == '3':
-                        s = self.help_func.get_float_input("Enter the length of a side: ")
-                        self.help_func.clear_screen()      
-
-                        discriminant = 2 / (3 * cmath.sqrt(3))
-                        area = discriminant * s ** 2
-                        perimeter = 6 * s
-
-                        print(f"The area for the hexagon with the length of a side of {s} is {area:.2f} units².")
-                        print(f"The perimeter for the hexagon with the length of a side of {s} is {perimeter:.2f} units.")
-                        break   
-                    else:
-                        self.help_func.clear_screen()
-                        print("Invalid choice for hexagon calculation. Please enter 1, 2 or 3.")
-                break # Break after the hexagon calculation
+                    break
 
             elif choice == '9':  # Polygon
                 while True:
@@ -572,82 +487,225 @@ You can enter any Polygon calculation:
     1. Polygon Area (units²)
     2. Polygon Perimeter (units)
     3. Calculate Both Area and Perimeter
-Enter your choice (1, 2 or 3): """
+Enter your choice (1-3): """
 
                     polygon_choice = input(polygon_text).strip()
                     self.help_func.clear_screen()
-                    if polygon_choice == '1':
-                        n = self.help_func.get_float_input("Enter the number of sides: ")
-                        s = self.help_func.get_float_input("Enter the length of a side: ")
-                        self.help_func.clear_screen()
-
-                        area = (1/4) * n * (s ** 2) * (1 / math.tan(math.pi / n))
-
-                        print(f"The area for the polygon with {n} sides and the length of a side of {s} is {area:.2f} units².")
-                        break
-                    elif polygon_choice == '2':
-                        n = self.help_func.get_float_input("Enter the number of sides: ")
-                        s = self.help_func.get_float_input("Enter the length of a side: ")
-                        self.help_func.clear_screen()  
-
-                        perimeter = n * s
-
-                        print(f"The perimeter for the polygon with {n} sides and the length of a side of {s} is {perimeter:.2f} units.")
-                        break 
-                    elif polygon_choice == '3':
-                        n = self.help_func.get_float_input("Enter the number of sides: ")
-                        s = self.help_func.get_float_input("Enter the length of a side: ")
-                        self.help_func.clear_screen()
-
-                        area = (1/4) * n * (s ** 2) * (1 / math.tan(math.pi / n))
-                        perimeter = n * s
-
-                        print(f"For the polygon with {n} sides, each of length {s}:")
-                        print(f" - Area: {area:.2f} units²")
-                        print(f" - Perimeter: {perimeter:.2f} units")
-                        break
-                    else:      
-                        self.help_func.clear_screen()
+                    if polygon_choice not in ['1', '2', '3']:
                         print("Invalid choice for polygon calculation. Please enter 1, 2 or 3.")                                
-                break # Break after the Polygon calculation
+                        continue
 
+                    n = self.help_func.get_float_input("Enter the number of sides: ")
+                    s = self.help_func.get_float_input("Enter the length of a side: ")
+                    self.help_func.clear_screen()
+
+                    area = (1/4) * n * (s ** 2) * (1 / math.tan(math.pi / n))
+                    perimeter = n * s
+
+                    print(f"For the polygon with {n} sides, each of length {s}:")
+
+                    if polygon_choice in ['1', '3']:
+                        print(f" - Area: {area:.2f} units²")                        
+
+                    elif polygon_choice in ['1', '3']:
+                        print(f" - Perimeter: {perimeter:.2f} units")
+                    break
+                            
             elif choice == '10': # Lune
-                lune_text ="""
-Lune Area Calculation.
+                choice_text ="""
+Choose the lune calculation method:
+1. Angle-based: Calculates based on the angles of the sectors.
+2. Distance-based: Calculates based on the distance between circle centers and their radii.
+Enter your choice (1-2): """
+                while True:
+                    choice = input(choice_text).strip()
+                    self.help_func.clear_screen()
+                    if choice not in ['1', '2']: # wrong input
+                        print("Invalid choice for shape calculations. Please enter (1-2)")
+                        continue
 
+                    if choice == '1': # Angle-based
+                        lune_text ="""
+An angle-based lune area calculation.
 To calculate the area of a lune (the crescent-shaped region formed by two intersecting circles), 
 please provide the radius of the larger circle, the radius of the smaller circle, 
 and the central angles of the circular segments for each circle.
 """
-                self.help_func.text_helper(lune_text)
-                    
-                R = self.help_func.get_float_input("Enter the radius of the larger circle: ")
-                angle1 = self.help_func.get_float_input("Enter the central angle of the circular segment in the larger circle (in radians): ")
-                self.help_func.clear_screen()
-                r = self.help_func.get_float_input("Enter the radius of the smaller circle: ")
-                angle2 = self.help_func.get_float_input("Enter the central angle of the circular segment in the smaller circle (in radians): ")
-                self.help_func.clear_screen()
+                        self.help_func.text_helper(lune_text)
+                            
+                        R = self.help_func.get_float_input("Enter the radius of the larger circle: ")
+                        angle1 = self.help_func.get_float_input("Enter the central angle of the circular segment in the larger circle (in radians): ")
+                        self.help_func.clear_screen()
+                        r = self.help_func.get_float_input("Enter the radius of the smaller circle: ")
+                        angle2 = self.help_func.get_float_input("Enter the central angle of the circular segment in the smaller circle (in radians): ")
+                        self.help_func.clear_screen()
 
-                area = (R ** 2) * (angle1 - math.sin(angle1)) - (r ** 2) * (angle2 - math.sin(angle2))
+                        area = (R ** 2) * (angle1 - math.sin(angle1)) - (r ** 2) * (angle2 - math.sin(angle2))
 
-                print(f"The area of the lune with a larger circle radius of {R}, a smaller circle radius of {r}")
-                print(f"and central angles {angle1} and {angle2} (in radians) is approximately {area:.2f} units².")
-                break # Break after the lune calculation
-            
-            elif choice == '11': # back
+                        print(f"The area of the lune with a larger circle radius of {R}, a smaller circle radius of {r}")
+                        print(f"and central angles {angle1} and {angle2} (in radians) is approximately {area:.2f} units².")
+                        break # Break after the lune calculation
+                
+                    elif choice == '2':  # Distance-based calculation
+                        lune_text = """
+A distance-based lune calculation.
+Finds the area between two intersecting circular sectors.
+The area depends on the radii of the circles and the distance between their centers.
+"""
+                        self.help_func.text_helper(lune_text)
+
+                        while True:
+                            R = self.help_func.get_float_input("Enter the radius of the first circle: ")
+                            r = self.help_func.get_float_input("Enter the radius of the second circle: ")
+                            d = self.help_func.get_float_input("Enter the distance between the centers of the circles: ")
+                            self.help_func.clear_screen()
+                            
+                            if not (abs(R - r) <= d <= R + r):
+                                print("Error: Invalid distance. Ensure |R - r| <= d <= R + r for intersecting circles.\n")
+                                continue
+
+                            if not (-1 <= d / (2 * R) <= 1) or not (-1 <= d / (2 * r) <= 1):
+                                print("Error: Invalid argument for acos. Ensure d / (2 * R) and d / (2 * r) are in range [-1, 1].\n")
+                                continue
+
+                            expr = (-d + R + r) * (d + r - R) * (d - R + r) * (d + R + r)
+                            if expr < 0:
+                                print("Error: Negative value inside the square root. Check your inputs.\n")
+                                continue
+                            break
+
+                        ang1 = (R ** 2) * (math.acos(d / (2 * R)))
+                        ang2 = (r ** 2) * (math.acos(d / (2 * r)))
+                        result = ang1 + ang2 - (1 / 2) * math.sqrt(expr)
+
+                        print(f"Distance (d): {d}")
+                        print(f"Radii of circles: {R}, {r}")
+                        print(f"The result of the lune calculation is: {result:.2f} units²")
+                        break
+              
+            elif choice == '11': # Ellipsoid
+                PI = math.pi
+                p = 1.6075
+                ellipsoid_text = """
+Ellipsoid Calculation:
+To calculate the volume and surface area of an ellipsoid:
+
+1. Volume: The volume of an ellipsoid is determined by the product of its semi-principal axes 
+and π in a straightforward formula.
+
+2. Surface Area: The surface area calculation uses an approximation since no exact formula exists.
+It involves the semi-principal axes and a constant, p ≈ 1.6075, to estimate the value.
+"""
+
+                self.help_func.text_helper(ellipsoid_text)
+
+                choice_text = """
+Enter your choice:
+1. Calculate Volume
+2. Calculate Surface Area
+3. option 1 and 2
+Enter your choice (1-3): """
+
+                while True:
+                    choice = input(choice_text).strip()
+                    self.help_func.clear_screen()
+                    if choice not in ['1', '2', '3']:
+                        print("Invalid choice for Ellipsoid calculations. Please enter (1-3)")
+                        continue
+
+                    a = self.help_func.get_float_input("Enter a: Semi-major axis (longest axis): ")
+                    b = self.help_func.get_float_input("Enter b: Semi-intermediate axis (middle axis): ")
+                    c = self.help_func.get_float_input("Enter c: Semi-minor axis (shortest axis): ")
+                    self.help_func.clear_screen()
+
+                    volume = (4/3) * PI * a * b * c
+                    surface_area = 4 * PI * (((a ** p) * (b ** p) + (a ** p) * (c ** p) + (b ** p) * (c ** p)) / 3) ** (1/p)
+
+                    if choice == '1':
+                        print_type = "Volume"
+                        result = volume
+                    elif choice == '2':
+                        print_type = "Surface Area"
+                        result = surface_area
+                    elif choice == '3':
+                        print("Ellipsoid Calculations (Volume and Surface Area):")
+                        print(f"  Semi-major axis (a): {a}")
+                        print(f"  Semi-intermediate axis (b): {b}\n")
+                        print(f"  Semi-minor axis (c): {c}")
+                        print(f"Volume: {volume:.2f}")
+                        print(f"Surface Area: {surface_area:.2f}")
+
+                    if choice in ['1', '2']:
+                        print(f"{print_type} of the ellipsoid:")
+                        print(f"  Semi-major axis (a): {a}")
+                        print(f"  Semi-intermediate axis (b): {b}")
+                        print(f"  Semi-minor axis (c): {c}\n")
+                        print(f"Result: {result:.2f}")
+                    break
+
+            elif choice == '12': # back
                 break
-            
-            else: # wrong input
-                print("Invalid choice for shape calculations. Please enter (1-11).")
+            break
 
-    def percentage_calculation(self): # No.3
+    def percentage_calculation(self): # No.3 NOTE: add more percentage formulas
+        text ="""
+Percentage Calculation.
+    1. Percentage Calculator
+    2. Compound Percentage with Adjustment Calculation
+    3. Go back
+Enter your choice (1-3): """
+        while True:
+            choice = input(text).strip()
+            self.help_func.clear_screen()
+            if choice not in ['1', '2', '3']:
+                print("Invalid choice for Percentage Calculation. Please enter (1-3)")                
+                continue
 
-        num1 = self.help_func.get_float_input("Enter the number you want to know the percentage of: ")
-        num2 = self.help_func.get_float_input("Enter the total number: ")
-        result = (num1 / num2) * 100
+            if choice == '1': # Percentage Calculator
+                num1 = self.help_func.get_float_input("Enter the number you want to know the percentage of: ")
+                num2 = self.help_func.get_float_input("Enter the total number: ")
+                self.help_func.clear_screen()
+                result = (num1 / num2) * 100
+                print(f"The percentage of {num1} from {num2} is {result:.2f}%.")
+                
+            elif choice == '2': # Compound Percentage with Adjustment Calculation
+                text ="""
+Compound Percentage with Adjustment Calculation
+This formula calculates the adjusted percentage after a series of growth or decay periods, considering a constant adjustment value.
+Its used for scenarios like financial projections, population growth, or decay processes.
+"""
+                self.help_func.text_helper(text)
 
-        self.help_func.clear_screen()
-        print(f"The percentage of {num1} from {num2} is {result:.2f}%.")
+                # Input collection
+                p_base = self.help_func.get_float_input("Enter the initial percentage or base value: ")
+
+                R = self.help_func.get_input_with_condition(
+                    "Enter the Growth or Decay rate (as a percentage, e.g., 5 for 5%): ", 'float',
+                    lambda x: x >= 0, "ERROR: The growth/decay rate cannot be negative."
+                )
+                r = R / 100
+
+                n = self.help_func.get_input_with_condition(
+                    "Enter the number of periods (iterations): ", 'float',
+                    lambda x: x > 0, "ERROR: The number of periods must be greater than zero."
+                    )
+
+                c = self.help_func.get_input_with_condition(
+                    "Enter the constant adjustment value: ", 'float',
+                    lambda x: x != 0, "ERROR: The constant adjustment value cannot be zero."
+                )
+                
+                self.help_func.clear_screen()     
+                p_adjustment = (p_base * (1 +  (r ** n))) + c
+                p_adjustment2 = (p_base * (1 +  (r ** n))) - c
+
+                print("\nResults:")
+                print(f"Adjusted percentage (adding adjustment): {p_adjustment:.2f}")
+                print(f"Adjusted percentage (subtracting adjustment): {p_adjustment2:.2f}")
+
+            elif choice == '3': # back
+                break
+            break
 
     def quadratic_calculations(self):  # No.4
         text = """
@@ -661,6 +719,9 @@ Enter your choice (1-4): """
         while True:
             choice = input(text).strip()
             self.help_func.clear_screen()
+            if choice not in ['1', '2', '3', '4']:
+                print("Invalid choice for quadratic calculation. Please enter (1-4)")
+                continue
 
             if choice == '1':  # Quadratic function
                 quadratic_text = """
@@ -697,8 +758,8 @@ and will output the highest point and the mean of y values.
                 root_text = """
 This program calculates the solutions of a quadratic equation in the form:
                     
-    ax^2 + bx + c = 0
-    x = -(b / a*2)
+ax^2 + bx + c = 0
+x = -(b / a*2)
 
 Where:
 - a: Coefficient of x^2
@@ -757,8 +818,8 @@ The program will return the corresponding solutions based on the value of the di
                 cubic_text = """
 Cubic Calculations.
 Here you can find all types of cubic function:
-    1. General Form
-    2. Factor Form
+1. General Form
+2. Factor Form
 Enter your choice (1 or 2): """
 
                 while True:
@@ -768,7 +829,7 @@ Enter your choice (1 or 2): """
                         self.help_func.clear_screen()
                         general_form_text = """
 This program calculates the solutions of a cubic equation in the form:
-    f(x) = ax^3 + bx^2 + cx + d
+f(x) = ax^3 + bx^2 + cx + d
 """
                         self.help_func.text_helper(general_form_text)
 
@@ -803,7 +864,7 @@ This program calculates the solutions of a cubic equation in the form:
 This program shows solutions of special forms of cubic functions in the factored form.
 
 Formula:
-    f(x) = a(x - r1)(x - r2)(x - r3)
+f(x) = a(x - r1)(x - r2)(x - r3)
 """
                         self.help_func.text_helper(special_forms)
 
@@ -844,15 +905,11 @@ Formula:
                         self.help_func.clear_screen()
                         print("Invalid choice. Please enter (1 or 2).")
 
-            elif choice == '4':  # Back to previous menu
+            elif choice == '4':  # Back
                 break
-
-            else:  # Invalid input handling for the main menu
-                self.help_func.clear_screen()
-                print("Invalid choice. Please enter (1-4).")
             break
 
-    def financial_calculations(self): # No.5
+    def financial_calculations(self): # No.5 NOTE: NOT DONE YET BABY BOY
         text = """
 Financial Calculations.
 Please select a calculation option:
@@ -865,14 +922,17 @@ Please select a calculation option:
     7. Return on Investment (ROI)
     8. Enhanced Compound Interest Calculator with Monthly Contributions and Inflation Adjustment
     9. Savings Goal Calculator
-    10. Effective Annual Rate (EAR)
-    11. Go Back
+   10. Effective Annual Rate (EAR)
+   11. Go Back
 Enter your choice (1-11): """
 
         while True:
             choice = input(text).strip()
             self.help_func.clear_screen()
-            
+            if choice not in ['1', '2', '3', '4', '5', '6', '7', '8', '8', '9', '10', '11']:
+                print("Invalid choice for Financial Calculations. Please enter (1-11)")
+                continue
+
             if choice == '1': # Compound Interest Formula
                 ci_text = """
 Compound Interest Formula.
@@ -1058,7 +1118,7 @@ This tool helps calculate regular loan payments for mortgages, car loans, or oth
                 plt.show()
                 break
 
-            elif choice == '4':  # Future/past Value of an Investment
+            elif choice == '4':  # Future/past Value of an NOTE: Investment # GOTTA FINISH LTTLE TWAT
                 text ="""
 Future Value:
 This is the amount an investment will grow to over a specified period, given a certain interest rate.
@@ -1066,18 +1126,21 @@ It's useful for estimating the worth of savings or investments in the future.
 
 Present Value:
 This is the current value of an amount of money that you will receive or invest in the future, discounted at a specific interest rate.
-It helps in assessing how much a future amount is worth today."""
-                self.help_func.text_helper(text)
-
+It helps in assessing how much a future amount is worth today.
+"""
                 choice_text ="""
 Please select the type of Value of an Investment:
     1. Future Value
     2. Present Value
-Enter your choice (1 or 2): """
+Enter your choice (1-2): """
 
                 while True:
                     choice = input(choice_text).strip()
                     self.help_func.clear_screen()
+                    if choice not in ['1', '2']:
+                            print("Invalid choice for the type of Value of an Investment. Please enter (1-2).")                        
+                            continue
+                    
                     if choice == '1': # Future Value
                         
                         fva_text = """
@@ -1227,12 +1290,6 @@ It helps determine how much a future amount is worth today, taking into account 
                         plt.show()
                         break
                     
-                     
-                    else: # wrong input
-                        self.help_func.clear_screen()
-                        print("Invalid choice for the type of Value of an Investment. Please enter (1 or 2).")
-                break
-            
             elif choice == '5':  # Net Present Value (NPV)
                 npv_text = """
 Net Present Value calculation.
@@ -1242,13 +1299,10 @@ You need to gather all the expected cash flows for each time period, the discoun
                 self.help_func.text_helper(npv_text)
 
                 # Get total number of periods (n)
-                while True:
-                    n = self.help_func.get_int_input("Enter the total number of periods: ")
-                    if n <= 0:
-                        self.help_func.clear_screen()
-                        print("Error: The total number of periods must be a positive number.")
-                    else:
-                        break
+                n = self.help_func.get_input_with_condition(
+                    "Enter the total number of periods: ", 'int',
+                    lambda x: x >= 0, "Error: The total number of periods must be a positive number."
+                )
 
                 # Get Cash Flows (CF)
                 cash_flows = []  # Initialize an empty list to store cash flows
@@ -1259,14 +1313,11 @@ You need to gather all the expected cash flows for each time period, the discoun
                         break
 
                 # Get Discount Rate (r)
-                while True:
-                    annual_rate = self.help_func.get_float_input("Enter the discount rate (as a percentage, e.g., 5 for 5%): ")
-                    if annual_rate <= 0:
-                        self.help_func.clear_screen()
-                        print("Error: The discount rate must be a positive number.")
-                    else:
-                        r = annual_rate / 100  # Convert percentage to decimal
-                        break
+                annual_rate = self.help_func.get_input_with_condition(
+                    "Enter the discount rate (as a percentage, e.g., 5 for 5%): ", 'float',
+                    lambda x: x >= 0, "Error: The discount rate must be a positive number."
+                )
+                r = annual_rate / 100
 
                 self.help_func.clear_screen()
 
@@ -1307,30 +1358,27 @@ You will need to gather the initial investment and all expected future cash flow
                 self.help_func.text_helper(irr_text)
 
                 # Get the total number of periods (n)
-                while True:
-                    n = int(self.help_func.get_int_input("Enter the total number of periods: "))
-                    if n <= 0:
-                        self.help_func.clear_screen()
-                        print("Error: The total number of periods must be a positive number.")
-                    else:
-                        break
+                n = self.help_func.get_input_with_condition(
+                    "Enter the total number of periods: ", 'int',
+                    lambda x: x >= 0, "Error: The total number of periods must be a positive number."
+                )
 
                 # Get Cash Flows (CF)
                 cash_flows = []  # Initialize an empty list to store cash flows
                 for i in range(n + 1):  # Including Year 0 (initial investment)
-                    while True:
-                        cash_flow = self.help_func.get_float_input(f"Enter the cash inflow (or outflow) for Year {i}: ")
-                        # For Year 0, check if it's negative (initial investment)
-                        if i == 0 and cash_flow >= 0:
-                            self.help_func.clear_screen()
-                            print("ERROR: The initial investment (Year 0) should be negative.")
-                        # For future years, check if it's positive (cash inflows)
-                        elif i > 0 and cash_flow < 0:
-                            self.help_func.clear_screen()
-                            print("ERROR: Future years should have positive cash inflows.")
-                        else:
-                            cash_flows.append(cash_flow)
-                            break  # Exit the loop and proceed to the next year
+                    if i == 0:  # For Year 0 (initial investment)
+                        cash_flow = self.help_calc.get_input_with_condition(
+                            f"Enter the cash inflow (or outflow) for Year {i}: ", 'float', 
+                            lambda x: x < 0, "ERROR: The initial investment (Year 0) should be negative."
+                        )
+                    else:  # For future years
+                        cash_flow = self.help_calc.get_input_with_condition(
+                            f"Enter the cash inflow (or outflow) for Year {i}: ", 'float', 
+                            lambda x: x >= 0, "ERROR: Future years should have positive cash inflows."
+                        )
+                    cash_flows.append(cash_flow)
+                    break
+
                 self.help_func.clear_screen()
 
                 # Calculate IRR using numpy_financial's irr function
@@ -1386,82 +1434,67 @@ Enter your choice (1 or 2): """
                 while True:
                     choice = input(choice_text).strip()
                     self.help_func.clear_screen()
+                    if choice not in ['1', '2']:
+                        print("Invalid choice for Return on Investment (ROI) type. Please enter 1 or 2.")
+                        continue
 
-                    if choice in ['1', '2']:
+                    # Get Gain from Investment (GFI)
+                    GFI = self.help_func.get_input_with_condition(
+                        "Enter the total amount you gained or earned from the investment: ", 'float',
+                        lambda x: x >= 0, "Error: The total amount you gained or earned must be a positive number."
+                    )
 
-                        # Get Gain from Investment (GFI)
-                        while True:
-                            GFI = self.help_func.get_float_input("Enter the total amount you gained or earned from the investment: ")
-                            if GFI <= 0:
-                                self.help_func.clear_screen()
-                                print("Error: The total amount you gained or earned must be a positive number.")
-                            else:
-                                break
+                    # Get Initial Investment (II)
+                    II = self.help_func.get_input_with_condition(
+                        "Enter the original amount you invested: ", 'float',
+                        lambda x: x >= 0, "Error: The original amount you invested must be a positive number."
+                    )
 
-                        # Get Initial Investment (II)
-                        while True:
-                            II = self.help_func.get_float_input("Enter the original amount you invested: ")
-                            if II <= 0:
-                                self.help_func.clear_screen()
-                                print("Error: The original amount you invested must be a positive number.")
-                            else:
-                                break
-
-                        if choice == '1':  # Basic ROI Calculation
-                            result = ((GFI - II) / II) * 100
-                            self.help_func.clear_screen()
-                            print(f"Basic ROI Calculation:")
-                            print(f"  Gain from Investment: {GFI}")
-                            print(f"  Initial Investment: {II}")
-                            print(f"  ROI: {result:.2f}%")
-
-                            # Plot the Basic ROI Calculation as a bar chart
-                            plt.figure(figsize=(6, 4))
-                            categories = ['Initial Investment', 'Gain from Investment']
-                            values = [II, GFI]
-                            plt.bar(categories, values, color=['blue', 'green'])
-                            plt.title('Basic ROI Calculation')
-                            plt.ylabel('Amount')
-                            plt.show()
-                            break
-                        elif choice == '2':  # Compounded ROI Calculation
-                            while True:
-                                n = self.help_func.get_int_input("Enter the time period, in years, over which the investment was held: ")
-                                if n <= 0:
-                                    self.help_func.clear_screen()
-                                    print("Error: The time period, in years, must be a positive number.")
-                                else:
-                                    break
-
-                            compounded_roi = (((GFI / II) ** (1 / n)) - 1) * 100
-                            self.help_func.clear_screen()
-                            print(f"Compounded ROI Calculation:")
-                            print(f"  Gain from Investment: {GFI}")
-                            print(f"  Initial Investment: {II}")
-                            print(f"  Time Period: {n} years")
-                            print(f"  Compounded ROI: {compounded_roi:.2f}%")
-
-                            # Plot the Compounded ROI Calculation over time
-                            years = list(range(1, n + 1))
-                            roi_values = [(((GFI / II) ** (1 / year)) - 1) * 100 for year in years]
-
-                            plt.figure(figsize=(6, 4))
-                            plt.plot(years, roi_values, marker='o', color='purple')
-                            plt.title('Compounded ROI Over Time')
-                            plt.xlabel('Years')
-                            plt.ylabel('Compounded ROI (%)')
-                            plt.grid(True)
-                            plt.show()
-                            break
-                        else:
-                            self.help_func.clear_screen()
-                            print("Invalid choice for Return on Investment (ROI) type. Please enter 1 or 2.")
-
-                    else:
+                    if choice == '1':  # Basic ROI Calculation
+                        result = ((GFI - II) / II) * 100
                         self.help_func.clear_screen()
-                        print("Invalid choice for Return on Investment (ROI) Calculation. Please enter 1 or 2.")
-                break
-            
+                        print(f"Basic ROI Calculation:")
+                        print(f"  Gain from Investment: {GFI}")
+                        print(f"  Initial Investment: {II}")
+                        print(f"  ROI: {result:.2f}%")
+
+                        # Plot the Basic ROI Calculation as a bar chart
+                        plt.figure(figsize=(6, 4))
+                        categories = ['Initial Investment', 'Gain from Investment']
+                        values = [II, GFI]
+                        plt.bar(categories, values, color=['blue', 'green'])
+                        plt.title('Basic ROI Calculation')
+                        plt.ylabel('Amount')
+                        plt.show()
+                        break
+
+                    elif choice == '2':  # Compounded ROI Calculation
+                        n = self.help_func.get_input_with_condition(
+                            "Enter the time period, in years, over which the investment was held: ", 'int',
+                            lambda x: x >= 0, "Error: The time period, in years, must be a positive number."
+                        )
+
+                        compounded_roi = (((GFI / II) ** (1 / n)) - 1) * 100
+                        self.help_func.clear_screen()
+                        print(f"Compounded ROI Calculation:")
+                        print(f"  Gain from Investment: {GFI}")
+                        print(f"  Initial Investment: {II}")
+                        print(f"  Time Period: {n} years")
+                        print(f"  Compounded ROI: {compounded_roi:.2f}%")
+
+                        # Plot the Compounded ROI Calculation over time
+                        years = list(range(1, n + 1))
+                        roi_values = [(((GFI / II) ** (1 / year)) - 1) * 100 for year in years]
+
+                        plt.figure(figsize=(6, 4))
+                        plt.plot(years, roi_values, marker='o', color='purple')
+                        plt.title('Compounded ROI Over Time')
+                        plt.xlabel('Years')
+                        plt.ylabel('Compounded ROI (%)')
+                        plt.grid(True)
+                        plt.show()
+                        break
+
             elif choice == '8': # Advanced Compound Interest with Monthly Contributions with or without inflation
                 text_choice ="""
 Advanced Compound Interest Calculator
@@ -1473,192 +1506,99 @@ Choose your calculation mode:
 Enter your choice (1 or 2): """
                 
                 while True:
-                    choise = input(text_choice).strip()
+                    choice = input(text_choice).strip()
                     self.help_func.clear_screen()
+                    if choice not in ['1', '2']:
+                        print("Invalid choice Advanced Compound Interest calculation. Please enter 1 or 2.")                        
+                        continue
 
-                    if choise == '1':
+                    if choice == '1':
                         text = """
 This program calculates the future value of an investment considering both compound interest and monthly contributions.
 """
-                        self.help_func.text_helper(text)
-
-                        while True:  # P
-                            P = self.help_func.get_float_input("Enter the Principal (initial amount of money): ")
-                            if P <= 0:
-                                self.help_func.clear_screen()
-                                print("ERROR: The principal must be a positive number.")
-                            else:
-                                break
-
-                        while True:  # r
-                            annual_rate = self.help_func.get_float_input("Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ")
-                            if annual_rate <= 0:
-                                self.help_func.clear_screen()
-                                print("ERROR: The interest rate cannot be negative.")
-                            else:
-                                r = annual_rate / 100  # Convert percentage to decimal
-                                break
-
-                        while True:  # n
-                            n = self.help_func.get_int_input("Enter the number of times interest is compounded per year: ")
-                            if n <= 0:
-                                self.help_func.clear_screen()
-                                print("ERROR: The number of times interest is compounded per year must be greater than 0.")
-                            elif n > 365:
-                                self.help_func.clear_screen()
-                                print("ERROR: The number of times interest is compounded per year cannot be greater than 365.")
-                            else:
-                                break
-
-                        while True:  # t
-                            t = self.help_func.get_int_input("Enter how long the money is invested (in years): ")
-                            if t <= 0:
-                                self.help_func.clear_screen()
-                                print("ERROR: The time investment must be a positive number.")
-                            else:
-                                break
-
-                        while True:  # PMT
-                            PMT = self.help_func.get_float_input("Enter the amount you add each month: ")
-                            if PMT <= 0:
-                                self.help_func.clear_screen()
-                                print("ERROR: The amount you add each month must be a positive number.")
-                            else:
-                                break
-                        self.help_func.clear_screen()
-
-                        A_principal = P * (1 + r/n)**(n * t)
-                        A_contributions = PMT * ((1 + r/n)**(n * t) - 1) / (r/n)
-
-                        result = A_principal + A_contributions
-
-                        # After collecting all inputs and result
-                        print(f"Inputs:")
-                        print(f"  Initial Principal (P): ${P:.2f}")
-                        print(f"  Annual Interest Rate (r): {r*100:.2f}%")
-                        print(f"  Compounding Frequency (n): {n} times per year")
-                        print(f"  Time (t): {t} year{'s' if t > 1 else ''}")
-                        print(f"  Monthly Contribution (PMT): ${PMT:.2f}")
-                        print(f"\nThe total amount after {t} year{'s' if t > 1 else ''} is: ${result:.2f}")
-
-                        # Create graph
-                        years = [i for i in range(1, t + 1)]
-                        future_values = []
-
-                        for year in years:
-                            A_principal = P * (1 + r/n)**(n * year)
-                            A_contributions = PMT * ((1 + r/n)**(n * year) - 1) / (r/n)
-                            future_values.append(A_principal + A_contributions)
-
-                        # Plot the graph
-                        plt.plot(years, future_values, label="Future Value", color='blue')
-                        plt.xlabel("Years")
-                        plt.ylabel("Future Value ($)")
-                        plt.title("Investment Growth Over Time")
-                        plt.grid(True)
-                        plt.legend()
-                        plt.show()
-                        break
-
-                    elif choise == '2':
+                    else:
                         text = """
 This program calculates the future value of an investment considering both interest and inflation.
 """
-                        self.help_func.text_helper(text)
+                    
+                    self.help_func.text_helper(text)
 
-                        while True:  # P
-                            P = self.help_func.get_float_input("Enter the Principal (initial amount of money): ")
-                            if P <= 0:
-                                self.help_func.clear_screen()
-                                print("ERROR: The principal must be a positive number.")
-                            else:
-                                break
+                    # Collect inputs for Principal, Interest, etc.
+                    P = self.help_func.get_input_with_condition(
+                        "Enter the Principal (initial amount of money): ", 'float',
+                        lambda x: x >= 0, "ERROR: The principal must be a positive number."
+                    )
 
-                        while True:  # r
-                            annual_rate = self.help_func.get_float_input("Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ")
-                            if annual_rate <= 0:
-                                self.help_func.clear_screen()
-                                print("ERROR: The interest rate cannot be negative.")
-                            else:
-                                r = annual_rate / 100  # Convert percentage to decimal
-                                break
+                    annual_rate = self.help_func.get_input_with_condition(
+                        "Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ", 'float',
+                        lambda x: x >= 0, "ERROR: The interest rate cannot be negative."
+                    )
+                    r = annual_rate / 100
 
-                        while True:  # i
-                            inflation_rate = self.help_func.get_float_input("Enter the annual inflation rate (as a percentage, e.g., 5 for 5%): ")
-                            if inflation_rate <= 0:
-                                self.help_func.clear_screen()
-                                print("ERROR: The annual inflation rate cannot be negative.")
-                            else:
-                                i = inflation_rate / 100  # Convert percentage to decimal
-                                break
-
-                        while True:  # n
-                            n = self.help_func.get_int_input("Enter the number of times interest is compounded per year: ")
-                            if n <= 0:
-                                self.help_func.clear_screen()
-                                print("ERROR: The number of times interest is compounded per year must be greater than 0.")
-                            elif n > 365:
-                                self.help_func.clear_screen()
-                                print("ERROR: The number of times interest is compounded per year cannot be greater than 365.")
-                            else:
-                                break
-
-                        while True:  # t
-                            t = self.help_func.get_float_input("Enter how long the money is invested (in years): ")
-                            if t <= 0:
-                                self.help_func.clear_screen()
-                                print("ERROR: The time investment must be a positive number.")
-                            else:
-                                break
-
-                        while True:  # PMT
-                            PMT = self.help_func.get_float_input("Enter the amount you add each month: ")
-                            if PMT <= 0:
-                                self.help_func.clear_screen()
-                                print("ERROR: The amount you add each month must be a positive number.")
-                            else:
-                                break
-                        self.help_func.clear_screen() 
-
-                        A_principal = P * (1 + (r - i)/n)**(n * t)
-                        A_contributions = PMT * ((1 + (r - i)/n)**(n * t) - 1) / ((r - i)/n)
-
-                        result = A_principal + A_contributions
-
-                        # After collecting all inputs and result
-                        print(f"Inputs:")
-                        print(f"  Initial Principal (P): ${P:.2f}")
-                        print(f"  Annual Interest Rate (r): {annual_rate:.2f}%")
-                        print(f"  Annual Inflation Rate (i): {inflation_rate:.2f}%")
-                        print(f"  Compounding Frequency (n): {n} times per year")
-                        print(f"  Time (t): {t} year{'s' if t > 1 else ''}")
-                        print(f"  Monthly Contribution (PMT): ${PMT:.2f}")
-                        print(f"\nThe total amount after {t} year{'s' if t > 1 else ''} is: ${result:.2f}")
-
-                        # Create graph
-                        years = [i for i in range(1, int(t) + 1)]
-                        future_values = []
-
-                        for year in years:
-                            A_principal = P * (1 + (r - i)/n)**(n * year)
-                            A_contributions = PMT * ((1 + (r - i)/n)**(n * year) - 1) / ((r - i)/n)
-                            future_values.append(A_principal + A_contributions)
-
-                        # Plot the graph
-                        plt.plot(years, future_values, label="Future Value (Inflation Adjusted)", color='green')
-                        plt.xlabel("Years")
-                        plt.ylabel("Future Value ($)")
-                        plt.title("Investment Growth Over Time (With Inflation Adjustment)")
-                        plt.grid(True)
-                        plt.legend()
-                        plt.show()
-                        break
-
+                    if choice == '2':  # If inflation is considered
+                        inflation_rate = self.help_func.get_input_with_condition(
+                            "Enter the annual inflation rate (as a percentage, e.g., 5 for 5%): ", 'float',
+                            lambda x: x >= 0, "ERROR: The annual inflation rate cannot be negative."
+                        )
+                        i = inflation_rate / 100
                     else:
-                        self.help_func.clear_screen() 
-                        print("Invalid choice Advanced Compound Interest calculation. Please enter 1 or 2.")
-                break
+                        i = 0  # No inflation adjustment for choice '1'
 
+                    n = self.help_func.get_input_with_condition(
+                        "Enter the number of times interest is compounded per year: ", 'int',
+                        [
+                            (lambda x: x >= 0, "ERROR: The number of times interest is compounded per year must be greater than 0."),
+                            (lambda x: x < 365, "ERROR: The number of times interest is compounded per year cannot be greater than 365.")
+                        ]
+                    )
+
+                    t = self.help_func.get_input_with_condition(
+                        "Enter how long the money is invested (in years): ", 'int',
+                        lambda x: x >= 0, "ERROR: The time investment must be a positive number."
+                    )
+
+                    PMT = self.help_func.get_input_with_condition(
+                        "Enter the amount you add each month: ", 'float',
+                        lambda x: x >= 0, "ERROR: The amount you add each month must be a positive number."
+                    )
+
+                    self.help_func.clear_screen()
+
+                    # Calculate future value based on interest and inflation
+                    A_principal = P * (1 + (r - i) / n) ** (n * t)
+                    A_contributions = PMT * ((1 + (r - i) / n) ** (n * t) - 1) / ((r - i) / n)
+                    result = A_principal + A_contributions
+
+                    # After collecting all inputs and result
+                    print(f"Inputs:")
+                    print(f"  Initial Principal (P): ${P:.2f}")
+                    print(f"  Annual Interest Rate (r): {annual_rate:.2f}%")
+                    if choice == '2':
+                        print(f"  Annual Inflation Rate (i): {inflation_rate:.2f}%")
+                    print(f"  Compounding Frequency (n): {n} times per year")
+                    print(f"  Time (t): {t} year{'s' if t > 1 else ''}")
+                    print(f"  Monthly Contribution (PMT): ${PMT:.2f}")
+                    print(f"\nThe total amount after {t} year{'s' if t > 1 else ''} is: ${result:.2f}")
+
+                    # Create graph
+                    years = [i for i in range(1, int(t) + 1)]
+                    future_values = []
+
+                    for year in years:
+                        A_principal = P * (1 + (r - i) / n) ** (n * year)
+                        A_contributions = PMT * ((1 + (r - i) / n) ** (n * year) - 1) / ((r - i) / n)
+                        future_values.append(A_principal + A_contributions)
+
+                    # Plot the graph
+                    plt.plot(years, future_values, label="Future Value", color='blue' if choice == '1' else 'green')
+                    plt.xlabel("Years")
+                    plt.ylabel("Future Value ($)")
+                    plt.title("Investment Growth Over Time" + (" (With Inflation Adjustment)" if choice == '2' else ""))
+                    plt.grid(True)
+                    plt.legend()
+                    plt.show()
+                    break
+                
             elif choice == '9': # Savings Goal Calculator
                 text ="""
 Saving Goal Calculation.
@@ -1667,50 +1607,34 @@ an annual interest rate, and a compounding frequency.
 """
                 self.help_func.text_helper(text)
 
-                while True:  # FV (Future Value)
-                    FV = self.help_func.get_float_input("Enter your future savings goal: ")
-                    if FV <= 0:
-                        self.help_func.clear_screen()
-                        print("ERROR: The future savings goal must be a positive number.")
-                    else:
-                        break
+                FV = self.help_func.get_input_with_condition(
+                    "Enter your future savings goal: ", 'float',
+                    lambda x: x >= 0, "ERROR: The future savings goal must be a positive number."
+                )
 
-                while True:  # PMT (Monthly Contribution)
-                    PMT = self.help_func.get_float_input("Enter the amount you will contribute each month: ")
-                    if PMT <= 0:
-                        self.help_func.clear_screen()
-                        print("ERROR: The monthly contribution amount must be a positive number.")
-                    else:
-                        break
+                PMT = self.help_func.get_input_with_condition(
+                    "Enter the amount you will contribute each month: ", 'float',
+                    lambda x: x >= 0, "ERROR: The monthly contribution amount must be a positive number."
+                )
 
-                while True:  # r (Interest Rate per Period)
-                    annual_rate = self.help_func.get_float_input("Enter the interest rate per period (as a percentage, e.g., enter 5 for 5%): ")
-                    if annual_rate <= 0:
-                        self.help_func.clear_screen()
-                        print("ERROR: The interest rate must be a positive number.")
-                    else:
-                        r = annual_rate / 100  # Convert percentage to a decimal
-                        break
+                annual_rate = self.help_func.get_input_with_condition(
+                    "Enter the interest rate per period (as a percentage, e.g., enter 5 for 5%): ", 'float',
+                    lambda x: x >= 0, "ERROR: The interest rate must be a positive number."
+                )
+                r = annual_rate / 100
 
-                while True:  # n (Compounding Frequency per Year)
-                    n = self.help_func.get_int_input("Enter the number of times interest is compounded per year: ")
-                    if n <= 0:
-                        self.help_func.clear_screen()
-                        print("ERROR: The compounding frequency must be a positive number.")
-                    elif n > 365:
-                        self.help_func.clear_screen()
-                        print("ERROR: The compounding frequency cannot be greater than 365.")
-                    else:
-                        break
+                n = self.help_func.get_input_with_condition(
+                    "Enter the number of times interest is compounded per year: ", 'int',
+                    [
+                        (lambda x: x >= 0, "ERROR: The compounding frequency must be a positive number."),
+                        (lambda x: x <= 365, "ERROR: The compounding frequency cannot be greater than 365.")
+                    ]
+                )
 
-                # Get the time period for the graph
-                while True:
-                    t= self.help_func.get_float_input("Enter the maximum time period (in years) for the graph: ")
-                    if t <= 0:
-                        self.help_func.clear_screen()
-                        print("ERROR: The time period must be a positive number.")
-                    else:
-                        break
+                t = self.help_func.get_input_with_condition(
+                    "Enter the maximum time period (in years) for the graph: ", 'float',
+                    lambda x: x >= 0, "ERROR: The time period must be a positive number."
+                )
                     
                 self.help_func.clear_screen()
 
@@ -1727,7 +1651,6 @@ an annual interest rate, and a compounding frequency.
                 print(f"  Interest Rate per Period (r): {annual_rate}%")
                 print(f"  Compounding Frequency (n): {n} times per year")
                 print(f"  Time required to reach the savings goal: {result:.2f} years")
-                break
 
             elif choice == '10': # Effective Annual Rate (EAR)
                 text = """
@@ -1737,30 +1660,21 @@ measure of annual return or cost. This helps in comparing financial products wit
 """
                 self.help_func.text_helper(text)
 
-                while True: # r
-                    annual_rate = self.help_func.get_float_input("Enter the Nominal Annual Interest Rate (as a percentage, e.g., 5 for 5%): ")
-                    if annual_rate == 0:
-                        self.help_func.clear_screen()
-                        print("ERROR: The Nominal Annual Interest Rate must be negative.")
-                    else:
-                        r = annual_rate / 100  # Convert percentage to decimal
-                        break
+                R = self.help_func.get_input_with_condition(
+                    "Enter the Growth or Decay rate (as a percentage, e.g., 5 for 5%): ", 'float',
+                    lambda x: x >= 0, "ERROR: The growth/decay rate cannot be negative."
+                )
+                r = R / 100
 
-                while True: # n
-                    n = self.help_func.get_int_input("Enter the Number of Compounding Periods per Year: ")
-                    if n <= 0:
-                        self.help_func.clear_screen()
-                        print("Error: The Number of Compounding Periods must be a positive integer greater than zero.")
-                    else:
-                        break
-                    
-                while True:  # Maximum years for graph
-                    max_years = self.help_func.get_int_input("Enter the number of years to display on the graph: ")
-                    if max_years <= 0:
-                        self.help_func.clear_screen()
-                        print("ERROR: The number of years must be a positive integer.")
-                    else:
-                        break
+                n = self.help_func.get_input_with_condition(
+                    "Enter the Number of Compounding Periods per Year: ", 'int',
+                    lambda x: x > 0, "Error: The Number of Compounding Periods must be a positive integer greater than zero."
+                )
+
+                max_years = self.help_func.get_input_with_condition(
+                    "Enter the number of years to display on the graph: ", 'int',
+                    lambda x: x >= 0, "ERROR: The number of years must be a positive integer."
+                )
 
                 self.help_func.clear_screen()
 
@@ -1791,15 +1705,12 @@ measure of annual return or cost. This helps in comparing financial products wit
 
             elif choice == '11': # back
                 break
-
-            else: # wrong input
-                self.help_func.clear_screen()
-                print("Invalid choice for Financial Calculations. Please enter (1-10).")
-            
+            break
+        
             # NOTE: please add more of financial calculations
             # NOTE: graph at formula number 9 is not working
 
-    def age_calculation(self): # No.6
+    def age_calculations(self): # No.6
         choice_text ="""
 Welcome to the Age Calculator!
     1. birthdate Calculation
@@ -1951,7 +1862,111 @@ The program will tell you who is older and by how many years, months, and days.
                 self.help_func.clear_screen()
                 print("Invalid choice. Please enter (1-3)")
 
-    def pythagorean_formula(self): # No.7
+    def unit_calculations(self): # No.7
+        text = """
+Welcome to the Distance Converter! 
+This tool helps you convert between various units of distance, volume, and weight.
+Follow the instructions to enter the number you wish to convert, select the units, 
+and see the results instantly!
+"""
+        self.help_func.text_helper(text)
+
+        # Dictionary of direct conversion factors between units
+        conversion_factors = {
+            ("Km", "m"): 1000, ("m", "Km"): 1 / 1000,
+            ("Cm", "m"): 0.01, ("m", "Cm"): 100,
+            ("mm", "m"): 0.001, ("m", "mm"): 1000,
+            ("mi", "m"): 1609.34, ("m", "mi"): 1 / 1609.34,
+            ("yd", "m"): 0.9144, ("m", "yd"): 1 / 0.9144,
+            ("ft", "m"): 0.3048, ("m", "ft"): 1 / 0.3048,
+            ("in", "m"): 0.0254, ("m", "in"): 1 / 0.0254,
+            ("L", "mL"): 1000, ("mL", "L"): 1 / 1000,
+            ("gal", "L"): 3.78541, ("L", "gal"): 1 / 3.78541,
+            ("lb", "kg"): 0.453592, ("kg", "lb"): 1 / 0.453592,
+            ("g", "kg"): 0.001, ("kg", "g"): 1000,
+            ("mg", "g"): 0.001, ("g", "mg"): 1000,
+            # Add more conversions as needed
+        }
+
+        # Map of choice numbers to unit symbols
+        symbol_map = {
+            "1": "Km", "2": "m", "3": "Cm", "4": "mm", "5": "mi",
+            "6": "yd", "7": "ft", "8": "in", "9": "L", "10": "mL",
+            "11": "gal", "12": "lb", "13": "kg", "14": "g", "15": "mg"
+        }
+
+        def convert_unit(value, from_unit, to_unit):
+            """Convert value directly from one unit to another using conversion_factors."""
+            if (from_unit, to_unit) in conversion_factors:
+                return value * conversion_factors[(from_unit, to_unit)]
+            elif (to_unit, from_unit) in conversion_factors:
+                return value / conversion_factors[(to_unit, from_unit)]
+            else:
+                return None  # Return None if no conversion factor exists
+
+        # Main code
+
+        num = self.help_func.get_float_input("Step 1: Enter the number you want to convert.\nEnter the number you want to convert: ")
+        self.help_func.clear_screen()
+        
+        # Loop until valid conversion choices are made
+        while True:
+
+            # Choose the original unit
+            while True:
+                print("Step 2: Choose the unit you want to convert from.")
+                symbol_text = """
+Enter the symbol of your number:
+    1. Kilometers (Km)       2. Meters (m)             3. Centimeters (Cm)
+    4. Millimeters (mm)      5. Miles (mi)             6. Yards (yd)
+    7. Feet (ft)             8. Inches (in)            9. Liters (L)
+   10. Milliliters (mL)     11. Gallons (gal)         12. Pounds (lb)
+   13. Kilograms (kg)       14. Grams (g)             15. Milligrams (mg)
+Enter your choice (1-15): """
+                
+                symbol_choice1 = input(symbol_text).strip()
+                if symbol_choice1 in symbol_map:
+                    from_symbol = symbol_map[symbol_choice1]
+                    break
+                else:
+                    self.help_func.clear_screen()
+                    print("Invalid choice. Please enter a number between 1 and 15.")
+
+            self.help_func.clear_screen()
+                 
+            # Choose the target unit
+            while True:
+
+                print("Step 3: Choose the unit you want to convert to.")
+                symbol_text = """
+Enter the symbol you want to convert to:
+    1. Kilometers (Km)       2. Meters (m)             3. Centimeters (Cm)
+    4. Millimeters (mm)      5. Miles (mi)             6. Yards (yd)
+    7. Feet (ft)             8. Inches (in)            9. Liters (L)
+   10. Milliliters (mL)     11. Gallons (gal)         12. Pounds (lb)
+   13. Kilograms (kg)       14. Grams (g)             15. Milligrams (mg)
+Enter your choice (1-15): """
+                
+                symbol_choice2 = input(symbol_text).strip()
+                if symbol_choice2 in symbol_map:
+                    to_symbol = symbol_map[symbol_choice2]
+                    break
+                else:
+                    self.help_func.clear_screen()
+                    print("Invalid choice. Please enter a number between 1 and 15.")
+
+            self.help_func.clear_screen()
+
+            # Perform the conversion and handle invalid conversions
+            result = convert_unit(num, from_symbol, to_symbol)
+            if result is not None:
+                print(f"{num} {from_symbol} is equal to {result:.2f} {to_symbol}")
+                break  # Exit loop if conversion is successful
+            else:
+                self.help_func.clear_screen()
+                print(f"Conversion from {from_symbol} to {to_symbol} is not available. Please try again.")
+
+    def pythagorean_formula(self): # No.8
         text = """
 Pythagorean Equation.
 Here we can find c is the length of the hypotenuse (the side opposite the right angle)
@@ -1988,7 +2003,7 @@ Enter your choice (1, 2 or 3): """
                 self.help_func.clear_screen()
                 print("Invalid choice. Please enter (1-3)")
 
-    def distance_formula(self): # No.8
+    def distance_formula(self): # No.9
         text ="""
 Distance Formula.
 This formula calculates the distance between two points (x'1,y'1) and (x'2,y'2) on a 2D plane.
@@ -2010,7 +2025,7 @@ input "back" to come back to the main menu.
 
         print(f"The distance between ({x_1}, {y_1}) and ({x_2}, {y_2}) is {reslut}")
 
-    def exponential_growth_decay_formula(self): # No.9
+    def exponential_growth_decay_formula(self): # No.10
         text = """
 Exponential Growth/Decay Formula
 
@@ -2039,7 +2054,7 @@ After 10 years, an investment of $500 at a 3% percentage growth rate will be wor
         N = N0 * math.exp(k * t)
         print(f"For an initial amount of {N0} with a growth rate of {k * 100:.2f} percent over {t} *any time curency*, the final amount is approximately {N:.2f}.")
 
-    def the_law_of_cosines(self): # No.10
+    def the_law_of_cosines(self): # No.11
         text ="""
 Law of Cosines for Triangle Calculation
 
@@ -2111,11 +2126,11 @@ Enter your choice (1-3): """
                 self.help_func.clear_screen()
                 print("Invalid choice for Law of Cosines for Triangle Calculation. Please enter (1-3).")
 
-    def riemann_zeta_function(self): # No.11
+    def riemann_zeta_function(self): # No.12
         text = """
-        Riemann Zeta Function.
-        To calculate the Riemann Zeta Function, you will need to input s (must be > 1) and n (number of terms).
-        """
+Riemann Zeta Function.
+To calculate the Riemann Zeta Function, you will need to input s (must be > 1) and n (number of terms).
+"""
         self.help_func.text_helper(text)
 
         # Loop to get a valid value for s
@@ -2145,40 +2160,40 @@ Enter your choice (1-3): """
 
         print(f"The Riemann Zeta for s = {s} with {n} terms is approximately {zeta_sum:.5f}.")
 
-    def newtons_law_of_universal_gravitation(self): # No.12
+    def newtons_law_of_universal_gravitation(self): # No.13
         G = 6.67430e-11  # Gravitational constant in m^3 kg^-1 s^-2 
 
         text = """
-    Newton's Law of Universal Gravitation states that every particle in the universe attracts every other particle with a force 
-    that is directly proportional to the product of their masses and inversely proportional to the square of the distance between them.
+Newton's Law of Universal Gravitation states that every particle in the universe attracts every other particle with a force 
+that is directly proportional to the product of their masses and inversely proportional to the square of the distance between them.
 
-    There are two ways to calculate this formula:
+There are two ways to calculate this formula:
 
-    First way:
-        Calculate the gravitational force using the formula:
-            F = G * (m1 * m2) / r^2
-        What you need to input:
-            - mass for the first object
-            - mass for the second object
-            - the distance between the two objects
+First way:
+    Calculate the gravitational force using the formula:
+        F = G * (m1 * m2) / r^2
+    What you need to input:
+        - mass for the first object
+        - mass for the second object
+        - the distance between the two objects
 
-    Second way:
-        Calculate the gravitational force using the formula:
-            unknown_m = (F * r^2) / (G * known_m^2)
-        What you need to input:
-            - the result of the calculation
-            - second or first mass of the objects
-            - the distance between the two objects
-    """
+Second way:
+    Calculate the gravitational force using the formula:
+        unknown_m = (F * r^2) / (G * known_m^2)
+    What you need to input:
+        - the result of the calculation
+        - second or first mass of the objects
+        - the distance between the two objects
+"""
 
         self.help_func.text_helper(text)
 
         choice_text = """
-    Newton's Law of Universal Gravitation.
-        1. First way
-        2. Second way
-        3. Go Back
-    Enter your choice (1, 2, or 3): """
+Newton's Law of Universal Gravitation.
+    1. First way
+    2. Second way
+    3. Go Back
+Enter your choice (1, 2, or 3): """
 
         while True:
             choice = input(choice_text).strip()
@@ -2226,6 +2241,6 @@ Enter your choice (1-3): """
 
             else:
                 self.help_func.clear_screen()
-                print("Invalid choice for  Newton's Law of Universal Gravitation. Please enter (1-3).")
-    
+                print("Invalid choice for  Newton's Law of Universal Gravitation. Please enter (1-3)")
+
     # add more functions here
