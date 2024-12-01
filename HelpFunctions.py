@@ -34,16 +34,36 @@ class HelpFunctions:
                 return float(user_input)  # Try converting the input to a float
             except ValueError:
                 self.clear_screen()  # Clear the screen before showing the error
-                print(f"Invalid input. please enter a valid number.")
+                print("Invalid input. please enter a valid number.")
 
     def get_int_input(self, prompt):
         while True:
             user_input = input(prompt).strip()  # Capture user input as a string
             try:
-                return int(user_input)  # Try converting the input to a float
+                return int(user_input)  # Try converting the input to a int
             except ValueError:
                 self.clear_screen()  # Clear the screen before showing the error
-                print(f"Invalid input. please enter a valid number.")
+                print("Invalid input. Please enter a valid integer number.")
+
+    def get_input_with_condition(self, prompt, input_type, conditions_or_lambda, error_message=None):
+        while True:
+            # Get input
+            if input_type == 'float':
+                value = self.get_float_input(prompt)
+            elif input_type == 'int':
+                value = self.get_int_input(prompt)
+
+            # Handle single or multiple conditions
+            conditions = [(conditions_or_lambda, error_message)] if not isinstance(conditions_or_lambda, list) else conditions_or_lambda
+
+            # Validate conditions
+            for condition, error in conditions:
+                if not condition(value):
+                    self.clear_screen()
+                    print(error if error else "ERROR: Invalid input.")
+                    break
+            else:
+                return value
 
     def text_helper(self, prompt):
         print(prompt)
