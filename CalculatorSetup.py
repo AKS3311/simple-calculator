@@ -24,31 +24,31 @@ class CalculatorSetup:
         menu_text = """
 Welcome to the Calculator!
     1. Simple Calculation
-    2. Shape Calculation
-    3. Percentage Calculation
-    4. Quadratic Calculation
-    5. Financial Calculations
-    6. Age Calculation
+    2. Shape Calculations
+    3. Quadratic Calculations
+    4. Financial Calculations
+    5. Age Calculations
+    6. Unit Calculations
     7. Pythagorean Formula
     8. Distance Formula
     9. Exponential Growth Decay Formula
-    10. The Law of Cosines
-    11. Riemann Zeta Function
-    12. Newton's Law of Universal Gravitation
-    13. Quit
-Enter your choice (1-12): """
+   10. The Law of Cosines
+   11. Riemann Zeta Function
+   12. Newton's Law of Universal Gravitation
+   13. Quit
+Enter your choice (1-13): """
 
         options = {
             '1': self.calc_funcs.simple_calculation,
             '2': self.calc_funcs.shape_calculations,
-            '3': self.calc_funcs.percentage_calculation,
-            '4': self.calc_funcs.quadratic_calculations,
-            '5': self.calc_funcs.financial_calculations,
-            '6': self.calc_funcs.age_calculation,
+            '3': self.calc_funcs.quadratic_calculations,
+            '4': self.calc_funcs.financial_calculations,
+            '5': self.calc_funcs.age_calculations,
+            '6': self.calc_funcs.unit_calculations,
             '7': self.calc_funcs.pythagorean_formula,
             '8': self.calc_funcs.distance_formula,
             '9': self.calc_funcs.exponential_growth_decay_formula,
-            '10': self.calc_funcs.the_law_of_cosines,
+            '10':self.calc_funcs.the_law_of_cosines,
             '11':self.calc_funcs.riemann_zeta_function,
             '12':self.calc_funcs.newtons_law_of_universal_gravitation,
             '13': exit
@@ -65,7 +65,7 @@ Enter your choice (1-12): """
                 break
             else:
                 self.help_func.clear_screen()
-                print("Invalid choice. Please enter a number between 1 and 13.")
+                print("Invalid choice. Please enter a number between (1-13).")
 
     def ask_to_calc_again(self): 
         end_text = """
