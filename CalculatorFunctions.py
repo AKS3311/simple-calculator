@@ -19,63 +19,49 @@ class CalculatorFunctions:
 
         while True:
             try:
-                expression = input("Enter a calculation (or type 'help' for instructions, 'history' for past calculations): ").strip()
+                expression = input("Enter a calculation (type 'help' for instructions or 'back' to return to the main menu): ").strip()
 
                 # Display help instructions
                 if expression.lower() == "help":
                     self.help_func.clear_screen()
                     help_text = """
-    Calculator Instructions:
-                        
-    1. Basic Operations:
+Calculator Instructions:
+                    
+1. Basic Operations:
     Use +, -, *, /, and ^ for addition, subtraction, multiplication, division, and exponentiation.
-                        
-    2. Square Root:
+                    
+2. Square Root:
     Use 'sqrt(x)' to calculate the square root of x.
     Example: sqrt(16)
-                        
-    3. Logarithmic Functions:
+                    
+3. Logarithmic Functions:
     Use 'log(x)' for natural logarithm and 'log10(x)' for base-10 logarithm.
     Example: log(10), log10(100)
-                        
-    4. Trigonometric Functions:
+                    
+4. Trigonometric Functions:
     Use 'sin(x)', 'cos(x)', and 'tan(x)' for sine, cosine, and tangent calculations.
     Example: sin(45)
-                        
-    5. Exponential Function:
+                    
+5. Exponential Function:
     Use 'exp(x)' to calculate e^x.
     Example: exp(2)
-                        
-    6. Variable Assignment:
+                    
+6. Variable Assignment:
     Assign values to variables using '='. Example: x = 5, then use 'x' in calculations.
-                        
-    7. Complex Numbers:
+                    
+7. Complex Numbers:
     The calculator supports complex numbers. Example: sqrt(-1) results in 'I'.
-                        
-    8. View History:
-    Type 'history' to view your past calculations.
-                        
-    9. Back to menu:
+                                    
+8. Back to menu:
     Type 'back' to simple calculation function in the calculator.
-    """
+"""
                     self.help_func.text_helper(help_text)
 
-                # Check for history command
-                elif expression.lower() == "history":
-                    self.help_func.clear_screen()
-                    if history:
-                        print("Calculation History:")
-                        for line in history:
-                            print(line)
-                            self.help_func.pause()
-                            self.help_func.clear_screen()
-                    else:
-                        print("No history available.")
-                    continue
+
 
                 # Check for quit command
-                elif expression.lower() == "back":
-                    print("Exiting the calculator. Goodbye!")
+                if expression.lower() == "back":
+                    self.help_func.clear_screen()
                     break
 
                 # Check for empty input
@@ -111,25 +97,7 @@ class CalculatorFunctions:
                     self.help_func.clear_screen()
                     print(f"The result of {expression} is {result}")
                     history.append(f"{expression} = {result}")  # Add to history
-                    self.help_func.pause()
-                    self.help_func.clear_screen()
-                # End menu prompt
-                while True:
-                    text = """
-    Do you want to perform another calculation?
-        1. Yes
-        2. No
-        Enter your choice (1 or 2): """
-                    end_choice = input(text).strip()
-                    if end_choice == '1':
-                        self.help_func.clear_screen()
-                        break  # Continue the while loop for another calculation
-                    elif end_choice == '2':
-                        self.help_func.clear_screen()
-                        return  # Exit the function entirely
-                    else:
-                        self.help_func.clear_screen()
-                        print("Please enter 1 or 2.")
+                    break
 
             except SympifyError:
                 self.help_func.clear_screen()
@@ -160,7 +128,7 @@ Enter your choice (1-12): """
             choice = input(text).strip()
             self.help_func.clear_screen()
             if choice not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']:
-                print("Invalid choice for shape calculations. Please enter (1-12)")
+                print("Invalid choice for shape calculations. Please enter (1-12).")
                 continue
 
             if choice == '1':  # Square
@@ -483,31 +451,40 @@ Enter your choice (1, 2 or 3): """
                 while True:
                     polygon_text = """
 Polygon Calculation.
-You can enter any Polygon calculation:
+Choose a calculation option:
     1. Polygon Area (units²)
     2. Polygon Perimeter (units)
     3. Calculate Both Area and Perimeter
-Enter your choice (1-3): """
-
+Enter your choice (1-3): 
+"""
                     polygon_choice = input(polygon_text).strip()
                     self.help_func.clear_screen()
                     if polygon_choice not in ['1', '2', '3']:
-                        print("Invalid choice for polygon calculation. Please enter 1, 2 or 3.")                                
+                        print("Invalid choice for polygon calculation. Please enter (1-3)")
                         continue
+                    # Input for number of sides
+                    n = self.help_func.get_input_with_condition(
+                        "Enter the number of sides (integer ≥ 3): ", 'int', 
+                        lambda x: x >= 3, "The number of sides must be an integer ≥ 3."
+                    )
 
-                    n = self.help_func.get_float_input("Enter the number of sides: ")
-                    s = self.help_func.get_float_input("Enter the length of a side: ")
+                    # Input for side length
+                    s = self.help_func.get_input_with_condition(
+                        "Enter the length of a side (greater than 0): ", 'float', 
+                        lambda x: x > 0, "The length of a side must be greater than 0."
+                    )
+
                     self.help_func.clear_screen()
 
-                    area = (1/4) * n * (s ** 2) * (1 / math.tan(math.pi / n))
+                    area = (1 / 4) * n * (s ** 2) * (1 / math.tan(math.pi / n))
                     perimeter = n * s
 
-                    print(f"For the polygon with {n} sides, each of length {s}:")
+                    print(f"For the polygon with {n} sides, each of length {s} units:")
 
                     if polygon_choice in ['1', '3']:
-                        print(f" - Area: {area:.2f} units²")                        
+                        print(f" - Area: {area:.2f} units²")
 
-                    elif polygon_choice in ['1', '3']:
+                    if polygon_choice in ['2', '3']:
                         print(f" - Perimeter: {perimeter:.2f} units")
                     break
                             
@@ -647,67 +624,7 @@ Enter your choice (1-3): """
                 break
             break
 
-    def percentage_calculation(self): # No.3 NOTE: add more percentage formulas
-        text ="""
-Percentage Calculation.
-    1. Percentage Calculator
-    2. Compound Percentage with Adjustment Calculation
-    3. Go back
-Enter your choice (1-3): """
-        while True:
-            choice = input(text).strip()
-            self.help_func.clear_screen()
-            if choice not in ['1', '2', '3']:
-                print("Invalid choice for Percentage Calculation. Please enter (1-3)")                
-                continue
-
-            if choice == '1': # Percentage Calculator
-                num1 = self.help_func.get_float_input("Enter the number you want to know the percentage of: ")
-                num2 = self.help_func.get_float_input("Enter the total number: ")
-                self.help_func.clear_screen()
-                result = (num1 / num2) * 100
-                print(f"The percentage of {num1} from {num2} is {result:.2f}%.")
-                
-            elif choice == '2': # Compound Percentage with Adjustment Calculation
-                text ="""
-Compound Percentage with Adjustment Calculation
-This formula calculates the adjusted percentage after a series of growth or decay periods, considering a constant adjustment value.
-Its used for scenarios like financial projections, population growth, or decay processes.
-"""
-                self.help_func.text_helper(text)
-
-                # Input collection
-                p_base = self.help_func.get_float_input("Enter the initial percentage or base value: ")
-
-                R = self.help_func.get_input_with_condition(
-                    "Enter the Growth or Decay rate (as a percentage, e.g., 5 for 5%): ", 'float',
-                    lambda x: x >= 0, "ERROR: The growth/decay rate cannot be negative."
-                )
-                r = R / 100
-
-                n = self.help_func.get_input_with_condition(
-                    "Enter the number of periods (iterations): ", 'float',
-                    lambda x: x > 0, "ERROR: The number of periods must be greater than zero."
-                    )
-
-                c = self.help_func.get_input_with_condition(
-                    "Enter the constant adjustment value: ", 'float',
-                    lambda x: x != 0, "ERROR: The constant adjustment value cannot be zero."
-                )
-                
-                self.help_func.clear_screen()     
-                p_adjustment = (p_base * (1 +  (r ** n))) + c
-                p_adjustment2 = (p_base * (1 +  (r ** n))) - c
-
-                print("\nResults:")
-                print(f"Adjusted percentage (adding adjustment): {p_adjustment:.2f}")
-                print(f"Adjusted percentage (subtracting adjustment): {p_adjustment2:.2f}")
-
-            elif choice == '3': # back
-                break
-            break
-
-    def quadratic_calculations(self):  # No.4
+    def quadratic_calculations(self):  # No.3
         text = """
 Quadratic Calculation.
 You can calculate the quadratic equation, quadratic function or cubic functions
@@ -720,7 +637,7 @@ Enter your choice (1-4): """
             choice = input(text).strip()
             self.help_func.clear_screen()
             if choice not in ['1', '2', '3', '4']:
-                print("Invalid choice for quadratic calculation. Please enter (1-4)")
+                print("Invalid choice for quadratic calculation. Please enter (1-4).")
                 continue
 
             if choice == '1':  # Quadratic function
@@ -909,31 +826,75 @@ f(x) = a(x - r1)(x - r2)(x - r3)
                 break
             break
 
-    def financial_calculations(self): # No.5 NOTE: NOT DONE YET BABY BOY
+    def financial_calculations(self): # No.4
         text = """
 Financial Calculations.
 Please select a calculation option:
-    1. Compound Interest
-    2. Simple Interest
-    3. Loan Amortization
-    4. Future/Present Value of an Investment
-    5. Net Present Value
-    6. Internal Rate of Return (IRR)
-    7. Return on Investment (ROI)
-    8. Enhanced Compound Interest Calculator with Monthly Contributions and Inflation Adjustment
-    9. Savings Goal Calculator
-   10. Effective Annual Rate (EAR)
-   11. Go Back
-Enter your choice (1-11): """
+    1. Percentage Calculator
+    2. Compound Percentage with Adjustment Calculation
+    3. Compound Interest
+    4. Simple Interest
+    5. Loan Amortization
+    6. Future/Present Value of an Investment
+    7. Net Present Value
+    8. Internal Rate of Return (IRR)
+    9. Return on Investment (ROI)
+   10. Enhanced Compound Interest Calculator with Monthly Contributions and Inflation Adjustment
+   11. Savings Goal Calculator
+   12. Effective Annual Rate (EAR)
+   13. Go Back
+Enter your choice (1-13): """
 
         while True:
             choice = input(text).strip()
             self.help_func.clear_screen()
-            if choice not in ['1', '2', '3', '4', '5', '6', '7', '8', '8', '9', '10', '11']:
-                print("Invalid choice for Financial Calculations. Please enter (1-11)")
+            if choice not in ['1', '2', '3', '4', '5', '6', '7', '8', '8', '9', '10', '11', '12', '13']:
+                print("Invalid choice for Financial Calculations. Please enter (1-13).")
                 continue
 
-            if choice == '1': # Compound Interest Formula
+            if choice == '1': # Percentage Calculator
+                num1 = self.help_func.get_float_input("Enter the number you want to know the percentage of: ")
+                num2 = self.help_func.get_float_input("Enter the total number: ")
+                self.help_func.clear_screen()
+                result = (num1 / num2) * 100
+                print(f"The percentage of {num1} from {num2} is {result:.2f}%.")
+                
+            elif choice == '2': # Compound Percentage with Adjustment Calculation
+                text ="""
+Compound Percentage with Adjustment Calculation
+This formula calculates the adjusted percentage after a series of growth or decay periods, considering a constant adjustment value.
+Its used for scenarios like financial projections, population growth, or decay processes.
+"""
+                self.help_func.text_helper(text)
+
+                # Input collection
+                p_base = self.help_func.get_float_input("Enter the initial percentage or base value: ")
+
+                R = self.help_func.get_input_with_condition(
+                    "Enter the Growth or Decay rate (as a percentage, e.g., 5 for 5%): ", 'float',
+                    lambda x: x >= 0, "ERROR: The growth/decay rate cannot be negative."
+                )
+                r = R / 100
+
+                n = self.help_func.get_input_with_condition(
+                    "Enter the number of periods (iterations): ", 'float',
+                    lambda x: x > 0, "ERROR: The number of periods must be greater than zero."
+                    )
+
+                c = self.help_func.get_input_with_condition(
+                    "Enter the constant adjustment value: ", 'float',
+                    lambda x: x != 0, "ERROR: The constant adjustment value cannot be zero."
+                )
+                
+                self.help_func.clear_screen()     
+                p_adjustment = (p_base * (1 +  (r ** n))) + c
+                p_adjustment2 = (p_base * (1 +  (r ** n))) - c
+
+                print("\nResults:")
+                print(f"Adjusted percentage (adding adjustment): {p_adjustment:.2f}")
+                print(f"Adjusted percentage (subtracting adjustment): {p_adjustment2:.2f}")
+
+            elif choice == '3': # Compound Interest Formula
                 ci_text = """
 Compound Interest Formula.
 This formula is useful for savings accounts,
@@ -942,23 +903,21 @@ You'll need to provide the principal amount, the interest rate, the compounding 
 """
                 self.help_func.text_helper(ci_text)
 
-                while True: # P
-                    P = self.help_func.get_float_input("Enter the Principal (initial amount of money): ")
-                    if P <= 0:
-                        self.help_func.clear_screen()
-                        print("ERROR: The principal must be a positive number.")
-                    else:
-                        break
 
-                while True: # r
-                    annual_rate = self.help_func.get_float_input("Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ")
-                    if annual_rate <= 0:
-                        self.help_func.clear_screen()
-                        print("ERROR: The interest rate cannot be negative.")
-                    else:
-                        r = annual_rate / 100  # Convert percentage to decimal
-                        break
+                P = self.help_func.get_input_with_condition(
+                    "Enter the Principal (initial amount of money): ", 'float',
+                    lambda x: x >= 0, "ERROR: The principal must be a positive number."
+                )
 
+                annual_rate = self.help_func.get_input_with_condition(
+                    "Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ", 'float',
+                    lambda x: x >= 0, "ERROR: The interest rate cannot be negative."
+                )
+                r = annual_rate / 100  # Convert percentage to decimal
+
+                n = self.help_func.get_input_with_condition(
+                    "Enter the Number of times that interest is compounded per year: ", 'float'
+                )
                 while True: # n
                     n = self.help_func.get_int_input("Enter the Number of times that interest is compounded per year: ")
                     if n <= 0:
@@ -967,13 +926,10 @@ You'll need to provide the principal amount, the interest rate, the compounding 
                     else:
                         break
 
-                while True: # t
-                    t = self.help_func.get_float_input("Enter the Number of years money is invested or borrowed for: ")
-                    if t <= 0:
-                        self.help_func.clear_screen()
-                        print("ERROR: The time in years must be a positive number.")
-                    else:
-                        break
+                t = self.help_func.get_input_with_condition(
+                    "Enter the Number of years money is invested or borrowed for: ", 'float',
+                    lambda x: x >= 0, "ERROR: The time in years must be positive number."
+                )
                 self.help_func.clear_screen()
 
                 # Calculate compound interest over time
@@ -995,37 +951,29 @@ You'll need to provide the principal amount, the interest rate, the compounding 
                 plt.show()
                 break
 
-            elif choice == '2': # Simple Interest
+            elif choice == '4': # Simple Interest
                 si_text ="""
 Simple Interest.
 Simple interest is calculated on the initial principal only, and is useful for short-term loans or investments.
 """
                 self.help_func.text_helper(si_text)
 
-                while True: # P
-                    P = self.help_func.get_float_input("Enter the Principal (initial amount of money): ")
-                    if P <= 0:
-                        self.help_func.clear_screen()
-                        print("ERROR: The principal must be a positive number.")
-                    else:
-                        break
+                P = self.help_func.get_input_with_condition(
+                    "Enter the Principal (initial amount of money): ", 'float',
+                    lambda x: x >= 0, "ERROR: The principal must be a positive number."
+                )
 
-                while True: # r
-                    annual_rate = self.help_func.get_float_input("Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ")
-                    if annual_rate == 0:
-                        self.help_func.clear_screen()
-                        print("ERROR: The interest rate cannot be negative.")
-                    else:
-                        r = annual_rate / 100  # Convert percentage to decimal
-                        break
+                annual_rate = self.help_func.get_input_with_condition(
+                    "Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ", 'float',
+                    lambda x: x >= 0, "ERROR: The interest rate cannot be negative."
+                )
+                r = annual_rate / 100  # Convert percentage to decimal
 
-                while True: # t
-                    t = self.help_func.get_float_input("Enter the Number of years money is invested or borrowed for: ")
-                    if t <= 0:
-                        self.help_func.clear_screen()
-                        print("ERROR: The time in years must be positive number.")
-                    else:
-                        break
+                t = self.help_func.get_input_with_condition(
+                    "Enter the Number of years money is invested or borrowed for: ", 'float',
+                    lambda x: x >= 0, "ERROR: The time in years must be positive number."
+                )
+                
                 self.help_func.clear_screen()
 
                 # Calculate simple interest over time
@@ -1047,7 +995,7 @@ Simple interest is calculated on the initial principal only, and is useful for s
                 plt.show()
                 break
             
-            elif choice == '3': # Loan Amortization
+            elif choice == '5': # Loan Amortization
                 la_text = """
 Loan Amortization.
 This tool helps calculate regular loan payments for mortgages, car loans, or other installment-based loans.
@@ -1055,38 +1003,26 @@ This tool helps calculate regular loan payments for mortgages, car loans, or oth
                 self.help_func.text_helper(la_text)
 
                 # Get principal amount
-                while True:
-                    P = self.help_func.get_float_input("Enter the Principal (initial amount of money): ")
-                    if P <= 0:
-                        self.help_func.clear_screen()
-                        print("Error: The principal amount must be a positive number greater than zero.")
-                    else:
-                        break
+                P = self.help_func.get_input_with_condition(
+                    "Enter the Principal (initial amount of money): ", 'float',
+                    lambda x: x >= 0, "Error: The principal amount must be a positive number greater than zero."
+                )
 
-                while True: # r
-                    annual_rate = self.help_func.get_float_input("Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ")
-                    r = annual_rate / 100  # Convert percentage to decimal
-                    if r <= 0:
-                        self.help_func.clear_screen()
-                        print("Error: The interest rate must be a positive number greater than zero.")
-                    else:
-                        break
+                annual_rate = self.help_func.get_input_with_condition(
+                    "Enter the Annual interest rate (as a percentage, e.g., 5 for 5%): ", 'float',
+                    lambda x: x >= 0, "Error: The interest rate must be a positive number greater than zero."
+                )
+                r = annual_rate / 100  # Convert percentage to decimal
 
-                while True: # n
-                    n = self.help_func.get_int_input("Enter the Number of times that interest is compounded per year (e.g., 12 for monthly): ")
-                    if n <= 0:
-                        self.help_func.clear_screen()
-                        print("Error: The compounding frequency must be a positive integer greater than zero.")
-                    else:
-                        break
+                n = self.help_func.get_input_with_condition(
+                    "Enter the Number of times that interest is compounded per year (e.g., 12 for monthly): ", 'int',
+                    lambda x: x >= 0, "Error: The compounding frequency must be a positive integer greater than zero."
+                )
 
-                while True: # t
-                    t = self.help_func.get_float_input("Enter the Loan term (in years): ")
-                    if t <= 0:
-                        self.help_func.clear_screen()
-                        print("Error: The loan term must be a positive number greater than zero.")
-                    else:
-                        break
+                t = self.help_func.get_input_with_condition(
+                    "Enter the Loan term (in years): ", 'float',
+                    lambda x: x >= 0, "Error: The loan term must be a positive number greater than zero."
+                )
 
                 self.help_func.clear_screen()
 
@@ -1118,7 +1054,7 @@ This tool helps calculate regular loan payments for mortgages, car loans, or oth
                 plt.show()
                 break
 
-            elif choice == '4':  # Future/past Value of an NOTE: Investment # GOTTA FINISH LTTLE TWAT
+            elif choice == '6':  # Future/past Value of an Investment
                 text ="""
 Future Value:
 This is the amount an investment will grow to over a specified period, given a certain interest rate.
@@ -1175,32 +1111,22 @@ Enter your choice (1 or 2): """
                                 continue
 
                             # Get payment amount per period (P)
-                            while True:
-                                P = self.help_func.get_float_input("Enter the payment amount per period: ")
-                                if P <= 0:
-                                    self.help_func.clear_screen()
-                                    print("Error: The payment amount per period must be a positive number.")
-                                else:
-                                    break
-
+                            P = self.help_func.get_input_with_condition(
+                                "Enter the payment amount per period: ", 'float',
+                                lambda x: x >= x, "Error: The payment amount per period must be a positive number."
+                            )
                             # Get interest rate per period (r)
-                            while True:
-                                annual_rate = self.help_func.get_float_input("Enter the interest rate per period (as a percentage, e.g., 5 for 5%): ")
-                                if annual_rate <= 0:
-                                    self.help_func.clear_screen()
-                                    print("Error: The interest rate per period must be a positive number.")
-                                else:
-                                    r = annual_rate / 100  # Convert percentage to decimal
-                                    break
+                            annual_rate = self.help_func.get_input_with_condition(
+                                "Enter the interest rate per period (as a percentage, e.g., 5 for 5%): ", 'float',
+                                lambda x: x >= 0, "Error: The interest rate per period must be a positive number."
+                            )
+                            r = annual_rate / 100  # Convert percentage to decimal
 
                             # Get total number of periods (n)
-                            while True:
-                                n = self.help_func.get_int_input("Enter the total number of periods: ")
-                                if n <= 0:
-                                    self.help_func.clear_screen()
-                                    print("Error: The total number of periods must be a positive number.")
-                                else:
-                                    break
+                            n = self.help_func.get_input_with_condition(
+                                "Enter the total number of periods: ", 'int',
+                                lambda x: x >= 0, "Error: The total number of periods must be a positive number."
+                            )
 
                             self.help_func.clear_screen()
 
@@ -1227,7 +1153,6 @@ Enter your choice (1 or 2): """
                             plt.grid(True)
                             plt.show()
                             break
-                        break
                     
                     elif choice == '2': # Present Value
                         PV_text ="""
@@ -1237,32 +1162,29 @@ It helps determine how much a future amount is worth today, taking into account 
 """
                         self.help_func.text_helper(PV_text)
                         # Get Future Value (the amount of money in the future) (FV)
-                        while True:
-                            FV = self.help_func.get_float_input("Enter future value (the amount of money in the future): ")
-                            if FV <= 0:
-                                self.help_func.clear_screen()
-                                print("Error: Future value (the amount of money in the future) must be a positive number.")
-                            else:
-                                break
+                        FV = self.help_func.get_input_with_condition(
+                            "Enter future value (the amount of money in the future): ", 'float',
+                            lambda x: x >= 0, "Error: Future value (the amount of money in the future) must be a positive number."
+                        )
 
                         # Get interest rate per period (r)
-                        while True:
-                            annual_rate = self.help_func.get_float_input("Enter the discount rate (or interest rate per period) (as a percentage, e.g., 5 for 5%): ")
-                            if annual_rate <= 0:
-                                self.help_func.clear_screen()
-                                print("Error: The interest rate per period must be a positive number.")
-                            else:
-                                r = annual_rate / 100  # Convert percentage to decimal
-                                break
+                        annual_rate = self.help_func.get_input_with_condition(
+                            "Enter the discount rate (or interest rate per period) (as a percentage, e.g., 5 for 5%): ", 'float',
+                            lambda x: x >= 0, "Error: The interest rate per period must be a positive number."
+                        )
+                        r = annual_rate / 100  # Convert percentage to decimal
 
                         # Get total number of periods (t)
-                        while True:
-                            t = self.help_func.get_float_input("Enter Number of periods (years, months, etc.): ")
-                            if t <= 0:
-                                self.help_func.clear_screen()
-                                print("Error: The total number of periods must be a positive number.")
-                            else:
-                                break   
+                        t = self.help_func.get_input_with_condition(
+                            "Enter Number of periods (years, months, etc.): ", 'float',
+                            lambda x: x >= 0, "Error: The total number of periods must be a positive number."
+                        )
+
+                        t = self.help_func.get_input_with_condition(
+                            "Enter Number of periods (years, months, etc.): ", 'float',
+                            lambda x: x >= 0, "Error: The total number of periods must be a positive number."
+                        )
+
                         self.help_func.clear_screen()
 
                         # Calculate Present Value using numpy_financial
@@ -1289,8 +1211,8 @@ It helps determine how much a future amount is worth today, taking into account 
                         plt.legend()
                         plt.show()
                         break
-                    
-            elif choice == '5':  # Net Present Value (NPV)
+
+            elif choice == '7':  # Net Present Value (NPV)
                 npv_text = """
 Net Present Value calculation.
 Calculate the present value of a series of future cash flows, considering a specific discount rate.
@@ -1349,7 +1271,7 @@ You need to gather all the expected cash flows for each time period, the discoun
                 plt.show()
                 break
 
-            elif choice == '6': # Internal Rate of Return (IRR)
+            elif choice == '8': # Internal Rate of Return (IRR)
                 irr_text = """
 Internal Rate of Return (IRR) calculation.
 This method calculates the rate of return at which the net present value (NPV) of all cash flows equals zero.
@@ -1414,7 +1336,7 @@ You will need to gather the initial investment and all expected future cash flow
                     plt.show()
                     break
                 
-            elif choice == '7': # Return on Investment (ROI)
+            elif choice == '9': # Return on Investment (ROI)
                 roi_text ="""
 Return on Investment (ROI) Calculation.
 Assess the profitability of an investment by comparing the final value to the initial investment.
@@ -1495,7 +1417,7 @@ Enter your choice (1 or 2): """
                         plt.show()
                         break
 
-            elif choice == '8': # Advanced Compound Interest with Monthly Contributions with or without inflation
+            elif choice == '10': # Advanced Compound Interest with Monthly Contributions with or without inflation
                 text_choice ="""
 Advanced Compound Interest Calculator
 This program helps you calculate the future value of an investment, factoring in compound interest, monthly contributions, and the option to consider inflation.
@@ -1599,7 +1521,7 @@ This program calculates the future value of an investment considering both inter
                     plt.show()
                     break
                 
-            elif choice == '9': # Savings Goal Calculator
+            elif choice == '11': # Savings Goal Calculator
                 text ="""
 Saving Goal Calculation.
 Calculates the time (in years) needed to reach a savings goal (FV) with regular monthly contributions (PMT),
@@ -1652,7 +1574,7 @@ an annual interest rate, and a compounding frequency.
                 print(f"  Compounding Frequency (n): {n} times per year")
                 print(f"  Time required to reach the savings goal: {result:.2f} years")
 
-            elif choice == '10': # Effective Annual Rate (EAR)
+            elif choice == '12': # Effective Annual Rate (EAR)
                 text = """
 Effective Annual Rate (EAR) Calculation
 The Effective Annual Rate (EAR) accounts for compounding periods within the year, providing an accurate
@@ -1703,14 +1625,14 @@ measure of annual return or cost. This helps in comparing financial products wit
                 plt.show()
                 break
 
-            elif choice == '11': # back
+            elif choice == '13': # back
                 break
             break
         
             # NOTE: please add more of financial calculations
             # NOTE: graph at formula number 9 is not working
 
-    def age_calculations(self): # No.6
+    def age_calculations(self): # No.5
         choice_text ="""
 Welcome to the Age Calculator!
     1. birthdate Calculation
@@ -1862,7 +1784,7 @@ The program will tell you who is older and by how many years, months, and days.
                 self.help_func.clear_screen()
                 print("Invalid choice. Please enter (1-3)")
 
-    def unit_calculations(self): # No.7
+    def unit_calculations(self): # No.6
         text = """
 Welcome to the Distance Converter! 
 This tool helps you convert between various units of distance, volume, and weight.
@@ -1966,7 +1888,7 @@ Enter your choice (1-15): """
                 self.help_func.clear_screen()
                 print(f"Conversion from {from_symbol} to {to_symbol} is not available. Please try again.")
 
-    def pythagorean_formula(self): # No.8
+    def pythagorean_formula(self): # No.7
         text = """
 Pythagorean Equation.
 Here we can find c is the length of the hypotenuse (the side opposite the right angle)
@@ -1977,33 +1899,32 @@ Or the a and b are the lengths of the two legs of the right triangle
 Enter your choice (1, 2 or 3): """
         while True:
             choice = input(text).strip()
+            self.help_func.clear_screen()
+            if choice not in ['1', '2', '3']:
+                print("Invalid choice. Please enter (1-3)")
+                continue
+
             if choice == '1':
-                self.help_func.clear_screen()  # Ensure this function is defined
                 a = self.help_func.get_float_input("Enter the first leg of the triangle: ")
                 b = self.help_func.get_float_input("Enter the second leg of the triangle: ")
-                c = cmath.sqrt((a ** 2) + (b ** 2))
+                c = math.sqrt((a ** 2) + (b ** 2))
                 result = self.help_func.handle_large_numbers(c)
                 self.help_func.clear_screen()
-                print(f"The length of the hypotenuse with the first leg of {a} and the second leg of {b} is {result}")
-                break
+                print(f"The length of the hypotenuse with the first leg of {a} and the second leg of {b} is {result:.2f}")
 
             elif choice == '2':
-                self.help_func.clear_screen()
                 leg = self.help_func.get_float_input("Enter the known leg of the triangle: ")
                 c = self.help_func.get_float_input("Enter the hypotenuse of the triangle: ")
-                missing_leg = cmath.sqrt((c ** 2) - (leg ** 2))
+                missing_leg = math.sqrt((c ** 2) - (leg ** 2))
                 result = self.help_func.handle_large_numbers(missing_leg)
                 self.help_func.clear_screen()
-                print(f"The length of the missing leg with the known leg of {leg} and the hypotenuse of {c} is {result}")
-                break
+                print(f"The length of the missing leg with the known leg of {leg} and the hypotenuse of {c} is {result:.2f}")
+            
             elif choice == '3':
                 break
-                
-            else:
-                self.help_func.clear_screen()
-                print("Invalid choice. Please enter (1-3)")
+            break
 
-    def distance_formula(self): # No.9
+    def distance_formula(self): # No.8
         text ="""
 Distance Formula.
 This formula calculates the distance between two points (x'1,y'1) and (x'2,y'2) on a 2D plane.
@@ -2025,7 +1946,7 @@ input "back" to come back to the main menu.
 
         print(f"The distance between ({x_1}, {y_1}) and ({x_2}, {y_2}) is {reslut}")
 
-    def exponential_growth_decay_formula(self): # No.10
+    def exponential_growth_decay_formula(self): # No.9
         text = """
 Exponential Growth/Decay Formula
 
@@ -2043,18 +1964,26 @@ Given Values:
 Result:
 After 10 years, an investment of $500 at a 3% percentage growth rate will be worth approximately $674.95.
 """
+        while True:
 
-        self.help_func.text_helper(text)
+            self.help_func.text_helper(text)
 
-        N0 = self.help_func.get_float_input("Enter the initial amount (N0): ")
-        k = self.help_func.get_float_input("Enter the growth/decay rate (k): ")
-        t = self.help_func.get_float_input("Enter the time (t): ")
-        self.help_func.clear_screen()
+            N0 = self.help_func.get_float_input("Enter the initial amount (N0): ")
+            k = self.help_func.get_float_input("Enter the growth/decay rate (k): ")
+            t = self.help_func.get_float_input("Enter the time (t): ")
+            self.help_func.clear_screen()
 
-        N = N0 * math.exp(k * t)
-        print(f"For an initial amount of {N0} with a growth rate of {k * 100:.2f} percent over {t} *any time curency*, the final amount is approximately {N:.2f}.")
+            # Check if the exponential calculation will overflow
+            if k * t > 700:  # Arbitrarily large number threshold (exp function limit)
+                print("The value is too large for the exponential calculation.")
+                return False  # Return False to indicate failure
 
-    def the_law_of_cosines(self): # No.11
+            N = N0 * math.exp(k * t)
+
+            print(f"For an initial amount of {N0} with a growth rate of {k * 100:.2f} percent over {t} (any time curency), the final amount is approximately {N:.2f}.")
+            break
+
+    def the_law_of_cosines(self): # No.10
         text ="""
 Law of Cosines for Triangle Calculation
 
@@ -2126,7 +2055,7 @@ Enter your choice (1-3): """
                 self.help_func.clear_screen()
                 print("Invalid choice for Law of Cosines for Triangle Calculation. Please enter (1-3).")
 
-    def riemann_zeta_function(self): # No.12
+    def riemann_zeta_function(self): # No.11
         text = """
 Riemann Zeta Function.
 To calculate the Riemann Zeta Function, you will need to input s (must be > 1) and n (number of terms).
@@ -2160,7 +2089,7 @@ To calculate the Riemann Zeta Function, you will need to input s (must be > 1) a
 
         print(f"The Riemann Zeta for s = {s} with {n} terms is approximately {zeta_sum:.5f}.")
 
-    def newtons_law_of_universal_gravitation(self): # No.13
+    def newtons_law_of_universal_gravitation(self): # No.12
         G = 6.67430e-11  # Gravitational constant in m^3 kg^-1 s^-2 
 
         text = """
