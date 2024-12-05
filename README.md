@@ -12,4 +12,4 @@ Files:
   
 -Main.py: Runs the program.
 
-NOTE:- Install sympy, numpy and matplotlib  for the calculator to work
+NOTE:- Install sympy, numpy, requests and matplotlib  for the calculator to work
