@@ -2,10 +2,11 @@ import math
 import cmath
 from sympy import sympify, sqrt, log, sin, cos, tan, exp, I, Number, SympifyError # need to intsall first
 from sympy.physics.units import kg, m, G
-import numpy as np
-import numpy_financial as npf
-import matplotlib.pyplot as plt
+import numpy as np 
+import numpy_financial as npf # need to intsall first
+import matplotlib.pyplot as plt # need to intsall first
 from datetime import date
+import requests # need to intsall first
 from HelpFunctions import HelpFunctions
 
 class CalculatorFunctions:
@@ -107,136 +108,28 @@ Calculator Instructions:
                 print("Error: Invalid input. Please enter a numerical expression.")
 
     def shape_calculations(self): # No.2
-
         text = """
-Shape Calculations.
-    1. Square Calculation
-    2. Rectangle Calculation
-    3. Kite Calculation
-    4. Circle Calculation
-    5. Cylinder Calculation
-    6. Triangle Calculation
-    7. Pentagon Calculation
-    8. Hexagon Calculation
-    9. Polygon Calculation
-   10. Lune Calculation
-   11. Ellipsoid Calculation
-   12. Go Back
-Enter your choice (1-12): """
+Shape Calculations:
+
+1. Circle Calculation       9. Octagon Calculation
+2. Cone Calculation         10. Pentagon Calculation
+3. Cylinder Calculation     11. Polygon Calculation
+4. Ellipse and Ellipsoid    12. Rectangle Calculation
+5. Hexagon Calculation      13. Square Calculation
+6. Hyperboloid Calculation  14. Tetrahedron Calculation
+7. Kite Calculation         15. Triangle Calculation
+8. Lune Calculation         16. Go Back
+
+Enter your choice (1-16): """
 
         while True:
             choice = input(text).strip()
             self.help_func.clear_screen()
-            if choice not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']:
-                print("Invalid choice for shape calculations. Please enter (1-12).")
+            if choice not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16']:
+                print("Invalid choice for shape calculations. Please enter (1-16)")
                 continue
 
-            if choice == '1':  # Square
-                while True:
-                    squar_text = """
-Square Calculation.
-You can enter any square calculation:
-    1. Square Area (units²)
-    2. Square Perimeter (units)
-    3. Calculate Both Area and Perimeter
-Enter your choice (1, 2 or 3):  """
-                    squar_choice = input(squar_text).strip()
-                    self.help_func.clear_screen()
-                    if squar_choice == '1':
-                        self.help_func.clear_screen()
-                        side = self.help_func.get_float_input("Enter the length of a side of the square: ")
-                        area = side ** 2
-                        self.help_func.clear_screen()
-                        print(f"The area of the square with side length {side} is {area} units²")
-                        break
-                    elif squar_choice == '2':
-                        self.help_func.clear_screen()
-                        side = self.help_func.get_float_input("Enter the length of a side of the square: ")
-                        perimeter = 4 * side
-                        self.help_func.clear_screen()
-                        print(f"The perimeter of the square with side length {side} is {perimeter} units")
-                        break
-                    elif squar_choice == '3':
-                        self.help_func.clear_screen()
-                        side = self.help_func.get_float_input("Enter the length of a side of the square: ")
-                        area = side ** 2
-                        perimeter = 4 * side
-                        self.help_func.clear_screen()
-                        print(f"The area of the square with side length {side} is {area} units²")
-                        print(f"The perimeter of the square with side length {side} is {perimeter} units")
-                        break
-                    else:
-                        self.help_func.clear_screen()
-                        print("Invalid choice for square calculation. Please enter 1, 2 or 3.")
-                break  # Break after the square calculation
-
-            elif choice == '2':  # Rectangle
-                while True:
-                    text = """
-Rectangle Calculation.
-You can enter any rectangle calculation:
-    1. Rectangle Area (units²)
-    2. Rectangle Perimeter (units)
-    3. Calculate Both Area and Perimeter
-Enter your choice (1-3): """
-                    choice = input(text).strip()
-                    self.help_func.clear_screen()
-                    if choice in ["1", "2", "3"]:
-                        length = self.help_func.get_float_input("Enter the length of the rectangle: ")
-                        width = self.help_func.get_float_input("Enter the width of the rectangle: ")
-                        self.help_func.clear_screen()
-
-                        area = length * width
-                        perimeter = 2 * (length + width)
-
-                        if choice == "1":
-                            print(f"The area of the rectangle with length {length} and width {width} is {area} units²")
-                            break
-                        elif choice == "2":
-                            print(f"The perimeter of the rectangle with length {length} and width {width} is {perimeter} units")
-                            break
-                        elif choice == "3":
-                            print(f"The area of the rectangle with length {length} and width {width} is {area} units²")
-                            print(f"The perimeter of the rectangle with length {length} and width {width} is {perimeter} units")
-                            break
-                    else:
-                        print("Invalid choice for rectangle calculation. Please enter (1-3)")      
-
-            elif choice == '3': # Kite
-                while True:
-                    kite_text = """
-Kite Calculation.
-You can enter any kite calculation:
-    1. Kite Area (units²)
-    2. Kite Perimeter (units)
-    3. Calculate Both Area and Perimeter
-Enter your choice (1, 2 or 3): """
-                    kite_choice = input(kite_text).strip()
-                    self.help_func.clear_screen()
-                    if kite_choice not in ['1', '2', '3']:
-                        print("Invalid choice for kite calculation. Please enter (1-3)")
-                        continue
-
-                    if kite_choice in ['1', '3']:
-                        d1 = self.help_func.get_float_input("Enter the length of the first diagonal (d1): ")
-                        d2 = self.help_func.get_float_input("Enter the length of the second diagonal (d2): ")
-
-                    if kite_choice in ['2', '3']:
-                        a = self.help_func.get_float_input("Enter the length of one pair of equal sides (a): ")
-                        b = self.help_func.get_float_input("Enter the length of the other pair of equal sides (b): ")
-
-                    self.help_func.clear_screen()
-                    area = 0.5 * d1 * d2
-                    perimeter = 2 * (a + b)
-
-                    if kite_choice in ['1', '3']:
-                        print(f"The area of the kite with diagonals {d1} and {d2} is {area:.2f} units².")
-                    
-                    if kite_choice in ['2', '3']:
-                        print(f"The perimeter of the kite with sides {a} and {b} is {perimeter:.2f} units.")
-                    break
-
-            elif choice == '4':  # Circle
+            if choice == '1': # Circle
                 while True:
                     circle_text = """
 Circle Calculation.
@@ -246,26 +139,25 @@ You can enter any circle calculation:
     3. Calculate Both Area and Perimeter
 Enter your choice (1, 2 or 3): """
 
-                    circle_choice = input(circle_text).strip()
+                    choice = input(circle_text).strip()
                     self.help_func.clear_screen()
-                    if circle_choice not in ['1', '2', '3']:
-                        print("Invalid choice for circle calculation. Please enter (1-3)")
+                    if choice not in ['1', '2', '3']:
+                        print("Invalid choice for circle calculation. Please enter (1-3).")
                         continue
                     
-                    radius = self.help_func.get_float_input("Enter the radius of the circle: ")
-                    self.help_func.clear_screen()
+                    radius = self.help_func.get_float_input("Enter the radius of the circle: ", True)
 
                     circumference = 2 * math.pi * radius
                     area = math.pi * (radius ** 2)
 
-                    if circle_choice in ['1', '3']:
+                    if choice in ['1', '3']:
                         print(f"The circumference of the circle with the radius of {radius} is {circumference:.2f} units")
 
-                    if circle_choice in ['2', '3']:
+                    if choice in ['2', '3']:
                         print(f"The area of the circle with the radius of {radius} is {area:.2f} units²")
                     break
 
-            elif choice == '5':  # Cylinder
+            elif choice == '2': # Cylinder
                 while True:
                     cylinder_text = """
 Cylinder Calculation.
@@ -281,8 +173,8 @@ Enter your choice (1-5): """
 
                     if cylinder_choice in ['1', '2', '3', '4', '5']:
                         # Get the common inputs for radius and height
-                        r = self.help_func.get_float_input('Enter the radius of the cylinder: ')
-                        h = self.help_func.get_float_input('Enter the height of the cylinder: ') if cylinder_choice in ['2', '3', '4', '5'] else None
+                        r = self.help_func.get_float_input("Enter the radius of the cylinder: ")
+                        h = self.help_func.get_float_input("Enter the height of the cylinder: ") if cylinder_choice in ['2', '3', '4', '5'] else None
 
                         # Calculation functions
                         calculations = {
@@ -307,7 +199,545 @@ Enter your choice (1-5): """
                         self.help_func.clear_screen()
                         print("Invalid choice for cylinder calculation. Please enter (1-5).")
 
-            elif choice == '6':  # Triangle
+            elif choice == '3': # Cone
+                cone_text = """
+Cone Calculation.
+You can enter any cone calculation:
+    1. Cone Volume (units³)
+    2. Cone Surface Area (units²)
+    3. Calculate Both Volume and Surface Area
+Enter your choice (1-3): """
+                while True:
+                    choice = input(cone_text).strip()
+                    self.help_func.clear_screen()
+                    if choice not in ['1', '2', '3']:
+                        print("Invalid choice for Cone calculation. Please enter (1-3)")
+                        continue
+
+                    if choice in ['2', '3']:
+                        l_text = """
+Slant Height Calculation.
+    1. Enter the slant height (l)
+    2. Calculate slant height (l) from radius and height
+Enter your choice (1-2): """
+                        while True:
+                            l_choice = input(l_text).strip() 
+                            self.help_func.clear_screen()
+                            if l_choice not in ['1', '2']:
+                                print("Invalid choice for slant height calculation. Please enter (1-2)")
+                                continue
+                            break
+
+                    r = self.help_func.get_float_input("Enter the radius of the cone: ")
+                    h = self.help_func.get_float_input("Enter the height of the cone: ")
+
+                    if choice in ['2', '3'] and l_choice == '1':
+                        l = self.help_func.get_float_input("Enter the slant height of the cone: ")
+                    
+                    self.help_func.clear_screen()
+
+                    volume = (1/3) * (math.pi * (r ** 2)) * h
+                    
+                    if l_choice == '1':
+                        surface_area = (math.pi * r) * (r + l)
+                    else:
+                        uknown_l = math.sqrt((r ** 2) + (h ** 2))  
+                        surface_area = (math.pi * r) * (r + uknown_l)
+
+                    print("Inputs:")
+                    print(f"The radius (r): {r}")
+                    print(f"The height (h): {h}")
+                    if choice in ['2', '3'] and l_choice == '1':
+                        print(f"The slant height (l): {l}")
+                    else:
+                        print(f"The unknown slant height is {uknown_l}\n")
+                    print("Result:")
+                    if choice in ['1', '3']:
+                        print(f"The volume of the cone is {volume:.2f} units³.")
+
+                    if choice in ['2', '3']:
+                        print(f"The surface area of the cone is {surface_area:.2f} units².")
+                    break
+
+            elif choice == '4': # Ellipse and Ellipsoid
+                main_choice_text = """
+Ellipse and Ellipsoid Calculations:
+    1. Ellipse (2D: Area, Circumference)
+    2. Ellipsoid (3D: Volume, Surface Area)
+Enter your choice (1-2): """
+    
+                while True:
+                    main_choice = input(main_choice_text).strip()
+                    self.help_func.clear_screen()
+                    if choice not in ['1', '2']:
+                        print("Invalid choice. Please enter (1-2).")
+                        continue
+
+                    if main_choice == '1':  # Ellipse
+                        ellipse_text = """
+Ellipse Calculation:
+You can enter any ellipse calculation:
+    1. Ellipse Area (units²)
+    2. Ellipse Circumference (units)
+    3. Calculate Both Area and Circumference
+Enter your choice (1-3): """
+            
+                        while True:
+                            sub_choice = input(ellipse_text).strip()
+                            self.help_func.clear_screen()
+                            if sub_choice not in ['1', '2', '3']:
+                                print("Invalid choice for ellipse calculation. Please enter (1-3).")
+                                continue
+
+                            a = self.help_func.get_float_input("Enter a: Semi-major axis (a): ")
+                            b = self.help_func.get_float_input("Enter b: Semi-minor axis (b): ", True)
+
+                            area = math.pi * a * b
+                            circumference = math.pi * ((3 * (a + b)) - math.sqrt(((3 * a) + b) * (a + (3 * b))))
+
+                            print("Inputs:")
+                            print(f"  Semi-major axis (a): {a}")
+                            print(f"  Semi-minor axis (b): {b}\n")
+                            print("Result:\n")
+
+                            if sub_choice in ['1', '3']:
+                                print(f"The area of the ellipse is {area:.2f} units².")
+
+                            if sub_choice in ['2', '3']:
+                                print(f"The circumference of the ellipse is {circumference:.2f} units.")
+                            break
+
+                    elif main_choice == '2':  # Ellipsoid
+                        p = 1.6075
+                        ellipsoid_text = """
+Ellipsoid Calculation:
+To calculate the volume and surface area of an ellipsoid:
+    1. Ellipsoid Volume (units³)
+    2. Ellipsoid Surface Area (units²)
+    3. Calculate Both Volume and Surface Area
+Enter your choice (1-3): """
+
+                        while True:
+                            sub_choice = input(ellipsoid_text).strip()
+                            self.help_func.clear_screen()
+                            if sub_choice not in ['1', '2', '3']:
+                                print("Invalid choice for ellipsoid calculation. Please enter (1-3).")
+                                continue
+
+                            a = self.help_func.get_float_input("Enter a: Semi-major axis (longest axis): ")
+                            b = self.help_func.get_float_input("Enter b: Semi-intermediate axis (middle axis): ")
+                            c = self.help_func.get_float_input("Enter c: Semi-minor axis (shortest axis): ", True)
+
+                            volume = (4/3) * math.pi * a * b * c
+                            surface_area = 4 * math.pi * (((a ** p) * (b ** p) + (a ** p) * (c ** p) + (b ** p) * (c ** p)) / 3) ** (1/p)
+
+                            if sub_choice == '1':
+                                print(f"Ellipsoid Volume: {volume:.2f} units³")
+                            elif sub_choice == '2':
+                                print(f"Ellipsoid Surface Area: {surface_area:.2f} units²")
+                            elif sub_choice == '3':
+                                print("Ellipsoid Calculations (Volume and Surface Area):")
+                                print(f"  Volume: {volume:.2f} units³")
+                                print(f"  Surface Area: {surface_area:.2f} units²")
+                            break
+                    break
+            
+            elif choice == '5': # Hexagon
+                while True:
+                    hexagon_text = """
+Hexagon Calculation.
+You can enter any Hexagon calculation:
+    1. Hexagon Area (units²)
+    2. Hexagon Perimeter (units)
+    3. Calculate Both Area and Perimeter
+Enter your choice (1, 2 or 3): """
+
+                    hexagon_choice = input(hexagon_text).strip
+                    self.help_func.clear_screen()
+                    if hexagon_choice not in ['1', '2', '3']:
+                        print("Invalid choice for hexagon calculation. Please enter (1-3)")
+                        continue
+
+                    s = self.help_func.get_float_input("Enter the length of a side: ", True)
+
+                    discriminant = 2 / (3 * cmath.sqrt(3))
+                    area = discriminant * s ** 2
+                    perimeter = 6 * s
+                    
+                    if hexagon_choice in ['1', '3']:
+                        print(f"The area for the hexagon with the length of a side of {s} is {area:.2f} units².")
+
+                    elif hexagon_choice in ['2', '3']:
+                        print(f"The perimeter the for the hexagon with the length of a side of {s} is {perimeter:.2f} units.")
+                    break
+
+            elif choice == '6': # Hyperboloid
+                choice_text ="""
+Hyperboloid Calculation.
+You can enter any hyperboloid calculation:
+    1. Hyperboloid Volume (units³)
+    2. Hyperboloid Surface Area (units²)
+    3. Calculate Both Volume and Surface Area
+Enter your choice (1-3): """
+                while True:
+                    choice = input(choice_text).strip()
+                    self.help_func.clear_screen()
+                    if choice not in ['1', '2', '3']:
+                        print("Invalid choice for hyperboloid calculations. Please enter (1-3)")
+                        continue
+
+                    a1 = self.help_func.get_float_input("Enter the bottom radius: ")
+                    a2 = self.help_func.get_float_input("Enter the top radius: ")
+                    a = self.help_func.get_float_input("Enter the base radius: ")
+                    h = self.help_func.get_float_input("Enter the height: ",  True)
+
+                    volume = (1/3) * math.pi * h * (a1**2 + a1 * a2 + a2**2)
+                    surface_area = 2 * math.pi * a**2 * ((h / a) + math.log((h + math.sqrt(h**2 + a**2)) / a))
+
+                    print("Inputs:")
+                    print(f"Bottom radius (a₁): {a1}")
+                    print(f"Top radius (a₂): {a2}")
+                    print(f"Height (h): {h}")
+                    print(f"Base radius (a): {a}\n")
+                    print("Result:")
+                    
+                    if choice in ['1', '2']:
+                        print(f"Volume of the hyperboloid is {volume:.2f} units³.")
+
+                    if choice in ['2', '3']:
+                        print(f"Surface Area of the hyperboloid is {surface_area:.2f} units².")
+                    break
+
+            elif choice == '7': # Kite
+                while True:
+                    kite_text = """
+Kite Calculation.
+You can enter any kite calculation:
+    1. Kite Area (units²)
+    2. Kite Perimeter (units)
+    3. Calculate Both Area and Perimeter
+Enter your choice (1, 2 or 3): """
+                    kite_choice = input(kite_text).strip()
+                    self.help_func.clear_screen()
+                    if kite_choice not in ['1', '2', '3']:
+                        print("Invalid choice for kite calculation. Please enter (1-3).")
+                        continue
+
+                    if kite_choice in ['1', '3']:
+                        d1 = self.help_func.get_float_input("Enter the length of the first diagonal (d1): ")
+                        d2 = self.help_func.get_float_input("Enter the length of the second diagonal (d2): ", True)
+
+                    if kite_choice in ['2', '3']:
+                        a = self.help_func.get_float_input("Enter the length of one pair of equal sides (a): ")
+                        b = self.help_func.get_float_input("Enter the length of the other pair of equal sides (b): ", True)
+
+                    area = 0.5 * d1 * d2
+                    perimeter = 2 * (a + b)
+
+                    if kite_choice in ['1', '3']:
+                        print(f"The area of the kite with diagonals {d1} and {d2} is {area:.2f} units².")
+                    
+                    if kite_choice in ['2', '3']:
+                        print(f"The perimeter of the kite with sides {a} and {b} is {perimeter:.2f} units.")
+                    break
+
+            elif choice == '8': # Lune
+                choice_text ="""
+Choose the lune calculation method:
+    1. Angle-based: Calculates based on the angles of the sectors.
+    2. Crescent-based: Calculates the area difference between two circles.
+    3. Distance-based: Calculates based on the distance between circle centers and their radius.
+    4. Inverse-base: (Given area and distance, find radii)
+Enter your choice (1-4): """
+                while True:
+                    choice = input(choice_text).strip()
+                    self.help_func.clear_screen()
+                    if choice not in ['1', '2', '3', '4']: # invalid input
+                        print("Invalid choice for lune calculations. Please enter (1-4)")
+                        continue
+
+                    if choice in ['1', '2']: # Angle and Crescent-based
+                        if choice == '1':  # Angle-based
+                            lune_text = """
+Angle-based lune calculation.
+Provide the radius of the larger circle, the smaller circle, 
+and the central angles of the circular segments (in radians) for each circle.
+"""
+                        elif choice == '2':  # Crescent-based
+                            lune_text = """
+Crescent-based lune calculation.
+Calculate the area of the lune by subtracting the area of the smaller circle 
+from the larger circle. Ideal for non-overlapping circles.
+"""
+                        self.help_func.text_helper(lune_text)
+
+                        R = self.help_func.get_float_input("Enter the radius of the larger circle: ")
+                        r = self.help_func.get_float_input("Enter the radius of the smaller circle: ", True)
+
+                        if choice == '1':  # Angle-based calculation
+                            angle1 = self.help_func.get_float_input("Enter the central angle for the larger circle (in radians): ")
+                            angle2 = self.help_func.get_float_input("Enter the central angle for the smaller circle (in radians): ", True)
+
+                            area = (R ** 2) * (angle1 - math.sin(angle1)) - (r ** 2) * (angle2 - math.sin(angle2))
+
+                            print(f"The area of the lune with radii {R} and {r}, and central angles {angle1:.2f} and {angle2:.2f} radians,")
+                            print(f"is approximately {area:.2f} units².")
+                        else:  # Crescent-based calculation
+                            area = (math.pi * (R ** 2)) - (math.pi * (r ** 2))
+
+                            print(f"The area of the lune with radii {R} and {r} is approximately {area:.2f} units².")
+                        break
+
+                    elif choice in ['3', '4']:  # Distance and Inverse-based
+                        if choice == '3':
+                            lune_text = """
+                    Distance-based lune calculation.
+                    Calculate the area of the lune using the radii of the circles and the distance between their centers.
+                    """
+                        elif choice == '4':
+                            lune_text = """
+                    Inverse-based lune calculation.
+                    Calculate the radii of the circles using the area of the lune and the distance between their centers.
+                    """
+
+                        self.help_func.text_helper(lune_text)
+
+                        while True:
+                            if choice == '3':
+                                R = self.help_func.get_float_input("Enter the radius of the first circle:")
+                                r = self.help_func.get_float_input("Enter the radius of the second circle:")
+                            elif choice == '4':
+                                A = self.help_func.get_float_input("Enter the area of the lune")
+                            d = self.help_func.get_float_input("Enter the distance between the centers of the circles")
+
+                            if choice == '3':
+                                if not (abs(R - r) <= d <= R + r):
+                                    print("Error: Invalid distance. Ensure |R - r| <= d <= R + r for intersecting circles.")
+                                    continue
+
+                                if not (-1 <= d / (2 * R) <= 1) or not (-1 <= d / (2 * r) <= 1):
+                                    print("Error: Invalid argument for acos. Ensure d / (2 * R) and d / (2 * r) are in the range [-1, 1].")
+                                    continue
+
+                                expr = (-d + R + r) * (d + r - R) * (d - R + r) * (d + R + r)
+                                if expr < 0:
+                                    print("Error: Negative value inside the square root. Check your inputs.")
+                                    continue
+
+                                ang1 = (R ** 2) * math.acos(d / (2 * R))
+                                ang2 = (r ** 2) * math.acos(d / (2 * r))
+                                area = ang1 + ang2 - 0.5 * math.sqrt(expr)
+
+                                print("Inputs:")
+                                print(f"Distance between centers: {d}")
+                                print(f"Radii: {R}, {r}")
+                                print("Result:")
+                                print(f"The calculated lune area is approximately {area:.2f} units².")
+
+                            elif choice == '4':
+                                if (2 * A) < d**2:
+                                    print("Error: Invalid values. Ensure the area is large enough for the given distance.")
+                                    continue
+
+                                r1_expr = (A + d**2) / (2 * d)
+                                r2_expr = (A - d**2) / (2 * d)
+
+                                if r1_expr <= 0 or r2_expr <= 0:
+                                    print("Error: Calculated radii are invalid. Ensure the inputs satisfy the lune conditions.")
+                                    continue
+
+                                r1 = math.sqrt(r1_expr)
+                                r2 = math.sqrt(r2_expr)
+
+                                print("Inputs:")
+                                print(f"Distance between centers: {d}")
+                                print(f"The area of the lune: {A}")
+                                print("Result:")
+                                print(f"Calculated radii are approximately:")
+                                print(f"Radius 1: {r1:.2f} units")
+                                print(f"Radius 2: {r2:.2f} units")
+                            break
+
+            elif choice == '9': # Octagon
+                octagon_text = """
+Octagon Calculation.
+You can enter any octagon calculation:
+    1. Octagon Area (units²)
+    2. Octagon Perimeter (units)
+    3. Calculate Both Area and Perimeter
+Enter your choice (1-3):  """
+                while True:
+                    octagon_choice = input(octagon_text).strip()
+                    self.help_func.clear_screen()
+                    if octagon_choice not in ['1', '2', '3']:
+                        print("Invalid choice for Octagon calculation. Please enter (1-3).")
+                        continue
+
+                    side = self.help_func.get_float_input("Enter the length of a side of the Octagon: ", True)
+
+                    area = 2 * (1 + math.sqrt(2)) * (side ** 2)
+                    perimeter = 8 * side
+                    
+                    if octagon_choice in ['1', '3']:
+                        print(f"The area of the Octagon with side length {side} is {area:.2f} units²")
+                    
+                    if octagon_choice in ['2', '3']:
+                        print(f"The perimeter of the Octagon with side length {side} is {perimeter:.2f} units")
+                    break
+
+            elif choice == '10': # Pentagon
+                while True:
+                    pentagon_text ="""
+Pentagon Calculation.
+You can enter any pentagon calculation:
+    1. Pentagon Area (units²)
+    2. Pentagon Perimeter (units)
+    3. Calculate Both Area and Perimeter
+Enter your choice (1-3): """   
+                    pentagon_choice = input(pentagon_text).strip()
+                    self.help_func.clear_screen()
+                    if choice not in ['1', '2', '3']:
+                        print("Invalid choice for pentagon calculation. Please enter (1-3)")
+                        continue
+
+                    s = self.help_func.get_float_input("Enter the length of a side: ", True)
+
+                    discriminant =  5 * (5 + 2 * math.sqrt(5))
+                    area = (1/4) * math.sqrt(discriminant) * s**2
+                    perimeter = 5 * s
+
+                    if pentagon_choice in ['1', '3']:
+                        print(f"The area for the pentagon with the length of a side of {s} is {area:.2f} units².")
+
+                    if pentagon_choice in ['2', '3']:
+                        print(f"The perimeter for the pentagon with the length of a side of {s} is {perimeter:.2f} units.")
+                    break  
+
+            elif choice == '11': # Polygon
+                while True:
+                    polygon_text = """
+Polygon Calculation.
+Choose a calculation option:
+    1. Polygon Area (units²)
+    2. Polygon Perimeter (units)
+    3. Calculate Both Area and Perimeter
+Enter your choice (1-3): """
+                    polygon_choice = input(polygon_text).strip()
+                    self.help_func.clear_screen()
+                    if polygon_choice not in ['1', '2', '3']:
+                        print("Invalid choice for polygon calculation. Please enter (1-3)")
+                        continue
+                    # Input for number of sides
+                    n = self.help_func.get_input_with_condition(
+                        "Enter the number of sides (integer ≥ 3): ", 'int', 
+                        lambda x: x >= 3, "The number of sides must be an integer ≥ 3."
+                    )
+
+                    # Input for side length
+                    s = self.help_func.get_input_with_condition(
+                        "Enter the length of a side (greater than 0): ", 'float', 
+                        lambda x: x > 0, "The length of a side must be greater than 0."
+                    )
+
+                    self.help_func.clear_screen()
+
+                    area = (1 / 4) * n * (s ** 2) * (1 / math.tan(math.pi / n))
+                    perimeter = n * s
+
+                    print(f"For the polygon with {n} sides, each of length {s} units:")
+
+                    if polygon_choice in ['1', '3']:
+                        print(f" - Area: {area:.2f} units²")
+
+                    if polygon_choice in ['2', '3']:
+                        print(f" - Perimeter: {perimeter:.2f} units")
+                    break
+
+            elif choice == '12': # Rectangle
+                Rectangle_text = """
+Rectangle Calculation.
+You can enter any rectangle calculation:
+    1. Rectangle Area (units²)
+    2. Rectangle Perimeter (units)
+    3. Calculate Both Area and Perimeter
+Enter your choice (1-3): """
+                while True:
+                    choice = input(Rectangle_text).strip()
+                    self.help_func.clear_screen()
+                    if choice not in ['1', '2', '3']:
+                        print("Invalid choice for rectangle calculation. Please enter (1-3).")
+                        continue
+
+                    length = self.help_func.get_float_input("Enter the length of the rectangle: ")
+                    width = self.help_func.get_float_input("Enter the width of the rectangle: ", True)
+
+                    area = length * width
+                    perimeter = 2 * (length + width)
+
+                    if choice in ['1', '3']:
+                        print(f"The area of the rectangle with length {length} and width {width} is {area:.2f} units²")
+
+                    if choice in ['2', '3']:
+                        print(f"The perimeter of the rectangle with length {length} and width {width} is {perimeter:.2f} units")
+                    break
+
+            elif choice == '13': # Square
+                while True:
+                    squar_text = """
+Square Calculation.
+You can enter any square calculation:
+    1. Square Area (units²)
+    2. Square Perimeter (units)
+    3. Calculate Both Area and Perimeter
+Enter your choice (1-3): """
+                    square_choice = input(squar_text).strip()
+                    self.help_func.clear_screen()
+                    if choice not in ['1', '2', '3']:
+                        print("Invalid choice for square calculation. Please enter (1-3).")
+                        continue
+
+                    side = self.help_func.get_float_input("Enter the length of a side of the square: ", True)
+
+                    area = side ** 2
+                    perimeter = 4 * side
+
+                    if square_choice in ['1', '3']:
+                        print(f"The area of the square with side length {side} is {area:.2f} units²")
+
+                    if square_choice in ['2', '3']:
+                        print(f"The perimeter of the square with side length {side} is {perimeter:.2f} units")
+                    break
+
+            elif choice == '14': # Tetrahedron
+                Tetrahedron_text = """
+Tetrahedron Calculation.
+You can enter any Tetrahedron calculation:
+    1. Tetrahedron Volume (units³)
+    2. Tetrahedron Surface Area (units²)
+    3. Calculate Both Volume and Surface Area
+Enter your choice (1-3): """
+                while True:
+                    calc_choice = input(Tetrahedron_text).strip()
+                    self.help_func.clear_screen()
+                    if calc_choice not in ['1', '2', '3']:
+                        print("Invalid choice for tetrahedron calculation. Please enter (1-3).")
+                        continue
+                    
+                    a = self.help_func.get_float_input("Enter the edge length: ", True)
+
+                    volume = (math.sqrt(2) / 12) * (a ** 3)
+                    surface_area = math.sqrt(3) * (a ** 2)
+
+                    print(f"Inputs:\nEdge length (a): {a:.2f}\n")
+                    print("Result:")
+
+                    if calc_choice in ['1', '3']:
+                        print(f"Tetrahedron Volume: {volume:.2f} units³")
+                    if calc_choice in ['2', '3']:
+                        print(f"Tetrahedron Surface Area: {surface_area:.2f} units²")
+                    break
+
+            elif choice == '15': # Triangle
                 while True:
                     triangle_text = """
 which shape of triangle you want to calculate:
@@ -341,14 +771,12 @@ Enter your choice (1, 2 or 3): """
                         
                             if triangle_choice in ['1', '3']:
                                 base = self.help_func.get_float_input("Enter the base of the triangle: ")
-                                height = self.help_func.get_float_input("Enter the height of the triangle: ")
+                                height = self.help_func.get_float_input("Enter the height of the triangle: ", True)
 
                             if triangle_choice in ['2', '3']:
                                 side1 = self.help_func.get_float_input("Enter the length of the first side of the triangle: ")
                                 side2 = self.help_func.get_float_input("Enter the length of the second side of the triangle: ")
-                                side3 = self.help_func.get_float_input("Enter the length of the third side of the triangle: ")
-
-                            self.help_func.clear_screen()
+                                side3 = self.help_func.get_float_input("Enter the length of the third side of the triangle: ", True)
 
                             if triangle_choice in ['1','3']:
                                 print(f"The area of the triangle with base {base} and height {height} is {area:.2f} units².")
@@ -388,239 +816,7 @@ Enter your choice (1-3):  """
                             break
                         break     
 
-            elif choice == '7': # Pentagon
-                while True:
-                    pentagon_text ="""
-Pentagon Calculation.
-You can enter any pentagon calculation:
-    1. Pentagon Area (units²)
-    2. Pentagon Perimeter (units)
-    3. Calculate Both Area and Perimeter
-Enter your choice (1-3): """   
-                    pentagon_choice = input(pentagon_text).strip()
-                    self.help_func.clear_screen()
-                    if choice not in ['1', '2', '3']:
-                        print("Invalid choice for pentagon calculation. Please enter (1-3)")
-                        continue
-
-                    s = self.help_func.get_float_input("Enter the length of a side: ")
-                    self.help_func.clear_screen()
-
-                    discriminant =  5 * (5 + 2 * math.sqrt(5))
-                    area = (1/4) * math.sqrt(discriminant) * s**2
-                    perimeter = 5 * s
-
-                    if pentagon_choice in ['1', '3']:
-                        print(f"The area for the pentagon with the length of a side of {s} is {area:.2f} units².")
-
-                    if pentagon_choice in ['2', '3']:
-                        print(f"The perimeter for the pentagon with the length of a side of {s} is {perimeter:.2f} units.")
-                    break  
-
-            elif choice == '8': # Hexagon
-                while True:
-                    hexagon_text = """
-Hexagon Calculation.
-You can enter any Hexagon calculation:
-    1. Hexagon Area (units²)
-    2. Hexagon Perimeter (units)
-    3. Calculate Both Area and Perimeter
-Enter your choice (1, 2 or 3): """
-
-                    hexagon_choice = input(hexagon_text).strip
-                    self.help_func.clear_screen()
-                    if hexagon_choice not in ['1', '2', '3']:
-                        print("Invalid choice for hexagon calculation. Please enter (1-3)")
-                        continue
-
-                    s = self.help_func.get_float_input("Enter the length of a side: ")
-                    self.help_func.clear_screen()
-
-                    discriminant = 2 / (3 * cmath.sqrt(3))
-                    area = discriminant * s ** 2
-                    perimeter = 6 * s
-                    
-                    if hexagon_choice in ['1', '3']:
-                        print(f"The area for the hexagon with the length of a side of {s} is {area:.2f} units².")
-
-                    elif hexagon_choice in ['2', '3']:
-                        print(f"The perimeter the for the hexagon with the length of a side of {s} is {perimeter:.2f} units.")
-                    break
-
-            elif choice == '9':  # Polygon
-                while True:
-                    polygon_text = """
-Polygon Calculation.
-Choose a calculation option:
-    1. Polygon Area (units²)
-    2. Polygon Perimeter (units)
-    3. Calculate Both Area and Perimeter
-Enter your choice (1-3): 
-"""
-                    polygon_choice = input(polygon_text).strip()
-                    self.help_func.clear_screen()
-                    if polygon_choice not in ['1', '2', '3']:
-                        print("Invalid choice for polygon calculation. Please enter (1-3)")
-                        continue
-                    # Input for number of sides
-                    n = self.help_func.get_input_with_condition(
-                        "Enter the number of sides (integer ≥ 3): ", 'int', 
-                        lambda x: x >= 3, "The number of sides must be an integer ≥ 3."
-                    )
-
-                    # Input for side length
-                    s = self.help_func.get_input_with_condition(
-                        "Enter the length of a side (greater than 0): ", 'float', 
-                        lambda x: x > 0, "The length of a side must be greater than 0."
-                    )
-
-                    self.help_func.clear_screen()
-
-                    area = (1 / 4) * n * (s ** 2) * (1 / math.tan(math.pi / n))
-                    perimeter = n * s
-
-                    print(f"For the polygon with {n} sides, each of length {s} units:")
-
-                    if polygon_choice in ['1', '3']:
-                        print(f" - Area: {area:.2f} units²")
-
-                    if polygon_choice in ['2', '3']:
-                        print(f" - Perimeter: {perimeter:.2f} units")
-                    break
-                            
-            elif choice == '10': # Lune
-                choice_text ="""
-Choose the lune calculation method:
-1. Angle-based: Calculates based on the angles of the sectors.
-2. Distance-based: Calculates based on the distance between circle centers and their radii.
-Enter your choice (1-2): """
-                while True:
-                    choice = input(choice_text).strip()
-                    self.help_func.clear_screen()
-                    if choice not in ['1', '2']: # wrong input
-                        print("Invalid choice for shape calculations. Please enter (1-2)")
-                        continue
-
-                    if choice == '1': # Angle-based
-                        lune_text ="""
-An angle-based lune area calculation.
-To calculate the area of a lune (the crescent-shaped region formed by two intersecting circles), 
-please provide the radius of the larger circle, the radius of the smaller circle, 
-and the central angles of the circular segments for each circle.
-"""
-                        self.help_func.text_helper(lune_text)
-                            
-                        R = self.help_func.get_float_input("Enter the radius of the larger circle: ")
-                        angle1 = self.help_func.get_float_input("Enter the central angle of the circular segment in the larger circle (in radians): ")
-                        self.help_func.clear_screen()
-                        r = self.help_func.get_float_input("Enter the radius of the smaller circle: ")
-                        angle2 = self.help_func.get_float_input("Enter the central angle of the circular segment in the smaller circle (in radians): ")
-                        self.help_func.clear_screen()
-
-                        area = (R ** 2) * (angle1 - math.sin(angle1)) - (r ** 2) * (angle2 - math.sin(angle2))
-
-                        print(f"The area of the lune with a larger circle radius of {R}, a smaller circle radius of {r}")
-                        print(f"and central angles {angle1} and {angle2} (in radians) is approximately {area:.2f} units².")
-                        break # Break after the lune calculation
-                
-                    elif choice == '2':  # Distance-based calculation
-                        lune_text = """
-A distance-based lune calculation.
-Finds the area between two intersecting circular sectors.
-The area depends on the radii of the circles and the distance between their centers.
-"""
-                        self.help_func.text_helper(lune_text)
-
-                        while True:
-                            R = self.help_func.get_float_input("Enter the radius of the first circle: ")
-                            r = self.help_func.get_float_input("Enter the radius of the second circle: ")
-                            d = self.help_func.get_float_input("Enter the distance between the centers of the circles: ")
-                            self.help_func.clear_screen()
-                            
-                            if not (abs(R - r) <= d <= R + r):
-                                print("Error: Invalid distance. Ensure |R - r| <= d <= R + r for intersecting circles.\n")
-                                continue
-
-                            if not (-1 <= d / (2 * R) <= 1) or not (-1 <= d / (2 * r) <= 1):
-                                print("Error: Invalid argument for acos. Ensure d / (2 * R) and d / (2 * r) are in range [-1, 1].\n")
-                                continue
-
-                            expr = (-d + R + r) * (d + r - R) * (d - R + r) * (d + R + r)
-                            if expr < 0:
-                                print("Error: Negative value inside the square root. Check your inputs.\n")
-                                continue
-                            break
-
-                        ang1 = (R ** 2) * (math.acos(d / (2 * R)))
-                        ang2 = (r ** 2) * (math.acos(d / (2 * r)))
-                        result = ang1 + ang2 - (1 / 2) * math.sqrt(expr)
-
-                        print(f"Distance (d): {d}")
-                        print(f"Radii of circles: {R}, {r}")
-                        print(f"The result of the lune calculation is: {result:.2f} units²")
-                        break
-              
-            elif choice == '11': # Ellipsoid
-                PI = math.pi
-                p = 1.6075
-                ellipsoid_text = """
-Ellipsoid Calculation:
-To calculate the volume and surface area of an ellipsoid:
-
-1. Volume: The volume of an ellipsoid is determined by the product of its semi-principal axes 
-and π in a straightforward formula.
-
-2. Surface Area: The surface area calculation uses an approximation since no exact formula exists.
-It involves the semi-principal axes and a constant, p ≈ 1.6075, to estimate the value.
-"""
-
-                self.help_func.text_helper(ellipsoid_text)
-
-                choice_text = """
-Enter your choice:
-1. Calculate Volume
-2. Calculate Surface Area
-3. option 1 and 2
-Enter your choice (1-3): """
-
-                while True:
-                    choice = input(choice_text).strip()
-                    self.help_func.clear_screen()
-                    if choice not in ['1', '2', '3']:
-                        print("Invalid choice for Ellipsoid calculations. Please enter (1-3)")
-                        continue
-
-                    a = self.help_func.get_float_input("Enter a: Semi-major axis (longest axis): ")
-                    b = self.help_func.get_float_input("Enter b: Semi-intermediate axis (middle axis): ")
-                    c = self.help_func.get_float_input("Enter c: Semi-minor axis (shortest axis): ")
-                    self.help_func.clear_screen()
-
-                    volume = (4/3) * PI * a * b * c
-                    surface_area = 4 * PI * (((a ** p) * (b ** p) + (a ** p) * (c ** p) + (b ** p) * (c ** p)) / 3) ** (1/p)
-
-                    if choice == '1':
-                        print_type = "Volume"
-                        result = volume
-                    elif choice == '2':
-                        print_type = "Surface Area"
-                        result = surface_area
-                    elif choice == '3':
-                        print("Ellipsoid Calculations (Volume and Surface Area):")
-                        print(f"  Semi-major axis (a): {a}")
-                        print(f"  Semi-intermediate axis (b): {b}\n")
-                        print(f"  Semi-minor axis (c): {c}")
-                        print(f"Volume: {volume:.2f}")
-                        print(f"Surface Area: {surface_area:.2f}")
-
-                    if choice in ['1', '2']:
-                        print(f"{print_type} of the ellipsoid:")
-                        print(f"  Semi-major axis (a): {a}")
-                        print(f"  Semi-intermediate axis (b): {b}")
-                        print(f"  Semi-minor axis (c): {c}\n")
-                        print(f"Result: {result:.2f}")
-                    break
-
-            elif choice == '12': # back
+            elif choice == '16': # back
                 break
             break
 
@@ -637,7 +833,7 @@ Enter your choice (1-4): """
             choice = input(text).strip()
             self.help_func.clear_screen()
             if choice not in ['1', '2', '3', '4']:
-                print("Invalid choice for quadratic calculation. Please enter (1-4).")
+                print("Invalid choice for quadratic calculation. Please enter (1-4)")
                 continue
 
             if choice == '1':  # Quadratic function
@@ -651,9 +847,8 @@ and will output the highest point and the mean of y values.
                 self.help_func.text_helper(quadratic_text)
 
                 x_1 = self.help_func.get_float_input("Enter the first number: ")
-                x_2 = self.help_func.get_float_input("Enter the second number: ")
+                x_2 = self.help_func.get_float_input("Enter the second number: ", True)
                 x = list(range(int(x_1), int(x_2) + 1))
-                self.help_func.clear_screen()
 
                 y_values = []  # To store y values
 
@@ -697,8 +892,8 @@ The program will return the corresponding solutions based on the value of the di
                 while True:
                     a = self.help_func.get_float_input("Enter the coefficient a: ")
                     b = self.help_func.get_float_input("Enter the coefficient b: ")
-                    c = self.help_func.get_float_input("Enter the constant c: ")
-                    self.help_func.clear_screen()
+                    c = self.help_func.get_float_input("Enter the constant c: ", True)
+
                     if a == 0:
                         print("Coefficient 'a' cannot be zero for a quadratic equation.")
                         continue
@@ -741,9 +936,12 @@ Enter your choice (1 or 2): """
 
                 while True:
                     cubic_choice1 = input(cubic_text).strip()
+                    self.help_func.clear_screen()
+                    if choice not in ['1', '2']:
+                        print("Invalid choice. Please enter (1 or 2).")
+                        continue
 
                     if cubic_choice1 == '1':  # General Form
-                        self.help_func.clear_screen()
                         general_form_text = """
 This program calculates the solutions of a cubic equation in the form:
 f(x) = ax^3 + bx^2 + cx + d
@@ -758,8 +956,7 @@ f(x) = ax^3 + bx^2 + cx + d
                             a = self.help_func.get_float_input("Enter coefficient a: ")
                             b = self.help_func.get_float_input("Enter coefficient b: ")
                             c = self.help_func.get_float_input("Enter coefficient c: ")
-                            d = self.help_func.get_float_input("Enter constant d: ")
-                            self.help_func.clear_screen()
+                            d = self.help_func.get_float_input("Enter constant d: ", True)
 
                             count = 1
                             g = 0.01
@@ -775,8 +972,8 @@ f(x) = ax^3 + bx^2 + cx + d
 
                             break  # Exit this specific calculation loop
                         break
+                    
                     elif cubic_choice1 == '2':  # Factor Form
-                        self.help_func.clear_screen()
                         special_forms = """
 This program shows solutions of special forms of cubic functions in the factored form.
 
@@ -789,9 +986,7 @@ f(x) = a(x - r1)(x - r2)(x - r3)
                             a = self.help_func.get_float_input("Enter the factor a: ")
                             r1 = self.help_func.get_float_input("Enter root r1: ")
                             r2 = self.help_func.get_float_input("Enter root r2: ")
-                            r3 = self.help_func.get_float_input("Enter root r3: ")
-
-                            self.help_func.clear_screen()
+                            r3 = self.help_func.get_float_input("Enter root r3: ", True)
 
                             A = a
                             B = -a * (r1 + r2 + r3)
@@ -818,9 +1013,6 @@ f(x) = a(x - r1)(x - r2)(x - r3)
                             
                             break  # Exit this specific calculation loop
                         break
-                    else:  # Invalid input handling for cubic choice
-                        self.help_func.clear_screen()
-                        print("Invalid choice. Please enter (1 or 2).")
 
             elif choice == '4':  # Back
                 break
@@ -849,7 +1041,7 @@ Enter your choice (1-13): """
             choice = input(text).strip()
             self.help_func.clear_screen()
             if choice not in ['1', '2', '3', '4', '5', '6', '7', '8', '8', '9', '10', '11', '12', '13']:
-                print("Invalid choice for Financial Calculations. Please enter (1-13).")
+                print("Invalid choice for Financial Calculations. Please enter (1-13)")
                 continue
 
             if choice == '1': # Percentage Calculator
@@ -1643,6 +1835,10 @@ Enter your choice (1-3): """
         while True:
             choice = input(choice_text).strip()
             self.help_func.clear_screen()
+            if choice not in ['1', '2', '3']:
+                print("Invalid choice. Please enter (1-3)")            
+                continue
+
             if choice == '1': # birthdate Calculation
         
                 text = """
@@ -1704,7 +1900,6 @@ Note: Invalid formats will prompt you to re-enter the date.
                         print("Invalid date format. Please enter your birthdate in YYYY-MM-DD format.")
                     except Exception as e:
                         print(f"An error occurred: {e}. Please try again.")
-                break
 
             elif choice == '2': # Age Comparison
                 text ="""
@@ -1775,14 +1970,10 @@ The program will tell you who is older and by how many years, months, and days.
                     # Display the result with the comparison
                     print(f"The first birthdate is {older} than the second birthdate by {delta_years} years, {delta_months} months, and {delta_days} days.")
                     break
-                break
 
             elif choice == '3': # go back
                 break
-
-            else: # wrong input
-                self.help_func.clear_screen()
-                print("Invalid choice. Please enter (1-3)")
+            break
 
     def unit_calculations(self): # No.6
         text = """
@@ -1828,8 +2019,7 @@ and see the results instantly!
 
         # Main code
 
-        num = self.help_func.get_float_input("Step 1: Enter the number you want to convert.\nEnter the number you want to convert: ")
-        self.help_func.clear_screen()
+        num = self.help_func.get_float_input("Step 1: Enter the number you want to convert.\nEnter the number you want to convert: ", True)
         
         # Loop until valid conversion choices are made
         while True:
@@ -1888,7 +2078,118 @@ Enter your choice (1-15): """
                 self.help_func.clear_screen()
                 print(f"Conversion from {from_symbol} to {to_symbol} is not available. Please try again.")
 
-    def pythagorean_formula(self): # No.7
+    def currency_calculations(self): # No.7
+        text = """
+Please enter the currency you want to exchange, followed by the amount.
+If you want to see a list of supported currency names, enter 'HELP' at any currency input prompt.
+"""
+
+        help_text = """
+Here are some example currency codes with their respective countries:
+- USD (United States Dollar) - United States
+- EUR (Euro) - Eurozone countries
+- GBP (British Pound) - United Kingdom
+- JPY (Japanese Yen) - Japan
+- CAD (Canadian Dollar) - Canada
+- AUD (Australian Dollar) - Australia
+- CNY (Chinese Yuan) - China
+- INR (Indian Rupee) - India
+- MXN (Mexican Peso) - Mexico
+- BRL (Brazilian Real) - Brazil
+- RUB (Russian Ruble) - Russia
+- CHF (Swiss Franc) - Switzerland
+- SEK (Swedish Krona) - Sweden
+- NZD (New Zealand Dollar) - New Zealand
+- ZAR (South African Rand) - South Africa
+- KRW (South Korean Won) - South Korea
+- SGD (Singapore Dollar) - Singapore
+- MYR (Malaysian Ringgit) - Malaysia
+- HKD (Hong Kong Dollar) - Hong Kong
+- IDR (Indonesian Rupiah) - Indonesia
+- TRY (Turkish Lira) - Turkey
+- SAR (Saudi Riyal) - Saudi Arabia
+- AED (United Arab Emirates Dirham) - United Arab Emirates
+- KWD (Kuwaiti Dinar) - Kuwait
+- QAR (Qatari Rial) - Qatar
+- PKR (Pakistani Rupee) - Pakistan
+- EGP (Egyptian Pound) - Egypt
+- THB (Thai Baht) - Thailand
+- PHP (Philippine Peso) - Philippines
+- VND (Vietnamese Dong) - Vietnam
+- ARS (Argentine Peso) - Argentina
+- COP (Colombian Peso) - Colombia
+- CLP (Chilean Peso) - Chile
+- PEN (Peruvian Nuevo Sol) - Peru
+- JOD (Jordanian Dinar) - Jordan
+- BDT (Bangladeshi Taka) - Bangladesh
+- TWD (New Taiwan Dollar) - Taiwan
+- HUF (Hungarian Forint) - Hungary
+- PLN (Polish Zloty) - Poland
+- DKK (Danish Krone) - Denmark
+- NOK (Norwegian Krone) - Norway
+- ISK (Icelandic Krona) - Iceland
+"""
+
+        valid_currency_codes = [
+            "USD", "EUR", "GBP", "JPY", "CAD", "AUD", "CNY", "INR", "MXN", "BRL", 
+            "RUB", "CHF", "SEK", "NZD", "ZAR", "KRW", "SGD", "MYR", "HKD", "IDR", 
+            "TRY", "SAR", "AED", "KWD", "QAR", "PKR", "EGP", "THB", "PHP", "VND", 
+            "ARS", "COP", "CLP", "PEN", "JOD", "BDT", "TWD", "HUF", "PLN", "DKK", 
+            "NOK", "ISK"
+        ]
+
+        self.help_func.text_helper(text)
+
+        while True:
+
+            while True: # the converted currency
+                from_currency = self.help_func.get_input_user_text("Enter the currency to exchange: ", 'capital')  
+                if from_currency == "HELP":
+                    self.help_func.text_helper(help_text)
+                    continue
+                if from_currency not in valid_currency_codes:
+                    self.help_func.clear_screen()
+                    print(f"Error: {from_currency} is not a valid currency code. Please try again.")
+                    continue
+                break
+
+            amount = self.help_func.get_float_input("Enter the amount: ")
+
+            while True: # the converting currency
+                to_currency = self.help_func.get_input_user_text("Enter the target currency: ", 'capital', True)
+                if to_currency == "HELP":
+                    self.help_func.text_helper(help_text)
+                    continue
+                if to_currency not in valid_currency_codes:
+                    self.help_func.clear_screen()
+                    print(f"Error: {to_currency} is not a valid currency code. Please try again.")
+                    continue
+                break
+
+            # API request
+            url = f"https://v6.exchangerate-api.com/v6/c99ed7cee48065c263699967/latest/{from_currency}"
+            try:
+                response = requests.get(url)
+                data = response.json()
+
+                self.help_func.clear_screen()
+
+                if response.status_code == 200:
+                    if to_currency in data['conversion_rates']:
+                        conversion_rate = data['conversion_rates'][to_currency]
+                        converted_amount = amount * conversion_rate
+                        print(f"{amount} {from_currency} is equal to {converted_amount:.2f} {to_currency}")
+                        break
+                    else:
+                        print("Error: Invalid target currency.")
+                else:
+                    print(f"Error {response.status_code}: Unable to fetch exchange rates.")
+                    break
+            except requests.exceptions.RequestException as e:
+                print(f"Error occurred: {e}")
+                break
+
+    def pythagorean_formula(self): # No.8
         text = """
 Pythagorean Equation.
 Here we can find c is the length of the hypotenuse (the side opposite the right angle)
@@ -1906,25 +2207,27 @@ Enter your choice (1, 2 or 3): """
 
             if choice == '1':
                 a = self.help_func.get_float_input("Enter the first leg of the triangle: ")
-                b = self.help_func.get_float_input("Enter the second leg of the triangle: ")
+                b = self.help_func.get_float_input("Enter the second leg of the triangle: ", True)
+
                 c = math.sqrt((a ** 2) + (b ** 2))
                 result = self.help_func.handle_large_numbers(c)
-                self.help_func.clear_screen()
+
                 print(f"The length of the hypotenuse with the first leg of {a} and the second leg of {b} is {result:.2f}")
 
             elif choice == '2':
                 leg = self.help_func.get_float_input("Enter the known leg of the triangle: ")
-                c = self.help_func.get_float_input("Enter the hypotenuse of the triangle: ")
+                c = self.help_func.get_float_input("Enter the hypotenuse of the triangle: ", True)
+
                 missing_leg = math.sqrt((c ** 2) - (leg ** 2))
                 result = self.help_func.handle_large_numbers(missing_leg)
-                self.help_func.clear_screen()
+
                 print(f"The length of the missing leg with the known leg of {leg} and the hypotenuse of {c} is {result:.2f}")
             
             elif choice == '3':
                 break
             break
 
-    def distance_formula(self): # No.8
+    def distance_formula(self): # No.9
         text ="""
 Distance Formula.
 This formula calculates the distance between two points (x'1,y'1) and (x'2,y'2) on a 2D plane.
@@ -1936,17 +2239,16 @@ input "back" to come back to the main menu.
 
 
         x_1 = self.help_func.get_float_input("Enter x from the first point: ")
-        y_1 = self.help_func.get_float_input("Enter y from the first point: ")
-        self.help_func.clear_screen()
+        y_1 = self.help_func.get_float_input("Enter y from the first point: ", True)
         x_2 = self.help_func.get_float_input("Enter x from the second point: ")
-        y_2 = self.help_func.get_float_input("Enter y from the second point: ")
-        self.help_func.clear_screen()
+        y_2 = self.help_func.get_float_input("Enter y from the second point: ", True)
+
         equation_d = cmath.sqrt((x_2 - x_1) ** 2 + (y_2 - y_1) ** 2)
         reslut = self.help_func.handle_large_numbers(equation_d)
 
         print(f"The distance between ({x_1}, {y_1}) and ({x_2}, {y_2}) is {reslut}")
 
-    def exponential_growth_decay_formula(self): # No.9
+    def exponential_growth_decay_formula(self): # No.10
         text = """
 Exponential Growth/Decay Formula
 
@@ -1970,8 +2272,7 @@ After 10 years, an investment of $500 at a 3% percentage growth rate will be wor
 
             N0 = self.help_func.get_float_input("Enter the initial amount (N0): ")
             k = self.help_func.get_float_input("Enter the growth/decay rate (k): ")
-            t = self.help_func.get_float_input("Enter the time (t): ")
-            self.help_func.clear_screen()
+            t = self.help_func.get_float_input("Enter the time (t): ", True)
 
             # Check if the exponential calculation will overflow
             if k * t > 700:  # Arbitrarily large number threshold (exp function limit)
@@ -1983,7 +2284,37 @@ After 10 years, an investment of $500 at a 3% percentage growth rate will be wor
             print(f"For an initial amount of {N0} with a growth rate of {k * 100:.2f} percent over {t} (any time curency), the final amount is approximately {N:.2f}.")
             break
 
-    def the_law_of_cosines(self): # No.10
+    def The_closed_form_formula(self): # No.11
+        text = """
+The closed-form formula calculates Fibonacci numbers using Binet's formula:
+F(n) = (phi^n - (1 - phi)^n) / sqrt(5)
+where phi = (1 + sqrt(5)) / 2 is the golden ratio.
+
+This method works well for small values of n, but becomes inaccurate for large n due to floating-point precision limitations.
+"""
+        self.help_func.text_helper(text)
+        
+        while True:
+            n = self.help_func.get_input_with_condition(
+                "Enter the n-th Fibonacci number: ", 'int',
+                [
+                    (lambda x: x > 0, "Fibonacci number is not defined for negative indices."),
+                    (lambda x: x <= 500, "Fibonacci number is very big to handle.")
+                ]
+            )
+            self.help_func.clear_screen()
+            
+            # Binet's formula for Fibonacci
+            phi = (1 + math.sqrt(5)) / 2
+            fib_num = (phi ** n - (1 - phi) ** n) / math.sqrt(5)
+
+            # Round the result to the nearest integer
+            fib_num = round(fib_num)
+
+            print(f"Fibonacci number F({n}) = {fib_num}")
+            break
+        
+    def the_law_of_cosines(self): # No.12
         text ="""
 Law of Cosines for Triangle Calculation
 
@@ -2017,8 +2348,7 @@ Enter your choice (1-3): """
             if choice == '1': # Finding Unknown Sides
                 a = self.help_func.get_float_input("Enter the length of one known side: ")
                 b = self.help_func.get_float_input("Enter the length of second known side: ")
-                c = self.help_func.get_float_input("Enter the angle between sides a and b: ")
-                self.help_func.clear_screen()
+                c = self.help_func.get_float_input("Enter the angle between sides a and b: ", True)
 
                 # Convert angle from degrees to radians for the calculation
                 c_rad = math.radians(c)
@@ -2035,8 +2365,7 @@ Enter your choice (1-3): """
             elif choice == '2': # Finding Unknown Angles
                 a = self.help_func.get_float_input("Enter the length of one known side: ")
                 b = self.help_func.get_float_input("Enter the length of second known side: ")
-                c = self.help_func.get_float_input("Enter the length of third known side: ")
-                self.help_func.clear_screen()
+                c = self.help_func.get_float_input("Enter the length of third known side: ", True)
 
                 cosc = ((a ** 2) + (b ** 2) - (c ** 2)) / (2 * a * b)
 
@@ -2055,7 +2384,7 @@ Enter your choice (1-3): """
                 self.help_func.clear_screen()
                 print("Invalid choice for Law of Cosines for Triangle Calculation. Please enter (1-3).")
 
-    def riemann_zeta_function(self): # No.11
+    def riemann_zeta_function(self): # No.13
         text = """
 Riemann Zeta Function.
 To calculate the Riemann Zeta Function, you will need to input s (must be > 1) and n (number of terms).
@@ -2089,7 +2418,7 @@ To calculate the Riemann Zeta Function, you will need to input s (must be > 1) a
 
         print(f"The Riemann Zeta for s = {s} with {n} terms is approximately {zeta_sum:.5f}.")
 
-    def newtons_law_of_universal_gravitation(self): # No.12
+    def newtons_law_of_universal_gravitation(self): # No.14
         G = 6.67430e-11  # Gravitational constant in m^3 kg^-1 s^-2 
 
         text = """
@@ -2127,6 +2456,9 @@ Enter your choice (1, 2, or 3): """
         while True:
             choice = input(choice_text).strip()
             self.help_func.clear_screen()
+            if choice not in ['1', '2', '3']:
+                print("Invalid choice for  Newton's Law of Universal Gravitation. Please enter (1-3)")
+                continue
 
             if choice == '1':
                 
@@ -2145,7 +2477,6 @@ Enter your choice (1, 2, or 3): """
                 result = self.help_func.formatted_result101(G * (m1 * m2) / (r ** 2))
 
                 print(f"The gravitational force between masses {m1:.1f} kg and {m2:.1f} kg separated by {r:.1f} m is approximately {result}.")
-                break
 
             elif choice == '2':
 
@@ -2163,13 +2494,9 @@ Enter your choice (1, 2, or 3): """
                 result = (F * r ** 2) / (G * known_m)
 
                 print(f"The unknown mass between known mass of {known_m:.1f} kg and gravitational force of {F:.1f} N at a distance of {r:.1f} m is approximately {result:.2e} kg.")
-                break
 
             elif choice == '3':
                 break
-
-            else:
-                self.help_func.clear_screen()
-                print("Invalid choice for  Newton's Law of Universal Gravitation. Please enter (1-3)")
+            break
 
     # add more functions here
