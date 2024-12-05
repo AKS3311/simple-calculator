@@ -27,22 +27,28 @@ class HelpFunctions:
             formatted_result = f"{result:.2e}"  # Scientific notation for very small values
         return formatted_result
 
-    def get_float_input(self, prompt):
+    def get_float_input(self, prompt, clear_after_input=False):
         while True:
             user_input = input(prompt).strip()  # Capture user input as a string
             try:
-                return float(user_input)  # Try converting the input to a float
+                result = float(user_input)  # Try converting the input to a float
+                if clear_after_input: # clear the screen if it says true
+                    self.clear_screen()
+                return result
             except ValueError:
-                self.clear_screen()  # Clear the screen before showing the error
-                print("Invalid input. please enter a valid number.")
+                self.clear_screen()
+                print("Invalid input. Please enter a valid number.")
 
-    def get_int_input(self, prompt):
+    def get_int_input(self, prompt, clear_after_input=False):
         while True:
             user_input = input(prompt).strip()  # Capture user input as a string
             try:
-                return int(user_input)  # Try converting the input to a int
+                result = int(user_input)  # Try converting the input to a int
+                if clear_after_input: # clear the screen if it says true
+                    self.clear_screen() 
+                return result
             except ValueError:
-                self.clear_screen()  # Clear the screen before showing the error
+                self.clear_screen() 
                 print("Invalid input. Please enter a valid integer number.")
 
     def get_input_with_condition(self, prompt, input_type, conditions_or_lambda, error_message=None):
@@ -65,7 +71,32 @@ class HelpFunctions:
             else:
                 return value
 
+    def get_input_user_text(self, prompt, capital_small=None, clear_after_input=False):
+        while True:
+            try:
+                # Get input based on the case preference
+                if capital_small == 'capital':
+                    user_input = input(prompt).strip().upper()
+                elif capital_small == 'small':
+                    user_input = input(prompt).strip().lower()
+                else:
+                    user_input = input(prompt).strip()
+
+                if clear_after_input: # clear the screen if it says true
+                    self.clear_screen() 
+
+                # Raise an error if the input is empty
+                if not user_input:
+                    self.clear_screen()
+                    raise ValueError("Input cannot be empty. Please try again.")
+
+                return user_input
+            
+            except ValueError as e:
+                print(e)
+
     def text_helper(self, prompt):
+        self.clear_screen()
         print(prompt)
         self.pause()
         self.clear_screen()
